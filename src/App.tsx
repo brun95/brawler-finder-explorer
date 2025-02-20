@@ -5,6 +5,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Index from "./pages/Index";
+import Brawlers from "./pages/Brawlers";
+import BrawlerDetails from "./pages/BrawlerDetails";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -17,7 +19,8 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/brawlers" element={<NotFound />} />
+          <Route path="/brawlers" element={<Brawlers />} />
+          <Route path="/brawlers/:id" element={<BrawlerDetails />} />
           <Route path="/players" element={<NotFound />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
