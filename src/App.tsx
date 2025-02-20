@@ -9,6 +9,7 @@ import Brawlers from "./pages/Brawlers";
 import BrawlerDetails from "./pages/BrawlerDetails";
 import Maps from "./pages/Maps";
 import MapDetails from "./pages/MapDetails";
+import PlayerStats from "./pages/PlayerStats";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -25,7 +26,7 @@ const App = () => (
           <Route path="/brawlers/:id" element={<BrawlerDetails />} />
           <Route path="/maps" element={<Maps />} />
           <Route path="/maps/:id" element={<MapDetails />} />
-          <Route path="/players" element={<NotFound />} />
+          <Route path="/player/:tag" element={<PlayerStats />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

@@ -24,9 +24,6 @@ export const NavBar = () => {
               <Link to="/maps" className="text-gray-700 hover:text-primary transition-colors">
                 Maps
               </Link>
-              <Link to="/players" className="text-gray-700 hover:text-primary transition-colors">
-                Players
-              </Link>
               <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
                 <Search className="w-5 h-5 text-gray-600" />
               </button>
@@ -58,12 +55,6 @@ export const NavBar = () => {
               className="block px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100 transition-colors"
             >
               Maps
-            </Link>
-            <Link
-              to="/players"
-              className="block px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100 transition-colors"
-            >
-              Players
             </Link>
           </div>
         </div>
