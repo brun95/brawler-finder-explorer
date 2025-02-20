@@ -7,6 +7,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import Index from "./pages/Index";
 import Brawlers from "./pages/Brawlers";
 import BrawlerDetails from "./pages/BrawlerDetails";
+import Maps from "./pages/Maps";
+import MapDetails from "./pages/MapDetails";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -21,6 +23,8 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/brawlers" element={<Brawlers />} />
           <Route path="/brawlers/:id" element={<BrawlerDetails />} />
+          <Route path="/maps" element={<Maps />} />
+          <Route path="/maps/:id" element={<MapDetails />} />
           <Route path="/players" element={<NotFound />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
