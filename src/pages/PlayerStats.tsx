@@ -1,4 +1,3 @@
-
 import { useParams, Link } from "react-router-dom";
 import { NavBar } from "@/components/NavBar";
 import { motion } from "framer-motion";
@@ -94,41 +93,48 @@ const PlayerStats = () => {
   const losses = player.recentBattles.filter((b) => b.result === "defeat").length;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-brawl-yellow/10 to-brawl-red/10">
       <NavBar />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="bg-white rounded-lg shadow-sm p-6 mb-8"
+          className="bg-card backdrop-blur-sm rounded-xl shadow-lg border border-brawl-yellow/20 p-6 mb-8"
         >
           <div className="flex items-center gap-4 mb-6">
             <div className="flex-1">
-              <h1 className="text-3xl font-bold text-gray-900">{player.name}</h1>
-              <p className="text-gray-600">{player.tag}</p>
+              <h1 className="text-3xl font-bold text-brawl-black mb-1">{player.name}</h1>
+              <p className="text-brawl-red font-medium">{player.tag}</p>
             </div>
             {player.club && (
               <div className="text-right">
                 <p className="text-sm text-gray-600">Club</p>
-                <p className="font-medium">{player.club}</p>
+                <p className="font-medium text-brawl-purple">{player.club}</p>
               </div>
             )}
           </div>
 
           <div className="h-[300px] mb-8">
-            <h2 className="text-xl font-semibold mb-4">Trophy Progression</h2>
+            <h2 className="text-xl font-semibold text-brawl-black mb-4">Trophy Progression</h2>
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={player.trophyProgress}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="date" />
-                <YAxis />
-                <Tooltip />
+                <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
+                <XAxis dataKey="date" stroke="#6B7280" />
+                <YAxis stroke="#6B7280" />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                    border: '1px solid #FFD233',
+                    borderRadius: '8px',
+                  }}
+                />
                 <Line
                   type="monotone"
                   dataKey="trophies"
-                  stroke="#9b87f5"
+                  stroke="#FF4E4E"
                   strokeWidth={2}
+                  dot={{ fill: '#FF4E4E' }}
                 />
               </LineChart>
             </ResponsiveContainer>
@@ -136,17 +142,9 @@ const PlayerStats = () => {
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <StatCard icon={Trophy} label="Trophies" value={player.trophies} />
-            <StatCard
-              icon={Crown}
-              label="Highest Trophies"
-              value={player.highestTrophies}
-            />
+            <StatCard icon={Crown} label="Highest Trophies" value={player.highestTrophies} />
             <StatCard icon={Star} label="Level" value={player.level} />
-            <StatCard
-              icon={Trophy}
-              label="Season Reset"
-              value={player.seasonReset}
-            />
+            <StatCard icon={Trophy} label="Season Reset" value={player.seasonReset} />
           </div>
         </motion.div>
 
@@ -155,35 +153,15 @@ const PlayerStats = () => {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
-            className="bg-white rounded-lg shadow-sm p-6"
+            className="bg-card backdrop-blur-sm rounded-xl shadow-lg border border-brawl-yellow/20 p-6"
           >
-            <h2 className="text-xl font-semibold mb-4">Personal Records</h2>
+            <h2 className="text-xl font-semibold text-brawl-black mb-4">Personal Records</h2>
             <div className="space-y-4">
-              <StatRow
-                icon={Users}
-                label="Unlocked Brawlers"
-                value={`${player.unlockedBrawlers} / ${player.totalBrawlers}`}
-              />
-              <StatRow
-                icon={Swords}
-                label="3 vs 3 Victories"
-                value={player.wins3v3}
-              />
-              <StatRow
-                icon={Trophy}
-                label="Solo Victories"
-                value={player.soloVictories}
-              />
-              <StatRow
-                icon={Users}
-                label="Duo Victories"
-                value={player.duoVictories}
-              />
-              <StatRow
-                icon={Timer}
-                label="Robo Rumble"
-                value={player.roboRumble}
-              />
+              <StatRow icon={Users} label="Unlocked Brawlers" value={`${player.unlockedBrawlers} / ${player.totalBrawlers}`} />
+              <StatRow icon={Swords} label="3 vs 3 Victories" value={player.wins3v3} />
+              <StatRow icon={Trophy} label="Solo Victories" value={player.soloVictories} />
+              <StatRow icon={Users} label="Duo Victories" value={player.duoVictories} />
+              <StatRow icon={Timer} label="Robo Rumble" value={player.roboRumble} />
             </div>
           </motion.div>
 
@@ -191,29 +169,29 @@ const PlayerStats = () => {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
-            className="bg-white rounded-lg shadow-sm p-6"
+            className="bg-card backdrop-blur-sm rounded-xl shadow-lg border border-brawl-yellow/20 p-6"
           >
-            <h2 className="text-xl font-semibold mb-4">
+            <h2 className="text-xl font-semibold text-brawl-black mb-4">
               Recent Battles ({wins}W • {losses}L)
             </h2>
-            <div className="space-y-2 max-h-[400px] overflow-y-auto">
+            <div className="space-y-2 max-h-[400px] overflow-y-auto pr-2">
               {player.recentBattles.map((battle) => (
                 <div
                   key={battle.id}
-                  className={`flex items-center gap-3 p-3 rounded-lg ${
+                  className={`flex items-center gap-3 p-3 rounded-xl ${
                     battle.result === "victory"
-                      ? "bg-green-50"
-                      : "bg-red-50"
+                      ? "bg-green-100 border border-green-200"
+                      : "bg-red-100 border border-red-200"
                   }`}
                 >
                   <img
                     src={battle.brawlerIcon}
                     alt={battle.brawler}
-                    className="w-8 h-8 rounded-full"
+                    className="w-10 h-10 rounded-lg border-2 border-white shadow-sm"
                   />
-                  <span className="flex-1">{battle.mode}</span>
+                  <span className="flex-1 font-medium">{battle.mode}</span>
                   <span
-                    className={`text-sm font-medium ${
+                    className={`text-sm font-bold uppercase ${
                       battle.result === "victory"
                         ? "text-green-600"
                         : "text-red-600"
@@ -231,22 +209,22 @@ const PlayerStats = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="mt-8 bg-white rounded-lg shadow-sm p-6"
+          className="mt-8 bg-card backdrop-blur-sm rounded-xl shadow-lg border border-brawl-yellow/20 p-6"
         >
-          <h2 className="text-xl font-semibold mb-4">Brawlers</h2>
+          <h2 className="text-xl font-semibold text-brawl-black mb-4">Brawlers</h2>
           <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4">
             {player.brawlers.map((brawler, index) => (
               <div
                 key={index}
-                className="flex flex-col items-center p-3 rounded-lg bg-gray-50"
+                className="flex flex-col items-center p-4 rounded-xl bg-gradient-to-br from-white to-gray-50 border border-brawl-yellow/20 hover:shadow-md transition-shadow"
               >
                 <img
                   src={brawler.icon}
                   alt={brawler.name}
-                  className="w-12 h-12 rounded-full mb-2"
+                  className="w-14 h-14 rounded-xl border-2 border-white shadow-sm mb-2"
                 />
-                <span className="text-sm font-medium">{brawler.name}</span>
-                <span className="text-xs text-gray-600">
+                <span className="text-sm font-medium text-brawl-black">{brawler.name}</span>
+                <span className="text-xs font-semibold text-brawl-red">
                   Power {brawler.power}
                 </span>
               </div>
@@ -267,12 +245,12 @@ const StatCard = ({
   label: string;
   value: number | string;
 }) => (
-  <div className="bg-gray-50 rounded-lg p-4">
+  <div className="bg-gradient-to-br from-white to-gray-50 rounded-xl p-4 border border-brawl-yellow/20 hover:shadow-md transition-shadow">
     <div className="flex items-center gap-2 mb-2">
-      <Icon className="w-5 h-5 text-primary" />
+      <Icon className="w-5 h-5 text-brawl-red" />
       <span className="text-sm text-gray-600">{label}</span>
     </div>
-    <p className="text-xl font-semibold">{value}</p>
+    <p className="text-xl font-bold text-brawl-black">{value}</p>
   </div>
 );
 
@@ -285,12 +263,12 @@ const StatRow = ({
   label: string;
   value: number | string;
 }) => (
-  <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+  <div className="flex items-center justify-between p-4 bg-gradient-to-br from-white to-gray-50 rounded-xl border border-brawl-yellow/20 hover:shadow-md transition-shadow">
     <div className="flex items-center gap-2">
-      <Icon className="w-5 h-5 text-primary" />
-      <span>{label}</span>
+      <Icon className="w-5 h-5 text-brawl-red" />
+      <span className="font-medium text-brawl-black">{label}</span>
     </div>
-    <span className="font-medium">{value}</span>
+    <span className="font-bold text-brawl-purple">{value}</span>
   </div>
 );
 
