@@ -7,33 +7,25 @@ export const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-brawl-yellow/20">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex-shrink-0">
             <Link to="/" className="flex items-center">
-              <span className="text-2xl font-bold bg-gradient-to-r from-brawl-red to-brawl-yellow bg-clip-text text-transparent">
-                Brawl Stars
-              </span>
+              <span className="text-2xl font-bold text-primary">Brawl Stars</span>
             </Link>
           </div>
           
           <div className="hidden md:block">
             <div className="ml-10 flex items-center space-x-8">
-              <Link 
-                to="/brawlers" 
-                className="text-brawl-black font-medium hover:text-brawl-red transition-colors"
-              >
+              <Link to="/brawlers" className="text-gray-700 hover:text-primary transition-colors">
                 Brawlers
               </Link>
-              <Link 
-                to="/maps" 
-                className="text-brawl-black font-medium hover:text-brawl-red transition-colors"
-              >
+              <Link to="/maps" className="text-gray-700 hover:text-primary transition-colors">
                 Maps
               </Link>
-              <button className="p-2 rounded-full hover:bg-brawl-yellow/10 transition-colors">
-                <Search className="w-5 h-5 text-brawl-black" />
+              <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
+                <Search className="w-5 h-5 text-gray-600" />
               </button>
             </div>
           </div>
@@ -41,9 +33,9 @@ export const NavBar = () => {
           <div className="md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2 rounded-lg hover:bg-brawl-yellow/10 transition-colors"
+              className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
             >
-              <Menu className="w-6 h-6 text-brawl-black" />
+              <Menu className="w-6 h-6 text-gray-600" />
             </button>
           </div>
         </div>
@@ -54,13 +46,13 @@ export const NavBar = () => {
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white/95">
             <Link
               to="/brawlers"
-              className="block px-3 py-2 rounded-md text-brawl-black font-medium hover:bg-brawl-yellow/10 transition-colors"
+              className="block px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100 transition-colors"
             >
               Brawlers
             </Link>
             <Link
               to="/maps"
-              className="block px-3 py-2 rounded-md text-brawl-black font-medium hover:bg-brawl-yellow/10 transition-colors"
+              className="block px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100 transition-colors"
             >
               Maps
             </Link>
