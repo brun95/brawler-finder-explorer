@@ -70,20 +70,20 @@ const BrawlerDetails = () => {
               <div className="grid grid-cols-3 gap-4">
                 <div className="bg-white p-4 rounded-lg shadow-sm">
                   <p className="text-gray-600 text-sm">Health</p>
-                  <p className="text-xl font-semibold text-gray-900">{brawler.stats.health}</p>
+                  <p className="text-xl font-semibold text-gray-900">{brawler.stats?.health}</p>
                 </div>
                 <div className="bg-white p-4 rounded-lg shadow-sm">
                   <p className="text-gray-600 text-sm">Damage</p>
-                  <p className="text-xl font-semibold text-gray-900">{brawler.stats.damage}</p>
+                  <p className="text-xl font-semibold text-gray-900">{brawler.stats?.damage}</p>
                 </div>
                 <div className="bg-white p-4 rounded-lg shadow-sm">
                   <p className="text-gray-600 text-sm">Speed</p>
-                  <p className="text-xl font-semibold text-gray-900">{brawler.stats.speed}</p>
+                  <p className="text-xl font-semibold text-gray-900">{brawler.stats?.speed}</p>
                 </div>
               </div>
             </div>
 
-            <div className="space-y-4">
+            {/* <div className="space-y-4">
               <h2 className="text-2xl font-semibold text-gray-900">Best Maps</h2>
               <div className="space-y-2">
                 {brawler.bestMaps.map((map) => (
@@ -96,7 +96,7 @@ const BrawlerDetails = () => {
                   </div>
                 ))}
               </div>
-            </div>
+            </div> */}
           </motion.div>
         </div>
       </main>
