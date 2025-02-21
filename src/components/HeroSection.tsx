@@ -1,24 +1,32 @@
-
+import { fetchPlayerData } from "@/api";
 import { motion } from "framer-motion";
 import { Search } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "sonner";
 
 export const HeroSection = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
-  const handleSearch = () => {
-    if (searchQuery.startsWith("#")) {
-      const playerTag = searchQuery.substring(1); // Remove the # symbol
+  const handleSearch = async () => {
+    if (!searchQuery.startsWith("#")) {
+      setErrorMessage("Please enter a valid player tag starting with #");
+      setTimeout(() => setErrorMessage(""), 3000);
+      return;
+    }
+    
+    const playerTag = searchQuery.substring(1); // Remove the # symbol
+    try {
+      await fetchPlayerData(playerTag);
       navigate(`/player/${playerTag}`);
-    } else {
-      toast.error("Please enter a valid player tag starting with #");
+    } catch (error) {
+      setErrorMessage("Failed to fetch player data. Please try again.");
+      setTimeout(() => setErrorMessage(""), 3000);
     }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
+  const handleKeyPress = (e) => {
     if (e.key === "Enter") {
       handleSearch();
     }
@@ -68,6 +76,9 @@ export const HeroSection = () => {
               <Search className="w-5 h-5" />
             </button>
           </div>
+          {errorMessage && (
+            <p className="text-red-500 mt-2 text-sm">{errorMessage}</p>
+          )}
         </motion.div>
       </div>
     </div>
