@@ -1,33 +1,48 @@
 
 import { NavBar } from "@/components/NavBar";
 import { HeroSection } from "@/components/HeroSection";
+import { EventCard } from "@/components/events/EventCard";
 import { motion } from "framer-motion";
+import { useQuery } from "@tanstack/react-query";
+import { fetchEvents } from "@/api";
+import { AdBanner } from "@/components/ads/AdBanner";
 
 const Index = () => {
-  return (
-    <div className="min-h-screen bg-gray-50">
-      <NavBar />
-      <main className="pt-16">
-        <HeroSection />
-        
-        <section className="max-w-7xl mx-auto px-4 py-16 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-center mb-12"
-          >
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Featured Brawlers</h2>
-            <p className="text-gray-600">Discover the latest and most popular brawlers</p>
-          </motion.div>
+    const { data: events } = useQuery({
+        queryKey: ["events"],
+        queryFn: fetchEvents
+    });
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Featured brawler cards will be added here */}
-          </div>
-        </section>
-      </main>
-    </div>
-  );
+    return (
+        <div className="min-h-screen bg-gray-50">
+            <NavBar />
+            <main className="pt-16">
+                <HeroSection />
+                
+                <section className="max-w-7xl mx-auto px-4 py-16 sm:px-6 lg:px-8">
+                    <AdBanner slot="home-top" />
+                    
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
+                        className="text-center mb-12"
+                    >
+                        <h2 className="text-3xl font-bold text-gray-900 mb-4">Current Events</h2>
+                        <p className="text-gray-600">Check out the active game modes and maps</p>
+                    </motion.div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {events?.map((event) => (
+                            <EventCard key={event.slotId} event={event} />
+                        ))}
+                    </div>
+                    
+                    <AdBanner slot="home-bottom" />
+                </section>
+            </main>
+        </div>
+    );
 };
 
 export default Index;
