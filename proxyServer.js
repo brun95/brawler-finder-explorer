@@ -12,13 +12,14 @@ app.use(cors());
 app.use(express.json());
 
 const BASE_URL = process.env.VITE_PUBLIC_BASE_URL;
-const API_KEY  = process.env.VITE_SECRET_API_KEY;
+const API_KEY = process.env.VITE_SECRET_API_KEY;
 
 const getHeaders = () => ({
     Authorization: `Bearer ${API_KEY}`,
     "Content-Type": "application/json",
 });
 
+// ✅ Fetch player data
 app.get("/players/:tag", async (req, res) => {
     try {
         const { tag } = req.params;
@@ -33,4 +34,59 @@ app.get("/players/:tag", async (req, res) => {
     }
 });
 
-app.listen(PORT, () => console.log(`Proxy server running on http://localhost:${PORT}`));
+// ✅ Fetch player battle log
+app.get("/players/:tag/battlelog", async (req, res) => {
+    try {
+        const { tag } = req.params;
+        const formattedTag = `%23${tag}`;
+        const response = await axios.get(`${BASE_URL}/players/${formattedTag}/battlelog`, {
+            headers: getHeaders(),
+        });
+
+        res.json(response.data);
+    } catch (error) {
+        res.status(error.response?.status || 500).json({ error: error.message });
+    }
+});
+
+// ✅ Fetch list of brawlers
+app.get("/brawlers", async (req, res) => {
+    try {
+        const response = await axios.get(`${BASE_URL}/brawlers`, {
+            headers: getHeaders(),
+        });
+
+        res.json(response.data);
+    } catch (error) {
+        res.status(error.response?.status || 500).json({ error: error.message });
+    }
+});
+
+// ✅ Fetch a single brawler by ID
+app.get("/brawlers/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const response = await axios.get(`${BASE_URL}/brawlers/${id}`, {
+            headers: getHeaders(),
+        });
+
+        res.json(response.data);
+    } catch (error) {
+        res.status(error.response?.status || 500).json({ error: error.message });
+    }
+});
+
+// ✅ Fetch active event rotation
+app.get("/events/rotation", async (req, res) => {
+    try {
+        const response = await axios.get(`${BASE_URL}/events/rotation`, {
+            headers: getHeaders(),
+        });
+
+        res.json(response.data);
+    } catch (error) {
+        res.status(error.response?.status || 500).json({ error: error.message });
+    }
+});
+
+app.listen(PORT, () => console.log(`🚀 Proxy server running on http://localhost:${PORT}`));
