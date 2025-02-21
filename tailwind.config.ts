@@ -18,17 +18,17 @@ export default {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
+        background: "#F1EACD",
+        foreground: "#1c1310",
         primary: {
-          DEFAULT: "#9b87f5",
-          hover: "#8b77e5",
-          foreground: "#ffffff",
+          DEFAULT: "#FEB821",
+          hover: "#fde159",
+          foreground: "#1c1310",
         },
         secondary: {
-          DEFAULT: "#7E69AB",
-          hover: "#6E59A5",
-          foreground: "#ffffff",
+          DEFAULT: "#fde159",
+          hover: "#FEB821",
+          foreground: "#1c1310",
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
@@ -43,8 +43,8 @@ export default {
           foreground: "hsl(var(--accent-foreground))",
         },
         card: {
-          DEFAULT: "rgba(255, 255, 255, 0.9)",
-          foreground: "#1A1F2C",
+          DEFAULT: "#F1EACD",
+          foreground: "#1c1310",
         },
       },
       keyframes: {
