@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { NavBar } from "@/components/NavBar";
 import { motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 import {
   LineChart,
   Line,
@@ -17,62 +17,27 @@ import {
   Trophy,
   Star,
   Crown,
-  Coins,
   Users,
-  Award,
   Swords,
   Timer,
-  Gamepad2,
 } from "lucide-react";
-
-// Mock data - replace with actual API call
-const fetchPlayerData = async (tag: string) => {
-  // Simulated API response
-  return {
-    name: "Player Name",
-    tag: "#2G0VQ0YLC",
-    trophies: 62596,
-    highestTrophies: 62602,
-    level: 189,
-    club: "PtWarPt",
-    seasonReset: 62294,
-    starPoints: 2140,
-    xpProgress: 64,
-    powerPoints: 119830,
-    coinsToMax: 237150,
-    unlockedBrawlers: 88,
-    totalBrawlers: 89,
-    wins3v3: 8358,
-    soloVictories: 1688,
-    duoVictories: 844,
-    roboRumble: "Insane II",
-    trophyProgress: Array.from({ length: 30 }, (_, i) => ({
-      date: format(new Date(Date.now() - i * 24 * 60 * 60 * 1000), "MMM dd"),
-      trophies: Math.floor(62000 + Math.random() * 1000),
-    })).reverse(),
-    recentBattles: Array.from({ length: 100 }, (_, i) => ({
-      id: i,
-      mode: "Knockout",
-      brawler: "Colt",
-      result: Math.random() > 0.5 ? "victory" : "defeat",
-      brawlerIcon: "https://cdn.brawlify.com/brawler/Colt.png",
-    })),
-    brawlers: Array.from({ length: 88 }, (_, i) => ({
-      name: `Brawler ${i + 1}`,
-      power: Math.floor(Math.random() * 11) + 1,
-      icon: "https://cdn.brawlify.com/brawler/Colt.png",
-    })),
-  };
-};
+import { fetchPlayerData, fetchPlayerBattleLog } from "@/api";
 
 const PlayerStats = () => {
   const { tag } = useParams();
-  const { data: player, isLoading } = useQuery({
+
+  const { data: player, isLoading: isLoadingPlayer } = useQuery({
     queryKey: ["player", tag],
     queryFn: () => fetchPlayerData(tag!),
   });
 
-  if (isLoading) {
+  const { data: battles, isLoading: isLoadingBattles } = useQuery({
+    queryKey: ["battles", tag],
+    queryFn: () => fetchPlayerBattleLog(tag!),
+    enabled: !!player, // Only fetch battles if we have player data
+  });
+
+  if (isLoadingPlayer || isLoadingBattles) {
     return (
       <div className="min-h-screen bg-gray-50">
         <NavBar />
@@ -90,8 +55,9 @@ const PlayerStats = () => {
     );
   }
 
-  const wins = player.recentBattles.filter((b) => b.result === "victory").length;
-  const losses = player.recentBattles.filter((b) => b.result === "defeat").length;
+  const wins = battles?.filter(b => b.battle.result === "victory").length || 0;
+  const losses = battles?.filter(b => b.battle.result === "defeat").length || 0;
+  const draws = battles?.filter(b => b.battle.result === "draw").length || 0;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -111,27 +77,9 @@ const PlayerStats = () => {
             {player.club && (
               <div className="text-right">
                 <p className="text-sm text-gray-600">Club</p>
-                <p className="font-medium">{player.club}</p>
+                <p className="font-medium">{player.club.name}</p>
               </div>
             )}
-          </div>
-
-          <div className="h-[300px] mb-8">
-            <h2 className="text-xl font-semibold mb-4">Trophy Progression</h2>
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={player.trophyProgress}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="date" />
-                <YAxis />
-                <Tooltip />
-                <Line
-                  type="monotone"
-                  dataKey="trophies"
-                  stroke="#9b87f5"
-                  strokeWidth={2}
-                />
-              </LineChart>
-            </ResponsiveContainer>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -141,11 +89,11 @@ const PlayerStats = () => {
               label="Highest Trophies"
               value={player.highestTrophies}
             />
-            <StatCard icon={Star} label="Level" value={player.level} />
+            <StatCard icon={Star} label="Level" value={player.expLevel} />
             <StatCard
               icon={Trophy}
-              label="Season Reset"
-              value={player.seasonReset}
+              label="Experience"
+              value={player.expPoints}
             />
           </div>
         </motion.div>
@@ -162,12 +110,12 @@ const PlayerStats = () => {
               <StatRow
                 icon={Users}
                 label="Unlocked Brawlers"
-                value={`${player.unlockedBrawlers} / ${player.totalBrawlers}`}
+                value={`${player.brawlers.length}`}
               />
               <StatRow
                 icon={Swords}
                 label="3 vs 3 Victories"
-                value={player.wins3v3}
+                value={player["3vs3Victories"]}
               />
               <StatRow
                 icon={Trophy}
@@ -181,8 +129,8 @@ const PlayerStats = () => {
               />
               <StatRow
                 icon={Timer}
-                label="Robo Rumble"
-                value={player.roboRumble}
+                label="Best Robo Rumble Time"
+                value={`Level ${player.bestRoboRumbleTime}`}
               />
             </div>
           </motion.div>
@@ -194,32 +142,41 @@ const PlayerStats = () => {
             className="bg-white rounded-lg shadow-sm p-6"
           >
             <h2 className="text-xl font-semibold mb-4">
-              Recent Battles ({wins}W • {losses}L)
+              Recent Battles ({wins}W • {losses}L • {draws}D)
             </h2>
             <div className="space-y-2 max-h-[400px] overflow-y-auto">
-              {player.recentBattles.map((battle) => (
+              {battles?.map((battle, index) => (
                 <div
-                  key={battle.id}
+                  key={index}
                   className={`flex items-center gap-3 p-3 rounded-lg ${
-                    battle.result === "victory"
+                    battle.battle.result === "victory"
                       ? "bg-green-50"
-                      : "bg-red-50"
+                      : battle.battle.result === "defeat"
+                      ? "bg-red-50"
+                      : "bg-gray-50"
                   }`}
                 >
-                  <img
-                    src={battle.brawlerIcon}
-                    alt={battle.brawler}
-                    className="w-8 h-8 rounded-full"
-                  />
-                  <span className="flex-1">{battle.mode}</span>
+                  {battle.battle.teams?.[1].map(player => (
+                    player.brawler && (
+                      <img
+                        key={player.tag}
+                        src={`/brawlers/${player.brawler.id}.png`}
+                        alt={player.brawler.name}
+                        className="w-8 h-8 rounded-full"
+                      />
+                    )
+                  ))}
+                  <span className="flex-1">{battle.event.mode}</span>
                   <span
                     className={`text-sm font-medium ${
-                      battle.result === "victory"
+                      battle.battle.result === "victory"
                         ? "text-green-600"
-                        : "text-red-600"
+                        : battle.battle.result === "defeat"
+                        ? "text-red-600"
+                        : "text-gray-600"
                     }`}
                   >
-                    {battle.result}
+                    {battle.battle.result}
                   </span>
                 </div>
               ))}
@@ -235,19 +192,22 @@ const PlayerStats = () => {
         >
           <h2 className="text-xl font-semibold mb-4">Brawlers</h2>
           <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4">
-            {player.brawlers.map((brawler, index) => (
+            {player.brawlers.map((brawler) => (
               <div
-                key={index}
+                key={brawler.id}
                 className="flex flex-col items-center p-3 rounded-lg bg-gray-50"
               >
                 <img
-                  src={brawler.icon}
+                  src={`/brawlers/${brawler.id}.png`}
                   alt={brawler.name}
                   className="w-12 h-12 rounded-full mb-2"
                 />
                 <span className="text-sm font-medium">{brawler.name}</span>
                 <span className="text-xs text-gray-600">
                   Power {brawler.power}
+                </span>
+                <span className="text-xs text-gray-600">
+                  Rank {brawler.rank}
                 </span>
               </div>
             ))}

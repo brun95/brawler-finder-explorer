@@ -1,3 +1,4 @@
+
 const BASE_URL = "http://localhost:5000"; // Proxy server URL
 
 // Fetch list of brawlers (Still calls the main API directly)

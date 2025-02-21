@@ -1,3 +1,4 @@
+
 import { fetchPlayerData } from "@/api";
 import { motion } from "framer-motion";
 import { Search } from "lucide-react";
