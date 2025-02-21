@@ -11,7 +11,7 @@ import { AdBanner } from "@/components/ads/AdBanner";
 const BrawlerDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { data: brawler, isLoading } = useBrawler(id || "");
+  const { data: brawler, isLoading } = useBrawler(Number(id));
 
   if (isLoading) {
     return (
