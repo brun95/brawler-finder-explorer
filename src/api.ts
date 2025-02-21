@@ -1,7 +1,6 @@
 
-const BASE_URL = "http://localhost:5000"; // Proxy server URL
+const BASE_URL = "http://localhost:5000";
 
-// Fetch list of brawlers (Still calls the main API directly)
 export const fetchBrawlers = async () => {
     try {
         const response = await fetch(`${BASE_URL}/brawlers`, {
@@ -17,17 +16,35 @@ export const fetchBrawlers = async () => {
         return data.items;
     } catch (error) {
         console.error("Error fetching brawlers:", error);
+        throw error;
     }
 };
 
-// Fetch player data (Now calls the **proxy server**)
+export const fetchBrawlerById = async (id: string) => {
+    try {
+        const response = await fetch(`${BASE_URL}/brawlers/${id}`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to fetch brawler");
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error("Error fetching brawler:", error);
+        throw error;
+    }
+};
+
 export const fetchPlayerData = async (tag: string) => {
     try {
         if (!tag || typeof tag !== "string") {
             throw new Error("Invalid tag provided");
         }
 
-        const formattedTag = tag.replace("#", ""); // Remove '#' before sending to proxy
+        const formattedTag = tag.replace("#", "");
         console.log(`${BASE_URL}/players/${formattedTag}`);
 
         const response = await fetch(`${BASE_URL}/players/${formattedTag}`, {
@@ -39,22 +56,20 @@ export const fetchPlayerData = async (tag: string) => {
             throw new Error("Failed to fetch player data");
         }
 
-        const data = await response.json();
-        return data;
+        return await response.json();
     } catch (error) {
         console.error("Error fetching player data:", error);
         throw error;
     }
 };
 
-// Fetch player battle log (Now calls the **proxy server**)
 export const fetchPlayerBattleLog = async (tag: string) => {
     try {
         if (!tag || typeof tag !== "string") {
             throw new Error("Invalid tag provided");
         }
 
-        const formattedTag = tag.replace("#", ""); // Remove '#' before sending to proxy
+        const formattedTag = tag.replace("#", "");
         const response = await fetch(`${BASE_URL}/players/${formattedTag}/battlelog`, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
@@ -68,6 +83,24 @@ export const fetchPlayerBattleLog = async (tag: string) => {
         return data.items;
     } catch (error) {
         console.error("Error fetching player battle log:", error);
+        throw error;
+    }
+};
+
+export const fetchEvents = async () => {
+    try {
+        const response = await fetch(`${BASE_URL}/events/rotation`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to fetch events");
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error("Error fetching events:", error);
         throw error;
     }
 };
