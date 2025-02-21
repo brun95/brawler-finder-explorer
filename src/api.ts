@@ -20,7 +20,7 @@ export const fetchBrawlers = async () => {
     }
 };
 
-export const fetchBrawlerById = async (id: string) => {
+export const fetchBrawlerById = async (id: number) => {
     try {
         const response = await fetch(`${BASE_URL}/brawlers/${id}`, {
             method: "GET",
