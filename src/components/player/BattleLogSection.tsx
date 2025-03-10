@@ -40,7 +40,7 @@ export const BattleLogSection = ({ battles, stats }: BattleLogSectionProps) => {
                             player.brawler && (
                                 <img
                                     key={player.tag}
-                                    src={`/brawlers/${player.brawler.id}.png`}
+                                    src={`/brawlers/${player.brawler.id}.webp`}
                                     alt={player.brawler.name}
                                     className="w-8 h-8 rounded-full"
                                 />

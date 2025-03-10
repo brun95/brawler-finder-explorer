@@ -56,7 +56,7 @@ export const BrawlerGrid = ({ brawlers }: BrawlerGridProps) => {
                         className="flex flex-col items-center p-3 rounded-lg bg-gray-50"
                     >
                         <img
-                            src={`/brawlers/${brawler.id}.png`}
+                            src={`/brawlers/${brawler.id}.webp`}
                             alt={brawler.name}
                             className="w-12 h-12 rounded-full mb-2"
                         />

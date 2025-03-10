@@ -19,7 +19,7 @@ export const BrawlerCard = ({ brawler, onClick }: BrawlerCardProps) => {
     >
       <div className="aspect-square relative">
         <img
-          src={brawler.image}
+          src={`/brawlers/${brawler.id}.webp`}
           alt={brawler.name}
           className="w-full h-full object-cover"
         />

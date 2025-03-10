@@ -52,7 +52,7 @@ const BrawlerDetails = () => {
             className="bg-card rounded-lg overflow-hidden shadow-sm p-6"
           >
             <img
-              src={`/brawlers/${brawler.id}.png`}
+              src={`/brawlers/${brawler.id}.webp`}
               alt={brawler.name}
               className="w-full h-64 object-contain mb-6"
             />
@@ -74,7 +74,7 @@ const BrawlerDetails = () => {
                     className="flex items-center bg-white/50 p-3 rounded-lg"
                   >
                     <img
-                      src={`/star-powers/${starPower.id}.png`}
+                      src={`/star-powers/${starPower.id}.webp`}
                       alt={starPower.name}
                       className="w-8 h-8 mr-3"
                     />
@@ -93,7 +93,7 @@ const BrawlerDetails = () => {
                     className="flex items-center bg-white/50 p-3 rounded-lg"
                   >
                     <img
-                      src={`/gadgets/${gadget.id}.png`}
+                      src={`/gadgets/${gadget.id}.webp`}
                       alt={gadget.name}
                       className="w-8 h-8 mr-3"
                     />
@@ -107,7 +107,6 @@ const BrawlerDetails = () => {
         
         <AdBanner slot="brawler-bottom" />
       </main>
-      <Footer />
     </div>
   );
 };
