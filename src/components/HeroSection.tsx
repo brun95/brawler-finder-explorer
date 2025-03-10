@@ -1,14 +1,16 @@
-
 import { fetchPlayerData } from "@/api";
 import { motion } from "framer-motion";
 import { Search } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { usePreviousSearches } from "@/hooks/usePreviousSearches";
+import { PreviousSearches } from "./PreviousSearches";
 
 export const HeroSection = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+  const { addSearch } = usePreviousSearches();
 
   const handleSearch = async () => {
     if (!searchQuery.startsWith("#")) {
@@ -17,9 +19,10 @@ export const HeroSection = () => {
       return;
     }
     
-    const playerTag = searchQuery.substring(1); // Remove the # symbol
+    const playerTag = searchQuery.substring(1);
     try {
-      await fetchPlayerData(playerTag);
+      const playerData = await fetchPlayerData(playerTag);
+      addSearch(playerTag, playerData.name);
       navigate(`/player/${playerTag}`);
     } catch (error) {
       setErrorMessage("Failed to fetch player data. Please try again.");
@@ -34,14 +37,14 @@ export const HeroSection = () => {
   };
 
   return (
-    <div className="relative min-h-[80vh] flex items-center justify-center bg-gradient-to-br from-primary/10 to-secondary/10">
+    <div className="relative min-h-[80vh] flex items-center justify-center bg-gradient-to-br from-primary/10 to-secondary/10 dark:from-gray-900 dark:to-gray-800">
       <div className="absolute inset-0 bg-grid-white/[0.05] bg-[size:20px_20px]" />
       <div className="relative max-w-5xl mx-auto px-4 py-16 sm:px-6 lg:px-8 text-center">
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="text-4xl md:text-6xl font-bold text-gray-900 mb-6"
+          className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6"
         >
           Discover the World of
           <span className="text-primary"> Brawl Stars</span>
@@ -81,6 +84,7 @@ export const HeroSection = () => {
             <p className="text-red-500 mt-2 text-sm">{errorMessage}</p>
           )}
         </motion.div>
+        <PreviousSearches />
       </div>
     </div>
   );
