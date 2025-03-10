@@ -5,8 +5,10 @@ import { NavBar } from "@/components/NavBar";
 import { EventCard } from "@/components/events/EventCard";
 import { fetchEvents } from "@/api";
 import { AdBanner } from "@/components/ads/AdBanner";
+import { useLanguage } from "@/hooks/useLanguage";
 
 const Events = () => {
+    const { t } = useLanguage();
     const { data: events, isLoading } = useQuery({
         queryKey: ["events"],
         queryFn: fetchEvents
@@ -14,23 +16,23 @@ const Events = () => {
 
     if (isLoading) {
         return (
-            <div className="min-h-screen bg-gray-50">
+            <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
                 <NavBar />
-                <div className="pt-24 text-center">Loading...</div>
+                <div className="pt-24 text-center dark:text-gray-200">Loading...</div>
             </div>
         );
     }
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
             <NavBar />
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
                 <motion.h1
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="text-3xl font-bold text-gray-900 mb-8"
+                    className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-8"
                 >
-                    Current Events
+                    {t.events.title}
                 </motion.h1>
                 
                 <AdBanner slot="events-top" />

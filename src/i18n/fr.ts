@@ -11,5 +11,25 @@ export default {
   },
   theme: {
     toggle: "Changer le thème"
+  },
+  nav: {
+    brawlers: "Combattants",
+    maps: "Cartes",
+    events: "Événements"
+  },
+  events: {
+    title: "Événements en cours",
+    subtitle: "Découvrez les modes de jeu et cartes actifs",
+    startTime: "Commence",
+    endTime: "Termine"
+  },
+  footer: {
+    title: "Brawl Stars Explorer",
+    description: "Suivez vos statistiques, découvrez les combattants et restez à jour avec les derniers événements.",
+    quickLinks: "Liens rapides",
+    resources: "Ressources",
+    officialBlog: "Blog officiel",
+    support: "Support",
+    copyright: "© {year} Brawl Stars Explorer. Ce contenu n'est pas affilié, approuvé, sponsorisé ou spécifiquement approuvé par Supercell et Supercell n'en est pas responsable."
   }
 };
