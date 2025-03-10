@@ -1,3 +1,4 @@
+
 import { fetchPlayerData } from "@/api";
 import { motion } from "framer-motion";
 import { Search } from "lucide-react";
@@ -5,16 +6,18 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { usePreviousSearches } from "@/hooks/usePreviousSearches";
 import { PreviousSearches } from "./PreviousSearches";
+import { useLanguage } from "@/hooks/useLanguage";
 
 export const HeroSection = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
   const { addSearch } = usePreviousSearches();
+  const { t } = useLanguage();
 
   const handleSearch = async () => {
     if (!searchQuery.startsWith("#")) {
-      setErrorMessage("Please enter a valid player tag starting with #");
+      setErrorMessage(t.search.error.invalidTag);
       setTimeout(() => setErrorMessage(""), 3000);
       return;
     }
@@ -25,12 +28,12 @@ export const HeroSection = () => {
       addSearch(playerTag, playerData.name);
       navigate(`/player/${playerTag}`);
     } catch (error) {
-      setErrorMessage("Failed to fetch player data. Please try again.");
+      setErrorMessage(t.search.error.fetchError);
       setTimeout(() => setErrorMessage(""), 3000);
     }
   };
 
-  const handleKeyPress = (e) => {
+  const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
       handleSearch();
     }
@@ -49,14 +52,6 @@ export const HeroSection = () => {
           Discover the World of
           <span className="text-primary"> Brawl Stars</span>
         </motion.h1>
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="text-xl text-gray-600 mb-8"
-        >
-          Enter your player tag (e.g., #2G0VQ0YLC) to see your stats
-        </motion.p>
         
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -70,8 +65,8 @@ export const HeroSection = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onKeyPress={handleKeyPress}
-              placeholder="Enter player tag (#2G0VQ0YLC)"
-              className="w-full px-6 py-4 rounded-full border border-gray-200 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+              placeholder={t.search.placeholder}
+              className="w-full px-6 py-4 rounded-full border border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
             />
             <button 
               onClick={handleSearch}
