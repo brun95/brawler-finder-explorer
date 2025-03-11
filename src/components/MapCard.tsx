@@ -17,16 +17,21 @@ export const MapCard = ({ map, onClick }: MapCardProps) => {
     >
       <div className="aspect-[3/4] relative">
         <img
-          src={`https://cdn.brawlify.com/map/${map.id}.png`}
+          src={map.imageUrl}
           alt={map.name}
           className="w-full h-full object-cover"
           onError={(e) => {
-            // Fallback to the original image if CDN fails
-            e.currentTarget.src = map.image;
+            // Fallback to a placeholder if image fails to load
+            e.currentTarget.src = "/placeholder.svg";
           }}
+        />
+        <div 
+          className="absolute top-0 left-0 right-0 h-2"
+          style={{ backgroundColor: map.gameMode.bgColor }}
         />
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/50 to-transparent p-3">
           <h3 className="text-white text-sm font-medium">{map.name}</h3>
+          <p className="text-white/80 text-xs">{map.gameMode.name}</p>
         </div>
       </div>
     </motion.div>
