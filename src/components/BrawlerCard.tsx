@@ -19,12 +19,12 @@ export const BrawlerCard = ({ brawler, onClick }: BrawlerCardProps) => {
     >
       <div className="aspect-square relative">
         <img
-          src={`https://cdn.brawlify.com/brawler/${brawler.id}.png`}
+          src={`/brawlers/${brawler.id}.webp`}
           alt={brawler.name}
           className="w-full h-full object-cover"
           onError={(e) => {
             // Fallback to local image if CDN fails
-            e.currentTarget.src = `/brawlers/${brawler.id}.webp`;
+            e.currentTarget.src = `https://cdn.brawlify.com/brawlers/borderless/${brawler.id}.png`;
           }}
         />
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/50 to-transparent p-2">

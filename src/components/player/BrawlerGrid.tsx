@@ -56,12 +56,12 @@ export const BrawlerGrid = ({ brawlers }: BrawlerGridProps) => {
                         className="flex flex-col items-center p-3 rounded-lg bg-gray-50 dark:bg-gray-700"
                     >
                         <img
-                            src={`https://cdn.brawlify.com/brawler/${brawler.id}.png`}
+                            src={`/brawlers/${brawler.id}.webp`}
                             alt={brawler.name}
                             className="w-12 h-12 rounded-full mb-2"
                             onError={(e) => {
                                 // Fallback to local image if CDN fails
-                                e.currentTarget.src = `/brawlers/${brawler.id}.webp`;
+                                e.currentTarget.src = `https://cdn.brawlify.com/brawlers/borderless/${brawler.id}.png`;
                             }}
                         />
                         <span className="text-sm font-medium dark:text-gray-100">{brawler.name}</span>

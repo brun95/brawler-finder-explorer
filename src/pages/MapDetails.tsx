@@ -38,7 +38,7 @@ const MapDetails = () => {
             className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-sm"
           >
             <img
-              src={`https://cdn.brawlify.com/map/${map.id}.png`}
+              src={`https://cdn.brawlify.com/maps/regular/${map.id}.png`}
               alt={map.name}
               className="w-full aspect-[3/4] object-cover"
               onError={(e) => {
@@ -73,12 +73,12 @@ const MapDetails = () => {
                     >
                       <div className="flex items-center">
                         <img
-                          src={`https://cdn.brawlify.com/brawler/${stat.brawlerId}.png`}
+                          src={`/brawlers/${stat.brawlerId}.webp`}
                           alt={stat.brawlerName}
                           className="w-8 h-8 rounded-full mr-2"
                           onError={(e) => {
                             // Fallback to local image if CDN fails
-                            e.currentTarget.src = `/brawlers/${stat.brawlerId}.webp`;
+                            e.currentTarget.src = `https://cdn.brawlify.com/brawlers/borderless/${stat.brawlerId}.png`;
                           }}
                         />
                         <span className="font-medium dark:text-gray-100">{stat.brawlerName}</span>

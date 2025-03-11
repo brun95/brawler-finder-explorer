@@ -59,13 +59,9 @@ export const EventCard = ({ event }: EventCardProps) => {
                         style={{ backgroundColor: `${modeColor}20` }}
                     >
                         <img 
-                            src={`https://cdn.brawlify.com/gamemode/${modeIcon}.png`}
+                            src={`https://cdn.brawlify.com/game-modes/regular/${modeIcon}.png`}
                             alt={event.event.mode}
                             className="w-8 h-8 object-contain"
-                            onError={(e) => {
-                                // Fallback to a generic icon if the image fails to load
-                                e.currentTarget.src = 'https://cdn.brawlify.com/gamemode/unknown.png';
-                            }}
                         />
                     </div>
                     <div className="flex-1">
