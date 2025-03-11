@@ -52,9 +52,13 @@ const BrawlerDetails = () => {
             className="bg-card rounded-lg overflow-hidden shadow-sm p-6"
           >
             <img
-              src={`/brawlers/${brawler.id}.webp`}
+              src={`https://cdn.brawlify.com/brawler/${brawler.id}.png`}
               alt={brawler.name}
               className="w-full h-64 object-contain mb-6"
+              onError={(e) => {
+                // Fallback to local image if CDN fails
+                e.currentTarget.src = `/brawlers/${brawler.id}.webp`;
+              }}
             />
             <h1 className="text-4xl font-bold text-foreground mb-4">{brawler.name}</h1>
           </motion.div>
@@ -71,12 +75,16 @@ const BrawlerDetails = () => {
                 {brawler.starPowers.map((starPower) => (
                   <div
                     key={starPower.id}
-                    className="flex items-center bg-white/50 p-3 rounded-lg"
+                    className="flex items-center bg-white/50 dark:bg-gray-700/50 p-3 rounded-lg"
                   >
                     <img
-                      src={`/star-powers/${starPower.id}.webp`}
+                      src={`https://cdn.brawlify.com/star-powers/borderless/${starPower.id}.png`}
                       alt={starPower.name}
                       className="w-8 h-8 mr-3"
+                      onError={(e) => {
+                        // Fallback to local image if CDN fails
+                        e.currentTarget.src = `/star-powers/${starPower.id}.webp`;
+                      }}
                     />
                     <span className="text-foreground">{starPower.name}</span>
                   </div>
@@ -90,12 +98,16 @@ const BrawlerDetails = () => {
                 {brawler.gadgets.map((gadget) => (
                   <div
                     key={gadget.id}
-                    className="flex items-center bg-white/50 p-3 rounded-lg"
+                    className="flex items-center bg-white/50 dark:bg-gray-700/50 p-3 rounded-lg"
                   >
                     <img
-                      src={`/gadgets/${gadget.id}.webp`}
+                      src={`https://cdn.brawlify.com/gadgets/borderless/${gadget.id}.png`}
                       alt={gadget.name}
                       className="w-8 h-8 mr-3"
+                      onError={(e) => {
+                        // Fallback to local image if CDN fails
+                        e.currentTarget.src = `/gadgets/${gadget.id}.webp`;
+                      }}
                     />
                     <span className="text-foreground">{gadget.name}</span>
                   </div>

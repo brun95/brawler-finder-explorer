@@ -31,9 +31,16 @@ const getModeColor = (mode: string): string => {
     return modeColors[mode.toLowerCase()] || '#9A3DF4';
 };
 
+// Get mode icon name based on the mode string
+const getModeIcon = (mode: string): string => {
+    const normalizedMode = mode.toLowerCase().replace(/\s+/g, '-');
+    return normalizedMode;
+};
+
 export const EventCard = ({ event }: EventCardProps) => {
     const { t } = useLanguage();
     const modeColor = getModeColor(event.event.mode);
+    const modeIcon = getModeIcon(event.event.mode);
 
     return (
         <motion.div
@@ -51,8 +58,15 @@ export const EventCard = ({ event }: EventCardProps) => {
                         className="w-12 h-12 rounded-lg flex items-center justify-center"
                         style={{ backgroundColor: `${modeColor}20` }}
                     >
-                        {/* Image placeholder - you'll add the actual image later */}
-                        <div className="w-8 h-8 rounded-full bg-white/20" />
+                        <img 
+                            src={`https://cdn.brawlify.com/gamemode/${modeIcon}.png`}
+                            alt={event.event.mode}
+                            className="w-8 h-8 object-contain"
+                            onError={(e) => {
+                                // Fallback to a generic icon if the image fails to load
+                                e.currentTarget.src = 'https://cdn.brawlify.com/gamemode/unknown.png';
+                            }}
+                        />
                     </div>
                     <div className="flex-1">
                         <h3 className="text-lg font-semibold capitalize text-gray-900 dark:text-gray-100">

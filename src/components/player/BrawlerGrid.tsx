@@ -34,14 +34,14 @@ export const BrawlerGrid = ({ brawlers }: BrawlerGridProps) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="bg-white rounded-lg shadow-sm p-6"
+            className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6"
         >
             <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-semibold">Brawlers</h2>
+                <h2 className="text-xl font-semibold dark:text-gray-100">Brawlers</h2>
                 <select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value as 'name' | 'power' | 'rank')}
-                    className="px-3 py-2 rounded-lg border border-gray-200"
+                    className="px-3 py-2 rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
                 >
                     <option value="name">Sort by Name</option>
                     <option value="power">Sort by Power</option>
@@ -53,18 +53,22 @@ export const BrawlerGrid = ({ brawlers }: BrawlerGridProps) => {
                 {sortedBrawlers.map((brawler) => (
                     <div
                         key={brawler.id}
-                        className="flex flex-col items-center p-3 rounded-lg bg-gray-50"
+                        className="flex flex-col items-center p-3 rounded-lg bg-gray-50 dark:bg-gray-700"
                     >
                         <img
-                            src={`/brawlers/${brawler.id}.webp`}
+                            src={`https://cdn.brawlify.com/brawler/${brawler.id}.png`}
                             alt={brawler.name}
                             className="w-12 h-12 rounded-full mb-2"
+                            onError={(e) => {
+                                // Fallback to local image if CDN fails
+                                e.currentTarget.src = `/brawlers/${brawler.id}.webp`;
+                            }}
                         />
-                        <span className="text-sm font-medium">{brawler.name}</span>
-                        <span className="text-xs text-gray-600">
+                        <span className="text-sm font-medium dark:text-gray-100">{brawler.name}</span>
+                        <span className="text-xs text-gray-600 dark:text-gray-300">
                             Power {brawler.power}
                         </span>
-                        <span className="text-xs text-gray-600">
+                        <span className="text-xs text-gray-600 dark:text-gray-300">
                             Rank {brawler.rank}
                         </span>
                     </div>
