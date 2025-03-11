@@ -89,7 +89,7 @@ export const fetchPlayerBattleLog = async (tag: string) => {
 
 export const fetchEvents = async () => {
     try {
-        const response = await fetch(`${BASE_URL}/events/rotation`, {
+        const response = await fetch("https://api.brawlify.com/v1/events", {
             method: "GET",
             headers: { "Content-Type": "application/json" },
         });
@@ -101,6 +101,44 @@ export const fetchEvents = async () => {
         return await response.json();
     } catch (error) {
         console.error("Error fetching events:", error);
+        throw error;
+    }
+};
+
+export const fetchMaps = async () => {
+    try {
+        const response = await fetch("https://api.brawlify.com/v1/maps", {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to fetch maps");
+        }
+
+        const data = await response.json();
+        return data.list;
+    } catch (error) {
+        console.error("Error fetching maps:", error);
+        throw error;
+    }
+};
+
+export const fetchGameModes = async () => {
+    try {
+        const response = await fetch("https://api.brawlify.com/v1/gamemodes", {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to fetch game modes");
+        }
+
+        const data = await response.json();
+        return data.list;
+    } catch (error) {
+        console.error("Error fetching game modes:", error);
         throw error;
     }
 };

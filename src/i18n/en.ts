@@ -1,35 +1,52 @@
-
-export default {
-  search: {
-    placeholder: "Enter player tag (#2G0VQ0YLC)",
-    previousSearches: "Previous searches",
-    submit: "Search",
-    error: {
-      invalidTag: "Please enter a valid player tag starting with #",
-      fetchError: "Failed to fetch player data. Please try again."
-    }
-  },
-  theme: {
-    toggle: "Toggle theme"
-  },
+export const en = {
   nav: {
     brawlers: "Brawlers",
     maps: "Maps",
-    events: "Events"
+    events: "Events",
+    player: "Player",
+  },
+  brawlers: {
+    title: "Brawlers",
+    subtitle: "Explore all Brawl Stars brawlers and their statistics",
   },
   events: {
-    title: "Current Events",
-    subtitle: "Check out the active game modes and maps",
-    startTime: "Starts",
-    endTime: "Ends"
+    title: "Events",
+    subtitle: "Check out current and upcoming events in Brawl Stars",
+    startTime: "Start Time",
+    endTime: "End Time",
   },
-  footer: {
-    title: "Brawl Stars Explorer",
-    description: "Track your stats, discover brawlers, and stay updated with the latest events.",
-    quickLinks: "Quick Links",
-    resources: "Resources",
-    officialBlog: "Official Blog",
-    support: "Support",
-    copyright: "© {year} Brawl Stars Explorer. This content is not affiliated with, endorsed, sponsored, or specifically approved by Supercell and Supercell is not responsible for it."
-  }
+  search: {
+    placeholder: "Enter player tag (e.g., #PL2GVQQ)",
+    error: {
+      invalidTag: "Invalid player tag format",
+      fetchError: "Failed to fetch player data. Please check the tag and try again.",
+    },
+    previousSearches: "Previous Searches:",
+    clearSearches: "Clear Searches",
+  },
+  player: {
+    title: "Player Statistics",
+    lastOnline: "Last Online",
+    trophies: "Trophies",
+    highestTrophies: "Highest Trophies",
+    powerPlayPoints: "Power Play Points",
+    highestPowerPlayPoints: "Highest Power Play Points",
+    club: "Club",
+    noClub: "No Club",
+    brawlers: "Brawlers",
+  },
+  maps: {
+    title: "Maps",
+    subtitle: "Explore all Brawl Stars maps and their statistics",
+    backToMaps: "Back to Maps",
+    notFound: "Map not found",
+    notFoundDesc: "The map you are looking for does not exist or has been removed",
+    createdBy: "Created by",
+    topBrawlers: "Top Brawlers",
+    topTeams: "Best Teams",
+    noMaps: "No maps available at the moment"
+  },
+  common: {
+    loading: "Loading...",
+  },
 };

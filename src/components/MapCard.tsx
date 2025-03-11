@@ -21,8 +21,13 @@ export const MapCard = ({ map, onClick }: MapCardProps) => {
           alt={map.name}
           className="w-full h-full object-cover"
         />
+        <div 
+          className="absolute top-0 left-0 right-0 h-2"
+          style={{ backgroundColor: map.gameMode.bgColor }}
+        />
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/50 to-transparent p-3">
           <h3 className="text-white text-sm font-medium">{map.name}</h3>
+          <p className="text-white/80 text-xs">{map.gameMode.name}</p>
         </div>
       </div>
     </motion.div>
