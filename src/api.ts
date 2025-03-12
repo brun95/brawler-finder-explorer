@@ -1,7 +1,6 @@
-
 import { supabase } from "@/integrations/supabase/client";
 
-const BASE_URL = "http://localhost:5000";
+const BASE_URL = import.meta.env.VITE_PUBLIC_BASE_URL || "https://api.brawlstars.com/v1";
 
 export const fetchBrawlers = async () => {
     try {
@@ -51,7 +50,10 @@ export const fetchPlayerData = async (tag: string) => {
 
         const response = await fetch(`${BASE_URL}/players/${formattedTag}`, {
             method: "GET",
-            headers: { "Content-Type": "application/json" },
+            headers: { 
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${import.meta.env.VITE_SECRET_API_KEY}`
+            },
         });
 
         if (!response.ok) {
@@ -60,8 +62,7 @@ export const fetchPlayerData = async (tag: string) => {
 
         // Store player data in Supabase
         try {
-            // Call the Supabase Edge Function to store player data
-            await fetch(`${window.location.origin}/functions/v1/store-player-data`, {
+            await fetch(`${BASE_URL}/functions/v1/store-player-data`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ tag: formattedTag }),
@@ -158,8 +159,6 @@ export const fetchGameModes = async () => {
     }
 };
 
-// New functions to fetch historical data from Supabase
-
 export const fetchPlayerTrophyHistory = async (tag: string) => {
     try {
         const formattedTag = tag.replace("#", "");
@@ -187,10 +186,8 @@ export const fetchPlayerWinRates = async (tag: string) => {
             
         if (error) throw error;
         
-        // Calculate win rates by game mode and brawler
         const stats = data || [];
         
-        // By game mode
         const modeWinRates = stats.reduce((acc: Record<string, {wins: number, total: number}>, stat) => {
             const mode = stat.game_mode;
             if (!acc[mode]) {
@@ -203,7 +200,6 @@ export const fetchPlayerWinRates = async (tag: string) => {
             return acc;
         }, {});
         
-        // By brawler
         const brawlerWinRates = stats.reduce((acc: Record<string, {wins: number, total: number}>, stat) => {
             const brawler = stat.brawler_name;
             if (!acc[brawler]) {
