@@ -56,25 +56,34 @@ export const fetchPlayerData = async (tag: string) => {
         if (!response.ok) {
             throw new Error("Failed to fetch player data");
         }
+        const playerData = await response.json();
+
+        const responseBattleLog = await fetch(`${BASE_URL}/players/${formattedTag}/battlelog`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+        });
+
+        if (!responseBattleLog.ok) {
+            throw new Error("Failed to fetch player battle log");
+        }
+        const battleData = await responseBattleLog.json();
 
         // Store player data in Supabase
         try {
-            // Call the Supabase Edge Function to store player data
-            /* await fetch(`https://djhcsmvyykevekkmjrqa.supabase.co/functions/v1/store-player-data`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ tag: formattedTag }),
-            }); */
-            const { data, error } = await supabase.functions.invoke('store-player-data', {
-                body: { name: 'Functions', tag: formattedTag },
+            const { data, error } = await supabase.rpc('store_player_data', {
+                p_tag             : formattedTag,
+                p_name            : playerData.name,
+                p_trophies        : playerData.trophies,
+                p_highest_trophies: playerData.highestTrophies,
+                p_battles         : battleData.items
             })
-            console.log(data, error)
+            
         } catch (storeError) {
             console.error("Failed to store player data:", storeError);
             // Continue even if storing failed
         }
 
-        return await response.json();
+        return playerData;
     } catch (error) {
         console.error("Error fetching player data:", error);
         throw error;
@@ -242,9 +251,9 @@ export const fetchDetailedBattleHistory = async (tag: string) => {
         const formattedTag = tag.replace("#", "");
         const { data, error } = await supabase
             .from('player_battles')
-            .select('battle_data, battle_time')
+            .select('battle_data, player_battles.battle_time')
             .eq('player_tag', formattedTag)
-            .order('battle_time', { ascending: false });
+            .order('player_battles.battle_time', { ascending: false });
             
         if (error) throw error;
         return data || [];
