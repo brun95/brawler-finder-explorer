@@ -16,7 +16,7 @@ const Maps = () => {
   const isLoading = mapsLoading || modesLoading;
 
   // Group maps by game mode
-  const mapsByGameMode = maps?.reduce((acc, map) => {
+  const mapsByGameMode = maps?.filter(map => !map.disabled).reduce((acc, map) => {
     const gameModeName = map.gameMode.name;
     if (!acc[gameModeName]) {
       acc[gameModeName] = [];
