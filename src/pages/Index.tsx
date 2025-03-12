@@ -43,7 +43,7 @@ const Index = () => {
                                 {t.events.activeTitle}
                             </h3>
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                {events?.active?.slice(0, 3).map((event) => (
+                                {events?.active?.map((event) => (
                                     <EventCard 
                                         key={`${event.map.gameMode.scId}-${event.startTime}`} 
                                         event={event}
@@ -58,7 +58,7 @@ const Index = () => {
                                 {t.events.upcomingTitle}
                             </h3>
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                {events?.upcoming?.slice(0, 3).map((event) => (
+                                {events?.upcoming?.map((event) => (
                                     <EventCard 
                                         key={`${event.map.gameMode.scId}-${event.startTime}`} 
                                         event={event}

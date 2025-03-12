@@ -14,7 +14,7 @@ const BrawlerDetails = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-gray-900">
         <NavBar />
         <div className="pt-24 text-center text-foreground">Loading...</div>
       </div>
@@ -23,7 +23,7 @@ const BrawlerDetails = () => {
 
   if (!brawler) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-gray-900">
         <NavBar />
         <div className="pt-24 text-center text-foreground">Brawler not found</div>
       </div>
@@ -31,7 +31,7 @@ const BrawlerDetails = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gray-900">
       <NavBar />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
         <AdBanner slot="brawler-top" />

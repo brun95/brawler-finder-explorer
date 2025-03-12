@@ -19,9 +19,9 @@ export const PersonalRecords = ({ stats }: PersonalRecordsProps) => {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
-            className="bg-white rounded-lg shadow-sm p-6"
+            className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6"
         >
-            <h2 className="text-xl font-semibold mb-4">Personal Records</h2>
+            <h2 className="text-xl font-semibold mb-4 dark:text-gray-100">Personal Records</h2>
             <div className="space-y-4">
                 <StatRow
                     icon={Users}

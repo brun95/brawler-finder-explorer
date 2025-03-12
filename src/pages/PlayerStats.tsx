@@ -28,7 +28,7 @@ const PlayerStats = () => {
 
   if (isLoadingPlayer || isLoadingBattles) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-gray-900">
         <NavBar />
         <div className="pt-24 text-center text-gray-300">Loading...</div>
         <Footer />
@@ -38,7 +38,7 @@ const PlayerStats = () => {
 
   if (!player) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-gray-900">
         <NavBar />
         <div className="pt-24 text-center text-gray-300">Player not found</div>
         <Footer />
@@ -51,7 +51,7 @@ const PlayerStats = () => {
   const draws = battles?.filter(b => b.battle.result === "draw").length || 0;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gray-900">
       <NavBar />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
         <AdBanner slot="player-top" />
