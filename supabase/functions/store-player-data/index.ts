@@ -48,7 +48,7 @@ serve(async (req) => {
     })
 
     if (!playerResponse.ok) {
-      console.error('Player API response error:', await playerResponse.text())
+      console.error('Player API response error: test ', await playerResponse.text())
       return new Response(
         JSON.stringify({ error: "Failed to fetch player data" }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 500 }
