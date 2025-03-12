@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { NavBar } from "@/components/NavBar";
 import { Footer } from "@/components/Footer";
 import { useQuery } from "@tanstack/react-query";
-import { Trophy, Star, Crown } from "lucide-react";
+import { Trophy, Star, Crown, Award, Activity } from "lucide-react";
 import { fetchPlayerData, fetchPlayerBattleLog } from "@/api";
 import { StatCard } from "@/components/player/StatCard";
 import { PersonalRecords } from "@/components/player/PersonalRecords";
@@ -11,6 +11,10 @@ import { BattleLogSection } from "@/components/player/BattleLogSection";
 import { TrophyProgressionGraph } from "@/components/player/TrophyProgressionGraph";
 import { BrawlerGrid } from "@/components/player/BrawlerGrid";
 import { AdBanner } from "@/components/ads/AdBanner";
+import { TrophyHistoryChart } from "@/components/player/TrophyHistoryChart";
+import { WinRateAnalysis } from "@/components/player/WinRateAnalysis";
+import { usePlayerTrophyHistory, usePlayerWinRates } from "@/hooks/usePlayerStats";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const PlayerStats = () => {
   const { tag } = useParams();
@@ -26,7 +30,12 @@ const PlayerStats = () => {
     enabled: !!player,
   });
 
-  if (isLoadingPlayer || isLoadingBattles) {
+  const { data: trophyHistory, isLoading: isLoadingTrophyHistory } = usePlayerTrophyHistory(tag);
+  const { data: winRates, isLoading: isLoadingWinRates } = usePlayerWinRates(tag);
+
+  const isLoading = isLoadingPlayer || isLoadingBattles || isLoadingTrophyHistory || isLoadingWinRates;
+
+  if (isLoading) {
     return (
       <div className="min-h-screen bg-gray-900">
         <NavBar />
@@ -76,25 +85,52 @@ const PlayerStats = () => {
           <StatCard icon={Trophy} label="Experience" value={player.expPoints} />
         </div>
 
-        <TrophyProgressionGraph currentTrophies={player.trophies} />
+        <Tabs defaultValue="overview" className="mb-8">
+          <TabsList className="mb-4 bg-gray-800 border-gray-700">
+            <TabsTrigger value="overview" className="data-[state=active]:bg-gray-700">Overview</TabsTrigger>
+            <TabsTrigger value="analytics" className="data-[state=active]:bg-gray-700">Analytics</TabsTrigger>
+            <TabsTrigger value="brawlers" className="data-[state=active]:bg-gray-700">Brawlers</TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="overview" className="space-y-8">
+            <TrophyProgressionGraph currentTrophies={player.trophies} />
 
-        <div className="grid md:grid-cols-2 gap-8 mb-8">
-          <PersonalRecords
-            stats={{
-              brawlersCount: player.brawlers.length,
-              victories3v3: player["3vs3Victories"],
-              soloVictories: player.soloVictories,
-              duoVictories: player.duoVictories,
-              bestRoboRumbleTime: player.bestRoboRumbleTime,
-            }}
-          />
-          <BattleLogSection
-            battles={battles || []}
-            stats={{ wins, losses, draws }}
-          />
-        </div>
-
-        <BrawlerGrid brawlers={player.brawlers} />
+            <div className="grid md:grid-cols-2 gap-8 mb-8">
+              <PersonalRecords
+                stats={{
+                  brawlersCount: player.brawlers.length,
+                  victories3v3: player["3vs3Victories"],
+                  soloVictories: player.soloVictories,
+                  duoVictories: player.duoVictories,
+                  bestRoboRumbleTime: player.bestRoboRumbleTime,
+                }}
+              />
+              <BattleLogSection
+                battles={battles || []}
+                stats={{ wins, losses, draws }}
+              />
+            </div>
+          </TabsContent>
+          
+          <TabsContent value="analytics" className="space-y-8">
+            <div className="grid md:grid-cols-1 gap-8">
+              <TrophyHistoryChart data={trophyHistory || []} />
+            </div>
+            
+            <div className="grid md:grid-cols-1 gap-8">
+              {winRates && (
+                <WinRateAnalysis 
+                  byMode={winRates.byMode || []} 
+                  byBrawler={winRates.byBrawler || []} 
+                />
+              )}
+            </div>
+          </TabsContent>
+          
+          <TabsContent value="brawlers">
+            <BrawlerGrid brawlers={player.brawlers} />
+          </TabsContent>
+        </Tabs>
         
         <AdBanner slot="player-bottom" />
       </main>

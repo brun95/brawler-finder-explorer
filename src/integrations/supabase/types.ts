@@ -9,13 +9,153 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      brawler_stats: {
+        Row: {
+          battle_time: string
+          brawler_id: number
+          brawler_name: string
+          game_mode: string
+          id: number
+          map_name: string
+          player_tag: string
+          recorded_at: string | null
+          result: string
+          trophies_change: number | null
+        }
+        Insert: {
+          battle_time: string
+          brawler_id: number
+          brawler_name: string
+          game_mode: string
+          id?: number
+          map_name: string
+          player_tag: string
+          recorded_at?: string | null
+          result: string
+          trophies_change?: number | null
+        }
+        Update: {
+          battle_time?: string
+          brawler_id?: number
+          brawler_name?: string
+          game_mode?: string
+          id?: number
+          map_name?: string
+          player_tag?: string
+          recorded_at?: string | null
+          result?: string
+          trophies_change?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "brawler_stats_player_tag_fkey"
+            columns: ["player_tag"]
+            isOneToOne: false
+            referencedRelation: "players"
+            referencedColumns: ["tag"]
+          },
+        ]
+      }
+      player_battles: {
+        Row: {
+          battle_data: Json
+          battle_time: string
+          id: number
+          player_tag: string
+          recorded_at: string | null
+        }
+        Insert: {
+          battle_data: Json
+          battle_time: string
+          id?: number
+          player_tag: string
+          recorded_at?: string | null
+        }
+        Update: {
+          battle_data?: Json
+          battle_time?: string
+          id?: number
+          player_tag?: string
+          recorded_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "player_battles_player_tag_fkey"
+            columns: ["player_tag"]
+            isOneToOne: false
+            referencedRelation: "players"
+            referencedColumns: ["tag"]
+          },
+        ]
+      }
+      player_trophies: {
+        Row: {
+          highest_trophies: number
+          id: number
+          player_tag: string
+          recorded_at: string | null
+          trophies: number
+        }
+        Insert: {
+          highest_trophies: number
+          id?: number
+          player_tag: string
+          recorded_at?: string | null
+          trophies: number
+        }
+        Update: {
+          highest_trophies?: number
+          id?: number
+          player_tag?: string
+          recorded_at?: string | null
+          trophies?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "player_trophies_player_tag_fkey"
+            columns: ["player_tag"]
+            isOneToOne: false
+            referencedRelation: "players"
+            referencedColumns: ["tag"]
+          },
+        ]
+      }
+      players: {
+        Row: {
+          created_at: string | null
+          id: number
+          name: string
+          tag: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: number
+          name: string
+          tag: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: number
+          name?: string
+          tag?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      store_player_data: {
+        Args: {
+          p_tag: string
+          p_name: string
+          p_trophies: number
+          p_highest_trophies: number
+          p_battles: Json
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never

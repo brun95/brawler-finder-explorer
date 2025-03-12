@@ -1,4 +1,6 @@
 
+import { supabase } from "@/integrations/supabase/client";
+
 const BASE_URL = "http://localhost:5000";
 
 export const fetchBrawlers = async () => {
@@ -54,6 +56,19 @@ export const fetchPlayerData = async (tag: string) => {
 
         if (!response.ok) {
             throw new Error("Failed to fetch player data");
+        }
+
+        // Store player data in Supabase
+        try {
+            // Call the Supabase Edge Function to store player data
+            await fetch(`${window.location.origin}/functions/v1/store-player-data`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ tag: formattedTag }),
+            });
+        } catch (storeError) {
+            console.error("Failed to store player data:", storeError);
+            // Continue even if storing failed
         }
 
         return await response.json();
@@ -139,6 +154,99 @@ export const fetchGameModes = async () => {
         return data.list;
     } catch (error) {
         console.error("Error fetching game modes:", error);
+        throw error;
+    }
+};
+
+// New functions to fetch historical data from Supabase
+
+export const fetchPlayerTrophyHistory = async (tag: string) => {
+    try {
+        const formattedTag = tag.replace("#", "");
+        const { data, error } = await supabase
+            .from('player_trophies')
+            .select('trophies, highest_trophies, recorded_at')
+            .eq('player_tag', formattedTag)
+            .order('recorded_at', { ascending: true });
+            
+        if (error) throw error;
+        return data || [];
+    } catch (error) {
+        console.error("Error fetching trophy history:", error);
+        throw error;
+    }
+};
+
+export const fetchPlayerWinRates = async (tag: string) => {
+    try {
+        const formattedTag = tag.replace("#", "");
+        const { data, error } = await supabase
+            .from('brawler_stats')
+            .select('brawler_id, brawler_name, game_mode, map_name, result')
+            .eq('player_tag', formattedTag);
+            
+        if (error) throw error;
+        
+        // Calculate win rates by game mode and brawler
+        const stats = data || [];
+        
+        // By game mode
+        const modeWinRates = stats.reduce((acc: Record<string, {wins: number, total: number}>, stat) => {
+            const mode = stat.game_mode;
+            if (!acc[mode]) {
+                acc[mode] = { wins: 0, total: 0 };
+            }
+            acc[mode].total += 1;
+            if (stat.result === 'victory') {
+                acc[mode].wins += 1;
+            }
+            return acc;
+        }, {});
+        
+        // By brawler
+        const brawlerWinRates = stats.reduce((acc: Record<string, {wins: number, total: number}>, stat) => {
+            const brawler = stat.brawler_name;
+            if (!acc[brawler]) {
+                acc[brawler] = { wins: 0, total: 0 };
+            }
+            acc[brawler].total += 1;
+            if (stat.result === 'victory') {
+                acc[brawler].wins += 1;
+            }
+            return acc;
+        }, {});
+        
+        return {
+            byMode: Object.entries(modeWinRates).map(([mode, stats]) => ({
+                mode,
+                winRate: (stats.wins / stats.total) * 100,
+                matches: stats.total
+            })),
+            byBrawler: Object.entries(brawlerWinRates).map(([brawler, stats]) => ({
+                brawler,
+                winRate: (stats.wins / stats.total) * 100,
+                matches: stats.total
+            }))
+        };
+    } catch (error) {
+        console.error("Error calculating win rates:", error);
+        throw error;
+    }
+};
+
+export const fetchDetailedBattleHistory = async (tag: string) => {
+    try {
+        const formattedTag = tag.replace("#", "");
+        const { data, error } = await supabase
+            .from('player_battles')
+            .select('battle_data, battle_time')
+            .eq('player_tag', formattedTag)
+            .order('battle_time', { ascending: false });
+            
+        if (error) throw error;
+        return data || [];
+    } catch (error) {
+        console.error("Error fetching detailed battle history:", error);
         throw error;
     }
 };
