@@ -28,9 +28,9 @@ const PlayerStats = () => {
 
   if (isLoadingPlayer || isLoadingBattles) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-background">
         <NavBar />
-        <div className="pt-24 text-center">Loading...</div>
+        <div className="pt-24 text-center text-gray-300">Loading...</div>
         <Footer />
       </div>
     );
@@ -38,9 +38,9 @@ const PlayerStats = () => {
 
   if (!player) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-background">
         <NavBar />
-        <div className="pt-24 text-center">Player not found</div>
+        <div className="pt-24 text-center text-gray-300">Player not found</div>
         <Footer />
       </div>
     );
@@ -51,20 +51,20 @@ const PlayerStats = () => {
   const draws = battles?.filter(b => b.battle.result === "draw").length || 0;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       <NavBar />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
         <AdBanner slot="player-top" />
 
         <div className="flex items-center gap-4 mb-6">
           <div className="flex-1">
-            <h1 className="text-3xl font-bold text-gray-900">{player.name}</h1>
-            <p className="text-gray-600">{player.tag}</p>
+            <h1 className="text-3xl font-bold text-gray-200">{player.name}</h1>
+            <p className="text-gray-400">{player.tag}</p>
           </div>
           {player.club && (
             <div className="text-right">
-              <p className="text-sm text-gray-600">Club</p>
-              <p className="font-medium">{player.club.name}</p>
+              <p className="text-sm text-gray-400">Club</p>
+              <p className="font-medium text-gray-300">{player.club.name}</p>
             </div>
           )}
         </div>

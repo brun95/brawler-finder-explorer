@@ -1,3 +1,4 @@
+
 import { en } from "./en";
 type Translation = typeof en;
 
@@ -40,17 +41,6 @@ export const pt: Translation = {
     club: "Clube",
     noClub: "Sem clube",
     brawlers: "Brawlers",
-  },
-  brawlersPage: {
-    title: "Brawlers",
-    subtitle: "Explore todos os Brawlers de Brawl Stars",
-  },
-  brawlerDetails: {
-    description: "Descrição",
-    attack: "Ataque",
-    super: "Super",
-    gadgets: "Gadgets",
-    starPowers: "Poderes Estelares",
   },
   maps: {
     title: "Mapas",

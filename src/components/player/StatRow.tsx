@@ -12,11 +12,11 @@ export const StatRow = ({
     label,
     value,
 }: StatRowProps) => (
-    <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+    <div className="flex items-center justify-between p-3 bg-gray-800 rounded-lg">
         <div className="flex items-center gap-2">
             <Icon className="w-5 h-5 text-primary" />
-            <span>{label}</span>
+            <span className="text-gray-300">{label}</span>
         </div>
-        <span className="font-medium">{value}</span>
+        <span className="font-medium text-gray-200">{value}</span>
     </div>
 );
