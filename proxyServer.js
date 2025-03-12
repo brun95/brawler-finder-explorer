@@ -11,11 +11,15 @@ const PORT = 5000;
 app.use(cors());
 app.use(express.json());
 
-const BASE_URL = process.env.VITE_PUBLIC_BASE_URL;
-const API_KEY = process.env.VITE_SECRET_API_KEY;
+const BASE_URL     = process.env.VITE_PUBLIC_BASE_URL;
+const BASE_CDN_URL = process.env.VITE_PUBLIC_BASE_CDN_URL;
+const API_KEY      = process.env.VITE_SECRET_API_KEY;
 
 const getHeaders = () => ({
     Authorization: `Bearer ${API_KEY}`,
+    "Content-Type": "application/json",
+});
+const getCdnHeaders = () => ({
     "Content-Type": "application/json",
 });
 
@@ -77,10 +81,49 @@ app.get("/brawlers/:id", async (req, res) => {
 });
 
 // ✅ Fetch active event rotation
-app.get("/events/rotation", async (req, res) => {
+/* app.get("/events/rotation", async (req, res) => {
     try {
         const response = await axios.get(`${BASE_URL}/events/rotation`, {
             headers: getHeaders(),
+        });
+
+        res.json(response.data);
+    } catch (error) {
+        res.status(error.response?.status || 500).json({ error: error.message });
+    }
+}); */
+
+// ✅ Fetch active event rotation
+app.get("/events", async (req, res) => {
+    try {
+        const response = await axios.get(`${BASE_CDN_URL}/events`, {
+            headers: getCdnHeaders(),
+        });
+
+        res.json(response.data);
+    } catch (error) {
+        res.status(error.response?.status || 500).json({ error: error.message });
+    }
+});
+
+// ✅ Fetch list of maps
+app.get("/maps", async (req, res) => {
+    try {
+        const response = await axios.get(`${BASE_CDN_URL}/maps`, {
+            headers: getCdnHeaders(),
+        });
+
+        res.json(response.data);
+    } catch (error) {
+        res.status(error.response?.status || 500).json({ error: error.message });
+    }
+});
+
+// ✅ Fetch list of game modes
+app.get("/gamemodes", async (req, res) => {
+    try {
+        const response = await axios.get(`${BASE_CDN_URL}/gamemodes`, {
+            headers: getCdnHeaders(),
         });
 
         res.json(response.data);

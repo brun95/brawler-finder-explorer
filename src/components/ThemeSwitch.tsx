@@ -35,7 +35,7 @@ export const ThemeSwitch = () => {
       <button
         onClick={toggleTheme}
         className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-        aria-label={t.theme.toggle}
+        aria-label="Toggle theme"
       >
         {theme === "light" ? (
           <Moon className="w-5 h-5 text-gray-600 dark:text-gray-400" />

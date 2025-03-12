@@ -89,7 +89,7 @@ export const fetchPlayerBattleLog = async (tag: string) => {
 
 export const fetchEvents = async () => {
     try {
-        const response = await fetch("https://api.brawlify.com/v1/events", {
+        const response = await fetch(`${BASE_URL}/events`, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
         });
@@ -107,7 +107,7 @@ export const fetchEvents = async () => {
 
 export const fetchMaps = async () => {
     try {
-        const response = await fetch("https://api.brawlify.com/v1/maps", {
+        const response = await fetch(`${BASE_URL}/maps`, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
         });
@@ -126,7 +126,7 @@ export const fetchMaps = async () => {
 
 export const fetchGameModes = async () => {
     try {
-        const response = await fetch("https://api.brawlify.com/v1/gamemodes", {
+        const response = await fetch(`${BASE_URL}/gamemodes`, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
         });

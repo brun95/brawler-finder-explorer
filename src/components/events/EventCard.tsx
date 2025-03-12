@@ -1,16 +1,18 @@
-
 import { format, parseISO } from 'date-fns';
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/hooks/useLanguage';
 
 interface Event {
+    map: {
+        gameMode: {
+            scId: unknown;
+            name: string;
+            hash: string;
+        };
+        name: string;
+    };
     startTime: string;
     endTime: string;
-    event: {
-        mode: string;
-        map: string;
-        modifiers?: string[];
-    };
 }
 
 interface EventCardProps {
@@ -19,28 +21,29 @@ interface EventCardProps {
 
 const getModeColor = (mode: string): string => {
     const modeColors: Record<string, string> = {
-        'solo showdown': '#81D61F',
-        'brawl ball': '#8D9FE0',
-        'gem grab': '#9A3DF4',
-        'heist': '#D55CD3',
-        'bounty': '#00CFFF',
-        'brawl hockey': '#8D9FE0',
-        'treasure hunt': '#9A3DF4',
-        'knockout': '#F7831A'
+        'Solo Showdown' : '#81D61F',
+        'Duo Showdown'  : '#81D61F',
+        'Trio Showdown' : '#81D61F',
+        'Brawl Ball'    : '#8D9FE0',
+        'Brawl Ball 5v5': '#8D9FE0',
+        'Gem Grab'      : '#9A3DF4',
+        'Gem Grab 5v5'  : '#9A3DF4',
+        'Heist'         : '#D55CD3',
+        'Bounty'        : '#00CFFF',
+        'Brawl Hockey'  : '#8D9FE0',
+        'Treasure Hunt' : '#9A3DF4',
+        'Knockout'      : '#F7831A',
+        'Hot Zone'      : '#F7831A',
+        'Duels'         : '#F7831A',
     };
-    return modeColors[mode.toLowerCase()] || '#9A3DF4';
-};
-
-// Get mode icon name based on the mode string
-const getModeIcon = (mode: string): string => {
-    const normalizedMode = mode.toLowerCase().replace(/\s+/g, '-');
-    return normalizedMode;
+    return modeColors[mode] || '#9A3DF4'; // Default color
 };
 
 export const EventCard = ({ event }: EventCardProps) => {
-    const { t } = useLanguage();
-    const modeColor = getModeColor(event.event.mode);
-    const modeIcon = getModeIcon(event.event.mode);
+    const { t }     = useLanguage();
+    const modeName  = event?.map?.gameMode?.name || 'Unknown Mode';
+    const modeColor = getModeColor(modeName);
+    const modeIcon  = event?.map?.gameMode?.scId;
 
     return (
         <motion.div
@@ -60,15 +63,15 @@ export const EventCard = ({ event }: EventCardProps) => {
                     >
                         <img 
                             src={`https://cdn.brawlify.com/game-modes/regular/${modeIcon}.png`}
-                            alt={event.event.mode}
+                            alt={modeName}
                             className="w-8 h-8 object-contain"
                         />
                     </div>
                     <div className="flex-1">
                         <h3 className="text-lg font-semibold capitalize text-gray-900 dark:text-gray-100">
-                            {event.event.mode}
+                            {modeName}
                         </h3>
-                        <p className="text-gray-600 dark:text-gray-400">{event.event.map}</p>
+                        <p className="text-gray-600 dark:text-gray-400">{event?.map?.name}</p>
                     </div>
                 </div>
                 
@@ -80,23 +83,6 @@ export const EventCard = ({ event }: EventCardProps) => {
                         {t.events.endTime}: {format(parseISO(event.endTime), 'MMM dd, HH:mm')}
                     </p>
                 </div>
-                
-                {event.event.modifiers && event.event.modifiers.length > 0 && (
-                    <div className="mt-3 flex flex-wrap gap-2">
-                        {event.event.modifiers.map(modifier => (
-                            <span
-                                key={modifier}
-                                className="inline-block text-xs rounded-full px-2 py-1"
-                                style={{ 
-                                    backgroundColor: `${modeColor}20`,
-                                    color: modeColor
-                                }}
-                            >
-                                {modifier}
-                            </span>
-                        ))}
-                    </div>
-                )}
             </div>
         </motion.div>
     );

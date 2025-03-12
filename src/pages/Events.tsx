@@ -13,6 +13,7 @@ const Events = () => {
         queryKey: ["events"],
         queryFn: fetchEvents
     });
+    console.log(events)
 
     if (isLoading) {
         return (
@@ -38,7 +39,7 @@ const Events = () => {
                 <AdBanner slot="events-top" />
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {events?.map((event) => (
+                    {events?.active?.map((event) => (
                         <EventCard key={event.slotId} event={event} />
                     ))}
                 </div>

@@ -1,8 +1,8 @@
 
 import { createContext, useContext, useEffect, useState } from 'react';
-import en from '../i18n/en';
-import fr from '../i18n/fr';
-import pt from '../i18n/pt';
+import {en} from '../i18n/en';
+import {fr} from '../i18n/fr';
+import {pt} from '../i18n/pt';
 
 type Language = 'en' | 'fr' | 'pt';
 type Translations = typeof en;
