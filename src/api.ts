@@ -47,7 +47,6 @@ export const fetchPlayerData = async (tag: string) => {
         }
 
         const formattedTag = tag.replace("#", "");
-        console.log(`${BASE_URL}/players/${formattedTag}`);
 
         const response = await fetch(`${BASE_URL}/players/${formattedTag}`, {
             method: "GET",
@@ -61,11 +60,15 @@ export const fetchPlayerData = async (tag: string) => {
         // Store player data in Supabase
         try {
             // Call the Supabase Edge Function to store player data
-            await fetch(`${window.location.origin}/functions/v1/store-player-data`, {
+            /* await fetch(`https://djhcsmvyykevekkmjrqa.supabase.co/functions/v1/store-player-data`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ tag: formattedTag }),
-            });
+            }); */
+            const { data, error } = await supabase.functions.invoke('store-player-data', {
+                body: { name: 'Functions', tag: formattedTag },
+            })
+            console.log(data, error)
         } catch (storeError) {
             console.error("Failed to store player data:", storeError);
             // Continue even if storing failed

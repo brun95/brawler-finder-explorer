@@ -8,7 +8,7 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
-const BRAWLSTARS_BASE_URL = "http://localhost:5000"
+const BRAWLSTARS_BASE_URL = "https://api.brawlstars.com/v1"
 
 serve(async (req) => {
   // Handle CORS preflight requests
@@ -69,11 +69,11 @@ serve(async (req) => {
     
     // Call the store_player_data function
     const { error } = await supabase.rpc('store_player_data', {
-      p_tag: formattedTag,
-      p_name: playerData.name,
-      p_trophies: playerData.trophies,
+      p_tag             : formattedTag,
+      p_name            : playerData.name,
+      p_trophies        : playerData.trophies,
       p_highest_trophies: playerData.highestTrophies,
-      p_battles: battleData.items
+      p_battles         : battleData.items
     })
 
     if (error) {
