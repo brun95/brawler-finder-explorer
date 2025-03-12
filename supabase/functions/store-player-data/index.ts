@@ -9,6 +9,7 @@ const corsHeaders = {
 }
 
 const BRAWLSTARS_BASE_URL = "https://api.brawlstars.com/v1"
+const API_KEY = Deno.env.get('VITE_SECRET_API_KEY')
 
 serve(async (req) => {
   // Handle CORS preflight requests
@@ -38,12 +39,16 @@ serve(async (req) => {
     console.log(`Fetching data for player: ${formattedTag}`)
     
     // Fetch player data
-    const playerResponse = await fetch(`${BRAWLSTARS_BASE_URL}/players/${formattedTag}`, {
+    const playerResponse = await fetch(`${BRAWLSTARS_BASE_URL}/players/%23${formattedTag}`, {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Authorization": `Bearer ${API_KEY}`,
+        "Content-Type": "application/json" 
+      },
     })
 
     if (!playerResponse.ok) {
+      console.error('Player API response error:', await playerResponse.text())
       return new Response(
         JSON.stringify({ error: "Failed to fetch player data" }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 500 }
@@ -53,12 +58,16 @@ serve(async (req) => {
     const playerData = await playerResponse.json()
     
     // Fetch battle log
-    const battleResponse = await fetch(`${BRAWLSTARS_BASE_URL}/players/${formattedTag}/battlelog`, {
+    const battleResponse = await fetch(`${BRAWLSTARS_BASE_URL}/players/%23${formattedTag}/battlelog`, {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Authorization": `Bearer ${API_KEY}`,
+        "Content-Type": "application/json" 
+      },
     })
 
     if (!battleResponse.ok) {
+      console.error('Battle API response error:', await battleResponse.text())
       return new Response(
         JSON.stringify({ error: "Failed to fetch battle log" }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 500 }
@@ -69,11 +78,11 @@ serve(async (req) => {
     
     // Call the store_player_data function
     const { error } = await supabase.rpc('store_player_data', {
-      p_tag             : formattedTag,
-      p_name            : playerData.name,
-      p_trophies        : playerData.trophies,
+      p_tag: formattedTag,
+      p_name: playerData.name,
+      p_trophies: playerData.trophies,
       p_highest_trophies: playerData.highestTrophies,
-      p_battles         : battleData.items
+      p_battles: battleData.items
     })
 
     if (error) {
