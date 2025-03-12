@@ -15,7 +15,7 @@ const Index = () => {
     const { t } = useLanguage();
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+        <div className="min-h-screen bg-gray-900 dark:bg-gray-900">
             <NavBar />
             <main className="pt-16">
                 <HeroSection />
@@ -29,18 +29,44 @@ const Index = () => {
                         transition={{ duration: 0.5 }}
                         className="text-center mb-12"
                     >
-                        <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">
+                        <h2 className="text-3xl font-bold text-gray-100 mb-4">
                             {t.events.title}
                         </h2>
-                        <p className="text-gray-600 dark:text-gray-400">
+                        <p className="text-gray-400">
                             {t.events.subtitle}
                         </p>
                     </motion.div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {events?.active?.map((event) => (
-                            <EventCard key={event.slotId} event={event} />
-                        ))}
+                    <div className="space-y-12">
+                        <div>
+                            <h3 className="text-xl font-semibold text-gray-100 mb-6">
+                                {t.events.activeTitle}
+                            </h3>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                {events?.active?.slice(0, 3).map((event) => (
+                                    <EventCard 
+                                        key={`${event.map.gameMode.scId}-${event.startTime}`} 
+                                        event={event}
+                                        type="active"
+                                    />
+                                ))}
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 className="text-xl font-semibold text-gray-100 mb-6">
+                                {t.events.upcomingTitle}
+                            </h3>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                {events?.upcoming?.slice(0, 3).map((event) => (
+                                    <EventCard 
+                                        key={`${event.map.gameMode.scId}-${event.startTime}`} 
+                                        event={event}
+                                        type="upcoming"
+                                    />
+                                ))}
+                            </div>
+                        </div>
                     </div>
                     
                     <AdBanner slot="home-bottom" />
@@ -51,4 +77,3 @@ const Index = () => {
 };
 
 export default Index;
-

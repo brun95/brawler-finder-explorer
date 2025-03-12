@@ -1,60 +1,52 @@
+
 import { format, parseISO } from 'date-fns';
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/hooks/useLanguage';
+import { getRelativeTime } from '@/utils/time';
 
 interface Event {
-    map: {
-        gameMode: {
-            scId: unknown;
-            name: string;
-            hash: string;
-        };
-        name: string;
-    };
     startTime: string;
     endTime: string;
+    map: {
+        gameMode: {
+            scId: number;
+            name: string;
+            bgColor: string;
+            imageUrl: string;
+        };
+        name: string;
+        imageUrl: string;
+    };
 }
 
 interface EventCardProps {
     event: Event;
+    type: 'active' | 'upcoming';
 }
 
-const getModeColor = (mode: string): string => {
-    const modeColors: Record<string, string> = {
-        'Solo Showdown' : '#81D61F',
-        'Duo Showdown'  : '#81D61F',
-        'Trio Showdown' : '#81D61F',
-        'Brawl Ball'    : '#8D9FE0',
-        'Brawl Ball 5v5': '#8D9FE0',
-        'Gem Grab'      : '#9A3DF4',
-        'Gem Grab 5v5'  : '#9A3DF4',
-        'Heist'         : '#D55CD3',
-        'Bounty'        : '#00CFFF',
-        'Brawl Hockey'  : '#8D9FE0',
-        'Treasure Hunt' : '#9A3DF4',
-        'Knockout'      : '#F7831A',
-        'Hot Zone'      : '#F7831A',
-        'Duels'         : '#F7831A',
-    };
-    return modeColors[mode] || '#9A3DF4'; // Default color
-};
-
-export const EventCard = ({ event }: EventCardProps) => {
-    const { t }     = useLanguage();
-    const modeName  = event?.map?.gameMode?.name || 'Unknown Mode';
-    const modeColor = getModeColor(modeName);
-    const modeIcon  = event?.map?.gameMode?.scId;
+export const EventCard = ({ event, type }: EventCardProps) => {
+    const { t } = useLanguage();
+    const modeName = event?.map?.gameMode?.name || 'Unknown Mode';
+    const modeColor = event?.map?.gameMode?.bgColor || '#9A3DF4';
+    const modeIcon = event?.map?.gameMode?.imageUrl;
+    const mapImage = event?.map?.imageUrl;
+    const timeText = type === 'active' 
+        ? `${t.events.endsIn} ${getRelativeTime(event.endTime)}`
+        : `${t.events.startsIn} ${getRelativeTime(event.startTime)}`;
 
     return (
         <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="rounded-xl overflow-hidden bg-white dark:bg-gray-800 shadow-sm transition-colors"
+            className="rounded-xl overflow-hidden bg-white dark:bg-gray-800 shadow-sm transition-colors relative"
         >
             <div 
                 className="h-2"
                 style={{ backgroundColor: modeColor }}
             />
+            <div className="absolute top-3 right-3 px-2 py-1 rounded text-xs font-medium bg-black/50 text-white">
+                {timeText}
+            </div>
             <div className="p-4">
                 <div className="flex items-start gap-3">
                     <div 
@@ -62,7 +54,7 @@ export const EventCard = ({ event }: EventCardProps) => {
                         style={{ backgroundColor: `${modeColor}20` }}
                     >
                         <img 
-                            src={`https://cdn.brawlify.com/game-modes/regular/${modeIcon}.png`}
+                            src={modeIcon}
                             alt={modeName}
                             className="w-8 h-8 object-contain"
                         />
@@ -75,13 +67,12 @@ export const EventCard = ({ event }: EventCardProps) => {
                     </div>
                 </div>
                 
-                <div className="mt-4 space-y-1 text-sm">
-                    <p className="text-gray-600 dark:text-gray-400">
-                        {t.events.startTime}: {format(parseISO(event.startTime), 'MMM dd, HH:mm')}
-                    </p>
-                    <p className="text-gray-600 dark:text-gray-400">
-                        {t.events.endTime}: {format(parseISO(event.endTime), 'MMM dd, HH:mm')}
-                    </p>
+                <div className="mt-4 aspect-video rounded-lg overflow-hidden">
+                    <img 
+                        src={mapImage}
+                        alt={`${event?.map?.name} map`}
+                        className="w-full h-full object-cover"
+                    />
                 </div>
             </div>
         </motion.div>

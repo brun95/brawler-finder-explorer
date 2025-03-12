@@ -1,17 +1,25 @@
 import { en } from "./en";
-
 type Translation = typeof en;
 
 export const pt: Translation = {
   common: {
     loading: "Carregando...",
-    error: "Erro",
   },
   nav: {
-    home: "Início",
     brawlers: "Brawlers",
     maps: "Mapas",
     events: "Eventos",
+    player: "Jogador",
+  },
+  events: {
+    title: "Eventos",
+    subtitle: "Veja os eventos ativos e futuros",
+    startTime: "Começa",
+    endTime: "Termina",
+    activeTitle: "Eventos Atuais",
+    upcomingTitle: "Próximos Eventos",
+    endsIn: "Termina em",
+    startsIn: "Começa em",
   },
   search: {
     placeholder: "Pesquisar jogador por tag",
@@ -20,11 +28,18 @@ export const pt: Translation = {
       fetchError: "Erro ao buscar dados do jogador",
     },
     previousSearches: "Pesquisas anteriores",
+    clearSearches: "Limpar pesquisas",
   },
   player: {
     title: "Estatísticas do Jogador",
+    lastOnline: "Última vez online",
+    trophies: "Troféus",
+    highestTrophies: "Maior quantidade de troféus",
+    powerPlayPoints: "Pontos Power Play",
+    highestPowerPlayPoints: "Maior quantidade de pontos Power Play",
+    club: "Clube",
+    noClub: "Sem clube",
     brawlers: "Brawlers",
-    noBattles: "Nenhuma batalha recente encontrada",
   },
   brawlersPage: {
     title: "Brawlers",
@@ -36,12 +51,6 @@ export const pt: Translation = {
     super: "Super",
     gadgets: "Gadgets",
     starPowers: "Poderes Estelares",
-  },
-  events: {
-    title: "Eventos",
-    subtitle: "Veja os eventos ativos e futuros",
-    startTime: "Começa",
-    endTime: "Termina",
   },
   maps: {
     title: "Mapas",

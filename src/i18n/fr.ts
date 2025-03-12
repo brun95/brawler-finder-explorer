@@ -1,23 +1,25 @@
 import { en } from "./en";
-
 type Translation = typeof en;
 
 export const fr: Translation = {
   common: {
     loading: "Chargement...",
-    error: "Erreur",
-    success: "Succès",
-    edit: "Modifier",
-    delete: "Supprimer",
-    cancel: "Annuler",
-    save: "Enregistrer",
   },
   nav: {
-    home: "Accueil",
     brawlers: "Brawlers",
     maps: "Cartes",
-    player: "Joueur",
     events: "Événements",
+    player: "Joueur",
+  },
+  events: {
+    title: "Événements",
+    subtitle: "Événements Brawl Stars actuels et à venir",
+    startTime: "Heure de début",
+    endTime: "Heure de fin",
+    activeTitle: "Événements en cours",
+    upcomingTitle: "Événements à venir",
+    endsIn: "Se termine dans",
+    startsIn: "Commence dans",
   },
   search: {
     placeholder: "Rechercher un joueur par tag",
@@ -25,27 +27,19 @@ export const fr: Translation = {
       invalidTag: "Le tag de joueur est invalide",
       fetchError: "Impossible de récupérer les données du joueur",
     },
+    previousSearches: "Recherches précédentes",
+    clearSearches: "Effacer les recherches",
   },
   player: {
     title: "Statistiques du joueur",
-    lastActive: "Dernière activité",
+    lastOnline: "Dernière activité",
     trophies: "Trophées",
     highestTrophies: "Trophées les plus élevés",
-    level: "Niveau",
+    powerPlayPoints: "Points Power Play",
+    highestPowerPlayPoints: "Points Power Play les plus élevés",
     club: "Club",
     noClub: "Aucun club",
-    battleLog: "Historique des combats",
     brawlers: "Brawlers",
-  },
-  brawlers: {
-    title: "Brawlers",
-    noBrawlers: "Aucun Brawler trouvé",
-  },
-  events: {
-    title: "Événements",
-    subtitle: "Événements Brawl Stars actuels et à venir",
-    startTime: "Heure de début",
-    endTime: "Heure de fin",
   },
   maps: {
     title: "Cartes",

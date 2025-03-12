@@ -1,19 +1,22 @@
 export const en = {
+  common: {
+    loading: "Loading...",
+  },
   nav: {
     brawlers: "Brawlers",
     maps: "Maps",
     events: "Events",
     player: "Player",
   },
-  brawlers: {
-    title: "Brawlers",
-    subtitle: "Explore all Brawl Stars brawlers and their statistics",
-  },
   events: {
     title: "Events",
     subtitle: "Check out current and upcoming events in Brawl Stars",
     startTime: "Start Time",
     endTime: "End Time",
+    activeTitle: "Current Events",
+    upcomingTitle: "Upcoming Events",
+    endsIn: "Ends in",
+    startsIn: "Starts in",
   },
   search: {
     placeholder: "Enter player tag (e.g., #PL2GVQQ)",
@@ -45,8 +48,5 @@ export const en = {
     topBrawlers: "Top Brawlers",
     topTeams: "Best Teams",
     noMaps: "No maps available at the moment"
-  },
-  common: {
-    loading: "Loading...",
   },
 };
