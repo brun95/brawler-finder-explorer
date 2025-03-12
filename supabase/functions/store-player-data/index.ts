@@ -9,7 +9,7 @@ const corsHeaders = {
 }
 
 const BRAWLSTARS_BASE_URL = "https://api.brawlstars.com/v1"
-const API_KEY             = Deno.env.get('VITE_SECRET_API_KEY') || ''
+const API_KEY             = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6IjA2YjM2MDQ3LTZkNmEtNDM1ZC05ZGExLWZjNzExM2Y1YTA4YSIsImlhdCI6MTc0MDE0OTgyMCwic3ViIjoiZGV2ZWxvcGVyLzNiN2Q0YWI5LWZkZTQtY2E2MC01ZjAyLWY0MDRiOWQ2YmMxNCIsInNjb3BlcyI6WyJicmF3bHN0YXJzIl0sImxpbWl0cyI6W3sidGllciI6ImRldmVsb3Blci9zaWx2ZXIiLCJ0eXBlIjoidGhyb3R0bGluZyJ9LHsiY2lkcnMiOlsiODkuMTgxLjIzMC4yNiJdLCJ0eXBlIjoiY2xpZW50In1dfQ.Wr8RsAxgxCuxc9VcvIPpnc3EzaHYb28VyWikB_5ooxMR-qNTmFlCuNjIherKrx4GTA39aOJ9yFtT_t8QwjuTgw'
 
 serve(async (req) => {
   // Handle CORS preflight requests
