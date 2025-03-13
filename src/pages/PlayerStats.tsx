@@ -55,8 +55,54 @@ const PlayerStats = () => {
     );
   }
 
-  const wins = battles?.filter(b => b.battle.result === "victory").length || 0;
-  const losses = battles?.filter(b => b.battle.result === "defeat").length || 0;
+  // Calculate battle stats considering showdown ranks
+  const getShowdownResult = (battle: any) => {
+    if (!battle.battle.mode) return null;
+    
+    // Check if this is a showdown battle
+    if (battle.battle.mode.toLowerCase() === 'showdown' || battle.battle.mode.toLowerCase() === 'soloshowdown') {
+      // Find the player in the players array
+      const playerEntry = battle.battle.players?.find((p: any) => 
+        p.tag === (tag?.startsWith('#') ? tag : `#${tag}`)
+      );
+      
+      if (playerEntry && playerEntry.rank) {
+        // Ranks 1-5 in solo are victories
+        return playerEntry.rank <= 5 ? 'victory' : 'defeat';
+      }
+    } else if (battle.battle.mode.toLowerCase() === 'duoshowdown') {
+      // Find the player in the players array
+      const playerEntry = battle.battle.players?.find((p: any) => 
+        p.tag === (tag?.startsWith('#') ? tag : `#${tag}`)
+      );
+      
+      if (playerEntry && playerEntry.rank) {
+        // Ranks 1-3 in duo are victories
+        return playerEntry.rank <= 3 ? 'victory' : 'defeat';
+      }
+    }
+    
+    return null;
+  };
+
+  const wins = battles?.filter(b => {
+    // Check if it's a showdown battle
+    const showdownResult = getShowdownResult(b);
+    if (showdownResult) return showdownResult === 'victory';
+    
+    // For regular modes use the result field
+    return b.battle.result === "victory";
+  }).length || 0;
+  
+  const losses = battles?.filter(b => {
+    // Check if it's a showdown battle
+    const showdownResult = getShowdownResult(b);
+    if (showdownResult) return showdownResult === 'defeat';
+    
+    // For regular modes use the result field
+    return b.battle.result === "defeat";
+  }).length || 0;
+  
   const draws = battles?.filter(b => b.battle.result === "draw").length || 0;
 
   return (
@@ -95,22 +141,21 @@ const PlayerStats = () => {
           <TabsContent value="overview" className="space-y-8">
             <TrophyProgressionGraph currentTrophies={player.trophies} />
 
-            <div className="grid md:grid-cols-2 gap-8 mb-8">
-              <PersonalRecords
-                stats={{
-                  brawlersCount: player.brawlers.length,
-                  victories3v3: player["3vs3Victories"],
-                  soloVictories: player.soloVictories,
-                  duoVictories: player.duoVictories,
-                  bestRoboRumbleTime: player.bestRoboRumbleTime,
-                }}
-              />
-              <BattleLogSection
-                battles={battles || []}
-                stats={{ wins, losses, draws }}
-                playerTag={tag}
-              />
-            </div>
+            <BattleLogSection
+              battles={battles || []}
+              stats={{ wins, losses, draws }}
+              playerTag={tag}
+            />
+            
+            <PersonalRecords
+              stats={{
+                brawlersCount: player.brawlers.length,
+                victories3v3: player["3vs3Victories"],
+                soloVictories: player.soloVictories,
+                duoVictories: player.duoVictories,
+                bestRoboRumbleTime: player.bestRoboRumbleTime,
+              }}
+            />
           </TabsContent>
           
           <TabsContent value="analytics" className="space-y-8">

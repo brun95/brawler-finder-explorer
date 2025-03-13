@@ -43,7 +43,7 @@ export interface BattleLog {
         type: string;
         result: string;
         duration: number;
-        starPlayer: {
+        starPlayer?: {
             tag: string;
             name: string;
             brawler: {
@@ -53,7 +53,7 @@ export interface BattleLog {
                 trophies: number;
             };
         };
-        teams: {
+        teams?: {
             tag: string;
             name: string;
             brawler: {
@@ -63,5 +63,16 @@ export interface BattleLog {
                 trophies: number;
             };
         }[][];
+        players?: {
+            tag: string;
+            name: string;
+            brawler: {
+                id: number;
+                name: string;
+                power: number;
+                trophies: number;
+            };
+            rank?: number;
+        }[];
     };
 }
