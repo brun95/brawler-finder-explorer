@@ -3,6 +3,8 @@ import { motion } from "framer-motion";
 import { BattleLog } from "@/types/api";
 import { Circle, Flame, Swords, Star, Trophy, Award } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { fetchGameModes } from "@/api";
+import { useEffect, useState } from "react";
 
 interface BattleLogSectionProps {
     battles: BattleLog[];
@@ -16,33 +18,39 @@ interface BattleLogSectionProps {
 
 export const BattleLogSection = ({ battles, stats, playerTag }: BattleLogSectionProps) => {
     const { wins, losses, draws } = stats;
-    
+
+    const [gameModeMap, setGameModeMap] = useState<Record<string, string>>({});
+
+    // Fetch game modes and store the mapping
+    useEffect(() => {
+        const loadGameModes = async () => {
+            try {
+                const gameModes = await fetchGameModes();
+                const modeMapping: Record<string, string> = {};
+
+                gameModes.forEach((mode: { scHash: string; scId: string }) => {
+                    modeMapping[mode.scHash] = mode.scId;
+                });
+
+                setGameModeMap(modeMapping);
+            } catch (error) {
+                console.error("Failed to fetch game modes:", error);
+            }
+        };
+
+        loadGameModes();
+    }, []);
+
+    // Function to get the correct game mode ID
+    const getGameModeId = (mode: string) => {
+        console.log(gameModeMap[mode], mode)
+        return gameModeMap[mode] || "default";
+    };
+
     // Count star player occurrences
     const starPlayerCount = battles.filter(
-        battle => battle.battle.starPlayer?.tag === playerTag
+        battle => battle.battle.starPlayer?.tag === `#${playerTag}`
     ).length;
-
-    // Get game mode icon
-    const getModeIcon = (mode: string) => {
-        switch (mode.toLowerCase()) {
-            case "gemgrab":
-                return <Circle className="h-6 w-6" />;
-            case "hotzone":
-            case "hotzone":
-                return <Flame className="h-6 w-6" />;
-            case "brawlball":
-                return <Circle className="h-6 w-6" />;
-            case "knockout":
-                return <Swords className="h-6 w-6" />;
-            case "bounty":
-                return <Trophy className="h-6 w-6" />;
-            case "showdown":
-            case "duoshowdown":
-                return <Award className="h-6 w-6" />;
-            default:
-                return <Swords className="h-6 w-6" />;
-        }
-    };
 
     // Find player's brawler in a battle
     const getPlayerBrawler = (battle: BattleLog) => {
@@ -131,7 +139,7 @@ export const BattleLogSection = ({ battles, stats, playerTag }: BattleLogSection
                 <CardHeader className="pb-2">
                     <CardTitle className="text-xl font-semibold dark:text-gray-100 flex items-center gap-2">
                         Recent Battles
-                        <span className="flex gap-1 text-sm font-normal ml-2">
+                        {/* <span className="flex gap-1 text-sm font-normal ml-2">
                             <span className="px-2 py-0.5 bg-green-100 dark:bg-green-900/30 rounded text-green-700 dark:text-green-400">{wins}W</span>
                             <span className="px-2 py-0.5 bg-red-100 dark:bg-red-900/30 rounded text-red-700 dark:text-red-400">{losses}L</span>
                             <span className="px-2 py-0.5 bg-gray-100 dark:bg-gray-700 rounded text-gray-700 dark:text-gray-400">{draws}D</span>
@@ -140,62 +148,64 @@ export const BattleLogSection = ({ battles, stats, playerTag }: BattleLogSection
                                     <Star className="h-3 w-3" /> {starPlayerCount}
                                 </span>
                             )}
-                        </span>
+                        </span> */}
                     </CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-12 gap-2">
-                        {battles?.map((battle, index) => {
-                            const playerBrawler = getPlayerBrawler(battle);
-                            const wasStarPlayer = isStarPlayer(battle);
-                            const result = getBattleResult(battle);
-                            
-                            return (
-                                <div
-                                    key={index}
-                                    className="relative flex flex-col items-center"
-                                >
-                                    {playerBrawler && (
-                                        <div className="absolute -top-3 z-10">
-                                            <img
-                                                src={`/brawlers/${playerBrawler.id}.webp`}
-                                                alt={playerBrawler.name}
-                                                className="w-8 h-8 rounded-full"
-                                                onError={(e) => {
-                                                    // Fallback to API image if local image fails
-                                                    e.currentTarget.src = `https://cdn.brawlify.com/brawlers/borderless/${playerBrawler.id}.png`;
-                                                }}
-                                            />
-                                        </div>
-                                    )}
-                                    <div 
-                                        className={`w-full aspect-square flex items-center justify-center rounded-lg pt-3
-                                            ${result === "victory"
-                                                ? "bg-green-500/20 dark:bg-green-600/30"
-                                                : result === "defeat"
-                                                ? "bg-red-500/20 dark:bg-red-600/30"
-                                                : "bg-gray-500/20 dark:bg-gray-600/30"
-                                            }
-                                            ${wasStarPlayer ? "border-b-4 border-yellow-400" : ""}
-                                        `}
+                    <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-12 gap-4">
+                        {battles
+                            ?.filter(battle => getGameModeId(battle.event.mode) !== "default")
+                            ?.map((battle, index) => {
+                                const playerBrawler = getPlayerBrawler(battle);
+                                const wasStarPlayer = isStarPlayer(battle);
+                                const result        = getBattleResult(battle);
+                                const gameModeId    = getGameModeId(battle.event.mode);
+                                
+                                return (
+                                    <div
+                                        key={index}
+                                        className="relative flex flex-col items-center"
                                     >
-                                        <div className="w-8 h-8 rounded-lg flex items-center justify-center">
-                                            <img 
-                                                src={`https://cdn.brawlify.com/gamemode/${battle.event.mode.toLowerCase()}.png`}
-                                                alt={battle.event.mode}
-                                                className="w-6 h-6 object-contain"
-                                                onError={(e) => {
-                                                    // Fallback to icon if image fails
-                                                    e.currentTarget.style.display = 'none';
-                                                    e.currentTarget.parentElement!.appendChild(
-                                                        document.createTextNode(battle.event.mode.slice(0, 2))
-                                                    );
-                                                }}
-                                            />
+                                        {playerBrawler && (
+                                            <div className="absolute -top-3 z-10">
+                                                <img
+                                                    src={`/brawlers/${playerBrawler.id}.webp`}
+                                                    alt={playerBrawler.name}
+                                                    className="w-8 h-8 rounded-full"
+                                                    onError={(e) => {
+                                                        // Fallback to API image if local image fails
+                                                        e.currentTarget.src = `https://cdn.brawlify.com/brawlers/borderless/${playerBrawler.id}.png`;
+                                                    }}
+                                                />
+                                            </div>
+                                        )}
+                                        <div 
+                                            className={`w-full aspect-square flex items-center justify-center rounded-lg pt-3
+                                                ${result === "victory"
+                                                    ? "bg-green-500/20 dark:bg-[#28A745]"
+                                                    : result === "defeat"
+                                                    ? "bg-red-500/20 dark:bg-[#DC3545]"
+                                                    : "bg-gray-500/20 dark:bg-gray-600/30"
+                                                }
+                                                ${wasStarPlayer ? "border-b-4 border-yellow-400" : ""}
+                                            `}
+                                        >
+                                            <div className="w-8 h-8 rounded-lg flex items-center justify-center">
+                                                <img 
+                                                    src={`https://cdn.brawlify.com/game-modes/regular/${gameModeId}.png`}
+                                                    alt={battle.event.mode}
+                                                    className="w-6 h-6 object-contain"
+                                                    onError={(e) => {
+                                                        e.currentTarget.style.display = 'none';
+                                                        e.currentTarget.parentElement!.appendChild(
+                                                            document.createTextNode(battle.event.mode.slice(0, 2))
+                                                        );
+                                                    }}
+                                                />
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            );
+                                );
                         })}
                     </div>
                 </CardContent>
