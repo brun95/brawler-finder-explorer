@@ -1,9 +1,9 @@
 
-import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { motion } from "framer-motion";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from "recharts";
 
-interface WinRateItem {
+interface WinRateItemProps {
   mode?: string;
   brawler?: string;
   winRate: number;
@@ -11,114 +11,132 @@ interface WinRateItem {
 }
 
 interface WinRateAnalysisProps {
-  byMode: WinRateItem[];
-  byBrawler: WinRateItem[];
+  byModeData: WinRateItemProps[];
+  byBrawlerData: WinRateItemProps[];
 }
 
-export const WinRateAnalysis = ({ byMode, byBrawler }: WinRateAnalysisProps) => {
-  if ((!byMode || byMode.length === 0) && (!byBrawler || byBrawler.length === 0)) {
-    return (
-      <Card className="w-full">
-        <CardHeader>
-          <CardTitle>Win Rate Analysis</CardTitle>
-          <CardDescription>No win rate data available yet</CardDescription>
-        </CardHeader>
-        <CardContent className="h-80 flex items-center justify-center">
-          <p className="text-gray-500 dark:text-gray-400">
-            Win rate data will appear here once we have collected more match data
+export const WinRateAnalysis = ({ byModeData, byBrawlerData }: WinRateAnalysisProps) => {
+  // Sort data by win rate (descending)
+  const sortedModeData = [...byModeData].sort((a, b) => b.winRate - a.winRate);
+  const sortedBrawlerData = [...byBrawlerData].sort((a, b) => b.winRate - a.winRate);
+
+  const getBarColor = (winRate: number) => {
+    if (winRate >= 60) return "#10b981"; // green
+    if (winRate >= 50) return "#22c55e"; // light green
+    if (winRate >= 40) return "#f59e0b"; // yellow
+    return "#ef4444"; // red
+  };
+
+  const formatXAxis = (value: string) => {
+    // Truncate if longer than 10 characters
+    return value?.length > 10 ? `${value.substring(0, 10)}...` : value;
+  };
+
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-white dark:bg-gray-800 p-3 border border-gray-200 dark:border-gray-700 rounded shadow text-sm">
+          <p className="label font-semibold mb-1">{label}</p>
+          <p className="value">
+            Win Rate: <span className="font-medium">{payload[0].value.toFixed(1)}%</span>
           </p>
-        </CardContent>
-      </Card>
-    );
-  }
-
-  // Sort data by win rate, highest first
-  const sortedModeData = [...(byMode || [])].sort((a, b) => b.winRate - a.winRate);
-  const sortedBrawlerData = [...(byBrawler || [])].sort((a, b) => b.winRate - a.winRate);
-
-  // Only show top 10 brawlers for readability
-  const topBrawlers = sortedBrawlerData.slice(0, 10);
+          <p className="matches text-gray-500 dark:text-gray-400 text-xs mt-1">
+            Matches: {payload[0].payload.matches}
+          </p>
+        </div>
+      );
+    }
+    return null;
+  };
 
   return (
-    <Card className="w-full">
-      <CardHeader>
-        <CardTitle>Win Rate Analysis</CardTitle>
-        <CardDescription>See how you perform with different brawlers and game modes</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <Tabs defaultValue="modes">
-          <TabsList className="mb-4">
-            <TabsTrigger value="modes">By Game Mode</TabsTrigger>
-            <TabsTrigger value="brawlers">By Brawler</TabsTrigger>
-          </TabsList>
-          
-          <TabsContent value="modes" className="h-80">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="space-y-8"
+    >
+      {/* Game Mode Win Rates */}
+      <Card className="bg-white dark:bg-gray-800">
+        <CardHeader>
+          <CardTitle className="text-xl font-semibold dark:text-gray-100">
+            Win Rate by Game Mode
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="h-[300px]">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={sortedModeData} margin={{ top: 10, right: 30, left: 20, bottom: 40 }}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} />
+              <BarChart
+                data={sortedModeData}
+                margin={{ top: 10, right: 10, left: 0, bottom: 50 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" vertical={false} opacity={0.1} />
                 <XAxis 
                   dataKey="mode" 
-                  stroke="#888888" 
+                  tick={{ fill: '#9ca3af' }} 
+                  tickFormatter={formatXAxis} 
                   angle={-45} 
                   textAnchor="end" 
-                  height={60}
+                  height={70} 
                 />
                 <YAxis 
-                  stroke="#888888"
-                  domain={[0, 100]}
-                  label={{ value: 'Win Rate (%)', angle: -90, position: 'insideLeft' }}
+                  tick={{ fill: '#9ca3af' }} 
+                  domain={[0, 100]} 
+                  ticks={[0, 25, 50, 75, 100]} 
+                  unit="%" 
                 />
-                <Tooltip 
-                  contentStyle={{ backgroundColor: "#1f2937", border: "none", borderRadius: "8px" }}
-                  labelStyle={{ color: "#f9fafb" }}
-                  itemStyle={{ color: "#f9fafb" }}
-                  formatter={(value, name) => [`${value.toFixed(1)}%`, name]}
-                />
-                <Legend />
-                <Bar 
-                  dataKey="winRate" 
-                  name="Win Rate" 
-                  fill="#8884d8"
-                  radius={[4, 4, 0, 0]}
-                />
+                <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(200, 200, 200, 0.1)' }} />
+                <Bar dataKey="winRate" radius={[4, 4, 0, 0]}>
+                  {sortedModeData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={getBarColor(entry.winRate)} />
+                  ))}
+                </Bar>
               </BarChart>
             </ResponsiveContainer>
-          </TabsContent>
-          
-          <TabsContent value="brawlers" className="h-80">
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Brawler Win Rates */}
+      <Card className="bg-white dark:bg-gray-800">
+        <CardHeader>
+          <CardTitle className="text-xl font-semibold dark:text-gray-100">
+            Win Rate by Brawler
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="h-[300px]">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={topBrawlers} margin={{ top: 10, right: 30, left: 20, bottom: 40 }}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} />
+              <BarChart
+                data={sortedBrawlerData}
+                margin={{ top: 10, right: 10, left: 0, bottom: 50 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" vertical={false} opacity={0.1} />
                 <XAxis 
                   dataKey="brawler" 
-                  stroke="#888888" 
+                  tick={{ fill: '#9ca3af' }} 
+                  tickFormatter={formatXAxis} 
                   angle={-45} 
                   textAnchor="end" 
-                  height={60}
+                  height={70} 
                 />
                 <YAxis 
-                  stroke="#888888"
-                  domain={[0, 100]}
-                  label={{ value: 'Win Rate (%)', angle: -90, position: 'insideLeft' }} 
+                  tick={{ fill: '#9ca3af' }} 
+                  domain={[0, 100]} 
+                  ticks={[0, 25, 50, 75, 100]} 
+                  unit="%" 
                 />
-                <Tooltip 
-                  contentStyle={{ backgroundColor: "#1f2937", border: "none", borderRadius: "8px" }}
-                  labelStyle={{ color: "#f9fafb" }}
-                  itemStyle={{ color: "#f9fafb" }}
-                  formatter={(value, name) => [`${value.toFixed(1)}%`, name]}
-                />
-                <Legend />
-                <Bar 
-                  dataKey="winRate" 
-                  name="Win Rate" 
-                  fill="#82ca9d"
-                  radius={[4, 4, 0, 0]}
-                />
+                <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(200, 200, 200, 0.1)' }} />
+                <Bar dataKey="winRate" radius={[4, 4, 0, 0]}>
+                  {sortedBrawlerData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={getBarColor(entry.winRate)} />
+                  ))}
+                </Bar>
               </BarChart>
             </ResponsiveContainer>
-          </TabsContent>
-        </Tabs>
-      </CardContent>
-    </Card>
+          </div>
+        </CardContent>
+      </Card>
+    </motion.div>
   );
 };

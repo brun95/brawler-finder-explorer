@@ -108,6 +108,7 @@ const PlayerStats = () => {
               <BattleLogSection
                 battles={battles || []}
                 stats={{ wins, losses, draws }}
+                playerTag={tag}
               />
             </div>
           </TabsContent>
@@ -120,8 +121,8 @@ const PlayerStats = () => {
             <div className="grid md:grid-cols-1 gap-8">
               {winRates && (
                 <WinRateAnalysis 
-                  byMode={winRates.byMode || []} 
-                  byBrawler={winRates.byBrawler || []} 
+                  byModeData={winRates.byMode || []} 
+                  byBrawlerData={winRates.byBrawler || []} 
                 />
               )}
             </div>
