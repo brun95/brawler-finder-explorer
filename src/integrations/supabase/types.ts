@@ -149,6 +149,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      create_set_api_key_function: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
       store_player_data: {
         Args: {
           p_tag: string
