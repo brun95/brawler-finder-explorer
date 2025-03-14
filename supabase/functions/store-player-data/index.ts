@@ -76,7 +76,7 @@ serve(async (req) => {
 
     const battleData = await battleResponse.json()
     
-    // Call the store_player_data function - now it only updates player info and visited_at
+    // Call the store_player_data function
     const { error } = await supabase.rpc('store_player_data', {
       p_tag             : formattedTag,
       p_name            : playerData.name,
@@ -93,15 +93,18 @@ serve(async (req) => {
       )
     }
 
-    // Set the Brawl Stars API key as a database parameter for the cron job
+    // Set the Brawl Stars API key directly as a database parameter for the cron job
     try {
-      const { error: setKeyError } = await supabase.rpc('set_brawlstars_api_key', {
+      // Execute SQL to set the database parameter directly
+      const { error: keyError } = await supabase.rpc('set_brawlstars_api_key', {
         api_key: API_KEY
       })
       
-      if (setKeyError) {
-        console.error('Error setting API key for cron job:', setKeyError)
+      if (keyError) {
+        console.error('Error setting API key for cron job:', keyError)
         // Continue even if setting the key failed
+      } else {
+        console.log('Successfully set API key for cron job')
       }
     } catch (keyError) {
       console.error('Error setting API key for cron job:', keyError)

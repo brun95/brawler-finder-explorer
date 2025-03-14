@@ -1,2 +1,5 @@
 
 project_id = "djhcsmvyykevekkmjrqa"
+
+[config]
+env_key = "VITE_SECRET_API_KEY"
