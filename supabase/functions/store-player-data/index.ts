@@ -9,7 +9,7 @@ const corsHeaders = {
 }
 
 const BRAWLSTARS_BASE_URL = "https://api.brawlstars.com/v1"
-const API_KEY             = ''
+const API_KEY = Deno.env.get('VITE_SECRET_API_KEY') || ''
 
 serve(async (req) => {
   // Handle CORS preflight requests
@@ -91,6 +91,21 @@ serve(async (req) => {
         JSON.stringify({ error: "Failed to store player data" }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 500 }
       )
+    }
+
+    // Set the Brawl Stars API key as a database parameter for the cron job
+    try {
+      const { error: setKeyError } = await supabase.rpc('set_brawlstars_api_key', {
+        api_key: API_KEY
+      })
+      
+      if (setKeyError) {
+        console.error('Error setting API key for cron job:', setKeyError)
+        // Continue even if setting the key failed
+      }
+    } catch (keyError) {
+      console.error('Error setting API key for cron job:', keyError)
+      // Continue even if setting the key failed
     }
 
     return new Response(
