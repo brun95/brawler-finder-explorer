@@ -76,7 +76,7 @@ serve(async (req) => {
 
     const battleData = await battleResponse.json()
     
-    // Call the store_player_data function
+    // Call the store_player_data function - now it only updates player info and visited_at
     const { error } = await supabase.rpc('store_player_data', {
       p_tag             : formattedTag,
       p_name            : playerData.name,

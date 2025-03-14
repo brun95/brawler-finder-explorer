@@ -69,6 +69,8 @@ export const fetchPlayerData = async (tag: string) => {
         const battleData = await responseBattleLog.json();
 
         // Store player data in Supabase
+        // Now this only updates the player info and visited_at timestamp
+        // Trophy data is collected via a daily cron job
         try {
             const { data, error } = await supabase.rpc('store_player_data', {
                 p_tag             : formattedTag,
@@ -77,6 +79,10 @@ export const fetchPlayerData = async (tag: string) => {
                 p_highest_trophies: playerData.highestTrophies,
                 p_battles         : battleData.items
             })
+            
+            if (error) {
+                console.error("Failed to store player data:", error);
+            }
             
         } catch (storeError) {
             console.error("Failed to store player data:", storeError);
@@ -171,7 +177,6 @@ export const fetchGameModes = async () => {
 };
 
 // New functions to fetch historical data from Supabase
-
 export const fetchPlayerTrophyHistory = async (tag: string) => {
     try {
         const formattedTag = tag.replace("#", "");
