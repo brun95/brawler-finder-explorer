@@ -25,12 +25,12 @@ interface EventCardProps {
 }
 
 export const EventCard = ({ event, type }: EventCardProps) => {
-    const { t } = useLanguage();
-    const modeName = event?.map?.gameMode?.name || 'Unknown Mode';
+    const { t }     = useLanguage();
+    const modeName  = event?.map?.gameMode?.name || 'Unknown Mode';
     const modeColor = event?.map?.gameMode?.bgColor || '#9A3DF4';
-    const modeIcon = event?.map?.gameMode?.imageUrl;
-    const mapImage = event?.map?.imageUrl;
-    const timeText = type === 'active' 
+    const modeIcon  = event?.map?.gameMode?.imageUrl;
+    const mapImage  = event?.map?.imageUrl;
+    const timeText  = type === 'active'
         ? `${t.events.endsIn} ${getRelativeTime(event.endTime)}`
         : `${t.events.startsIn} ${getRelativeTime(event.startTime)}`;
 
@@ -44,7 +44,7 @@ export const EventCard = ({ event, type }: EventCardProps) => {
                 className="h-2"
                 style={{ backgroundColor: modeColor }}
             />
-            <div className="absolute top-3 right-3 px-2 py-1 rounded text-xs font-medium bg-black/50 text-white">
+            <div className="absolute top-3 right-3 px-2 py-1 rounded text-xs font-medium text-white">
                 {timeText}
             </div>
             <div className="p-4">
