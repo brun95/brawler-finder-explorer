@@ -5,7 +5,9 @@ import { Search, Users } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { usePreviousSearches } from "@/hooks/usePreviousSearches";
+import { usePreviousClubSearches } from "@/hooks/usePreviousClubSearches";
 import { PreviousSearches } from "./PreviousSearches";
+import { PreviousClubSearches } from "./PreviousClubSearches";
 import { useLanguage } from "@/hooks/useLanguage";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
@@ -17,6 +19,7 @@ export const HeroSection = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
   const { addSearch } = usePreviousSearches();
+  const { addSearch: addClubSearch } = usePreviousClubSearches();
   const { t } = useLanguage();
 
   const handlePlayerSearch = async () => {
@@ -102,6 +105,7 @@ export const HeroSection = () => {
                   <Search className="w-5 h-5" />
                 </Button>
               </div>
+              <PreviousSearches />
             </TabsContent>
             
             <TabsContent value="club">
@@ -111,7 +115,7 @@ export const HeroSection = () => {
                   value={clubQuery}
                   onChange={(e) => setClubQuery(e.target.value)}
                   onKeyPress={(e) => handleKeyPress(e, 'club')}
-                  placeholder="Enter club tag (e.g., #2GQYR9YQ0)"
+                  placeholder={t.search.clubPlaceholder}
                   className="w-full px-6 py-6 rounded-lg border border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                 />
                 <Button 
@@ -122,6 +126,7 @@ export const HeroSection = () => {
                   <Users className="w-5 h-5" />
                 </Button>
               </div>
+              <PreviousClubSearches />
             </TabsContent>
           </Tabs>
           
@@ -129,7 +134,6 @@ export const HeroSection = () => {
             <p className="text-red-500 mt-2 text-sm">{errorMessage}</p>
           )}
         </motion.div>
-        <PreviousSearches />
       </div>
     </div>
   );

@@ -13,6 +13,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
+import { usePreviousClubSearches } from "@/hooks/usePreviousClubSearches";
 
 const getRoleColor = (role: string) => {
   switch (role) {
@@ -44,18 +45,26 @@ const ClubStats = () => {
   const { tag } = useParams();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { addSearch } = usePreviousClubSearches();
 
   const { data: club, isLoading } = useQuery({
     queryKey: ["club", tag],
     queryFn: () => fetchClubData(tag!),
-    onError: () => {
-      toast({
-        title: "Error",
-        description: "Failed to fetch club data. Please check the tag and try again.",
-        variant: "destructive",
-      });
+    meta: {
+      onError: () => {
+        toast({
+          title: "Error",
+          description: "Failed to fetch club data. Please check the tag and try again.",
+          variant: "destructive",
+        });
+      }
     }
   });
+
+  // Save club to previous searches when data is loaded
+  if (club && tag) {
+    addSearch(tag, club.name);
+  }
 
   if (isLoading) {
     return (
@@ -87,7 +96,7 @@ const ClubStats = () => {
           <div className="flex-1">
             <div className="flex items-center gap-4 mb-4">
               <Avatar className="h-16 w-16 rounded-lg border border-gray-700">
-                <AvatarImage src={`https://cdn.brawlify.com/club/${club.badgeId}.png`} alt={club.name} />
+                <AvatarImage src={`https://cdn.brawlify.com/club-badges/regular/${club.badgeId}.png`} alt={club.name} />
                 <AvatarFallback className="bg-gray-700 text-gray-200">
                   {club.name.substring(0, 2)}
                 </AvatarFallback>
@@ -157,15 +166,22 @@ const ClubStats = () => {
                         <TableHead className="text-gray-300">Player</TableHead>
                         <TableHead className="text-gray-300">Role</TableHead>
                         <TableHead className="text-gray-300">Trophies</TableHead>
-                        <TableHead className="w-[100px]"></TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
                       {club.members.map((member) => (
-                        <TableRow key={member.tag} className="border-gray-700">
+                        <TableRow 
+                          key={member.tag} 
+                          className="border-gray-700 hover:bg-gray-700/50 cursor-pointer"
+                          onClick={() => navigate(`/player/${member.tag.replace('#', '')}`)}
+                        >
                           <TableCell className="font-medium text-gray-200">
                             <div className="flex items-center gap-2">
                               <Avatar className="h-8 w-8">
+                                <AvatarImage 
+                                  src={`https://cdn.brawlify.com/profile-icons/regular/${member.icon.id}.png`} 
+                                  alt={member.name} 
+                                />
                                 <AvatarFallback className="bg-gray-700 text-sm">
                                   {member.name.substring(0, 2)}
                                 </AvatarFallback>
@@ -182,16 +198,6 @@ const ClubStats = () => {
                             </Badge>
                           </TableCell>
                           <TableCell className="text-gray-300">{member.trophies.toLocaleString()}</TableCell>
-                          <TableCell>
-                            <Button 
-                              variant="secondary"
-                              size="sm"
-                              className="w-full"
-                              onClick={() => navigate(`/player/${member.tag.replace('#', '')}`)}
-                            >
-                              View
-                            </Button>
-                          </TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
