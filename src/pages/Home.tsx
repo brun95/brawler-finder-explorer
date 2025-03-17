@@ -1,3 +1,4 @@
+
 import { NavBar } from "@/components/NavBar";
 import { HeroSection } from "@/components/HeroSection";
 import { EventCard } from "@/components/events/EventCard";
@@ -6,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchEvents } from "@/api";
 import { AdBanner } from "@/components/ads/AdBanner";
 import { useLanguage } from "@/hooks/useLanguage";
+import { SEO } from "@/components/SEO";
 
 const Home = () => {
     const { data: events } = useQuery({
@@ -16,6 +18,11 @@ const Home = () => {
 
     return (
         <div className="min-h-screen bg-gray-900 dark:bg-gray-900">
+            <SEO 
+                title="StarBrawl - Your all-in-one Brawl Stars stats platform"
+                description="Find comprehensive Brawl Stars statistics, track player progress, explore brawlers, maps, and upcoming events all in one place."
+                canonical="/"
+            />
             <NavBar />
             <main className="pt-16">
                 <HeroSection />

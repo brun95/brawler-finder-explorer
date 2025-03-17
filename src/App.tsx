@@ -1,8 +1,10 @@
+
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from "@/components/ui/toaster"
 import { useToast } from "@/hooks/use-toast"
+import { HelmetProvider } from "react-helmet-async";
 
 import Home from './pages/Home';
 import PlayerStats from './pages/PlayerStats';
@@ -30,26 +32,28 @@ function App() {
 
   return (
     <div className="app">
-      <Toaster />
-      <ThemeProvider>
-        <QueryClientProvider client={queryClient}>
-          <Router>
-            <Routes>
-              <Route path="/" element={<Home />} />
+      <HelmetProvider>
+        <Toaster />
+        <ThemeProvider>
+          <QueryClientProvider client={queryClient}>
+            <Router>
+              <Routes>
+                <Route path="/" element={<Home />} />
 
-              <Route path="/brawlers" element={<Brawlers />} />
-              <Route path="/brawlers/:id" element={<BrawlerDetails />} />
-              <Route path="/maps" element={<Maps />} />
-              <Route path="/maps/:id" element={<MapDetails />} />
-              <Route path="/player/:tag" element={<PlayerStats />} />
-              <Route path="/club/:tag" element={<ClubStats />} />
-              <Route path="/events" element={<Events />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Router>
-        </QueryClientProvider>
-      </ThemeProvider>
-      <CookiesConsent />
+                <Route path="/brawlers" element={<Brawlers />} />
+                <Route path="/brawlers/:id" element={<BrawlerDetails />} />
+                <Route path="/maps" element={<Maps />} />
+                <Route path="/maps/:id" element={<MapDetails />} />
+                <Route path="/player/:tag" element={<PlayerStats />} />
+                <Route path="/club/:tag" element={<ClubStats />} />
+                <Route path="/events" element={<Events />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Router>
+          </QueryClientProvider>
+        </ThemeProvider>
+        <CookiesConsent />
+      </HelmetProvider>
     </div>
   );
 }
