@@ -56,6 +56,18 @@ export type Database = {
           },
         ]
       }
+      http_response: {
+        Row: {
+          http_get: number | null
+        }
+        Insert: {
+          http_get?: number | null
+        }
+        Update: {
+          http_get?: number | null
+        }
+        Relationships: []
+      }
       player_battles: {
         Row: {
           battle_data: Json
