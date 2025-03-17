@@ -16,6 +16,7 @@ import { WinRateAnalysis } from "@/components/player/WinRateAnalysis";
 import { usePlayerTrophyHistory, usePlayerWinRates } from "@/hooks/usePlayerStats";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 const PlayerStats = () => {
   const { tag } = useParams();
@@ -113,6 +114,15 @@ const PlayerStats = () => {
         <AdBanner slot="player-top" />
 
         <div className="flex items-center gap-4 mb-6">
+          <Avatar shape="square" className="h-12 w-12 border border-gray-700">
+            <AvatarImage 
+              src={`https://cdn.brawlify.com/profile-icons/regular/${player.icon?.id || 28000000}.png`} 
+              alt={player.name} 
+            />
+            <AvatarFallback className="bg-gray-700 text-gray-200 uppercase">
+              {player.name.substring(0, 2)}
+            </AvatarFallback>
+          </Avatar>
           <div className="flex-1">
             <h1 className="text-3xl font-bold text-gray-200">{player.name}</h1>
             <p className="text-gray-400">{player.tag}</p>

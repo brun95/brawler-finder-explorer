@@ -95,7 +95,7 @@ const ClubStats = () => {
         <div className="flex flex-col md:flex-row items-start gap-6 mb-8">
           <div className="flex-1">
             <div className="flex items-center gap-4 mb-4">
-              <Avatar className="h-16 w-16 rounded-lg border border-gray-700">
+              <Avatar shape="square" className="h-16 w-16 border border-gray-700">
                 <AvatarImage src={`https://cdn.brawlify.com/club-badges/regular/${club.badgeId}.png`} alt={club.name} />
                 <AvatarFallback className="bg-gray-700 text-gray-200">
                   {club.name.substring(0, 2)}
@@ -177,7 +177,7 @@ const ClubStats = () => {
                         >
                           <TableCell className="font-medium text-gray-200">
                             <div className="flex items-center gap-2">
-                              <Avatar className="h-8 w-8">
+                              <Avatar shape="square" className="h-8 w-8 border border-gray-700">
                                 <AvatarImage 
                                   src={`https://cdn.brawlify.com/profile-icons/regular/${member.icon.id}.png`} 
                                   alt={member.name} 

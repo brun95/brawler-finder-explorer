@@ -3,6 +3,7 @@ import { Clock } from "lucide-react";
 import { Link } from "react-router-dom";
 import { usePreviousClubSearches } from "@/hooks/usePreviousClubSearches";
 import { useLanguage } from "@/hooks/useLanguage";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export const PreviousClubSearches = () => {
   const { getSearches } = usePreviousClubSearches();
