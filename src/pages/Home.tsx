@@ -7,7 +7,7 @@ import { fetchEvents } from "@/api";
 import { AdBanner } from "@/components/ads/AdBanner";
 import { useLanguage } from "@/hooks/useLanguage";
 
-const Index = () => {
+const Home = () => {
     const { data: events } = useQuery({
         queryKey: ["events"],
         queryFn: fetchEvents
@@ -76,4 +76,4 @@ const Index = () => {
     );
 };
 
-export default Index;
+export default Home;

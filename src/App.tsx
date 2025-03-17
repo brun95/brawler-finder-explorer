@@ -7,9 +7,14 @@ import { useToast } from "@/hooks/use-toast"
 import Home from './pages/Home';
 import PlayerStats from './pages/PlayerStats';
 import ClubStats from './pages/ClubStats';
-import BrawlerStats from './pages/BrawlerStats';
-import { ThemeProvider } from "@/components/theme-provider"
+import { ThemeProvider } from "@/components/ThemeProvider";
 import { CookiesConsent } from "@/components/CookiesConsent";
+import Brawlers from './pages/Brawlers';
+import BrawlerDetails from './pages/BrawlerDetails';
+import Maps from './pages/Maps';
+import MapDetails from './pages/MapDetails';
+import Events from './pages/Events';
+import NotFound from './pages/NotFound';
 
 function App() {
   const [queryClient] = useState(() => new QueryClient());
@@ -31,9 +36,15 @@ function App() {
           <Router>
             <Routes>
               <Route path="/" element={<Home />} />
+
+              <Route path="/brawlers" element={<Brawlers />} />
+              <Route path="/brawlers/:id" element={<BrawlerDetails />} />
+              <Route path="/maps" element={<Maps />} />
+              <Route path="/maps/:id" element={<MapDetails />} />
               <Route path="/player/:tag" element={<PlayerStats />} />
               <Route path="/club/:tag" element={<ClubStats />} />
-              <Route path="/brawler/:id" element={<BrawlerStats />} />
+              <Route path="/events" element={<Events />} />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </Router>
         </QueryClientProvider>
