@@ -34,7 +34,7 @@ export const BrawlerGrid = ({ brawlers }: BrawlerGridProps) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="bg-gray-800 rounded-lg shadow-sm p-6"
+            className="bg-gray-800 rounded-lg shadow-sm p-6 my-8"
         >
             <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-semibold text-gray-100">Brawlers</h2>

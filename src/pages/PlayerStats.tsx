@@ -8,7 +8,7 @@ import { fetchPlayerData, fetchPlayerBattleLog } from "@/api";
 import { StatCard } from "@/components/player/StatCard";
 import { PersonalRecords } from "@/components/player/PersonalRecords";
 import { BattleLogSection } from "@/components/player/BattleLogSection";
-import { TrophyProgressionGraph } from "@/components/player/TrophyProgressionGraph";
+// import { TrophyProgressionGraph } from "@/components/player/TrophyProgressionGraph";
 import { BrawlerGrid } from "@/components/player/BrawlerGrid";
 import { AdBanner } from "@/components/ads/AdBanner";
 import { TrophyHistoryChart } from "@/components/player/TrophyHistoryChart";
@@ -134,12 +134,15 @@ const PlayerStats = () => {
         <Tabs defaultValue="overview" className="mb-8">
           <TabsList className="mb-4 bg-gray-800 border-gray-700">
             <TabsTrigger value="overview" className="data-[state=active]:bg-gray-700">Overview</TabsTrigger>
-            <TabsTrigger value="analytics" className="data-[state=active]:bg-gray-700">Analytics</TabsTrigger>
+            {/* <TabsTrigger value="analytics" className="data-[state=active]:bg-gray-700">Analytics</TabsTrigger> */}
             <TabsTrigger value="brawlers" className="data-[state=active]:bg-gray-700">Brawlers</TabsTrigger>
           </TabsList>
           
           <TabsContent value="overview" className="space-y-8">
-            <TrophyProgressionGraph currentTrophies={player.trophies} />
+            {/* <TrophyProgressionGraph currentTrophies={player.trophies} /> */}
+            <div className="grid md:grid-cols-1 gap-8">
+              <TrophyHistoryChart data={trophyHistory || []} />
+            </div>
 
             <BattleLogSection
               battles={battles || []}
@@ -158,12 +161,9 @@ const PlayerStats = () => {
             />
           </TabsContent>
           
-          <TabsContent value="analytics" className="space-y-8">
-            <div className="grid md:grid-cols-1 gap-8">
-              <TrophyHistoryChart data={trophyHistory || []} />
-            </div>
+          <TabsContent value="brawlers">
             
-            <div className="grid md:grid-cols-1 gap-8">
+            <div className="grid md:grid-cols-1 gap-8 space-y-8">
               {winRates && (
                 <WinRateAnalysis 
                   byModeData={winRates.byMode || []} 
@@ -171,9 +171,7 @@ const PlayerStats = () => {
                 />
               )}
             </div>
-          </TabsContent>
-          
-          <TabsContent value="brawlers">
+
             <BrawlerGrid brawlers={player.brawlers} />
           </TabsContent>
         </Tabs>
