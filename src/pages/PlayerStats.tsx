@@ -1,5 +1,5 @@
 
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { NavBar } from "@/components/NavBar";
 import { Footer } from "@/components/Footer";
 import { useQuery } from "@tanstack/react-query";
@@ -15,6 +15,7 @@ import { TrophyHistoryChart } from "@/components/player/TrophyHistoryChart";
 import { WinRateAnalysis } from "@/components/player/WinRateAnalysis";
 import { usePlayerTrophyHistory, usePlayerWinRates } from "@/hooks/usePlayerStats";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
 
 const PlayerStats = () => {
   const { tag } = useParams();
@@ -119,7 +120,11 @@ const PlayerStats = () => {
           {player.club && (
             <div className="text-right">
               <p className="text-sm text-gray-400">Club</p>
-              <p className="font-medium text-gray-300">{player.club.name}</p>
+              <Link to={`/club/${player.club.tag.replace('#', '')}`}>
+                <Button variant="link" className="font-medium text-gray-300 p-0 h-auto">
+                  {player.club.name}
+                </Button>
+              </Link>
             </div>
           )}
         </div>
@@ -134,12 +139,10 @@ const PlayerStats = () => {
         <Tabs defaultValue="overview" className="mb-8">
           <TabsList className="mb-4 bg-gray-800 border-gray-700">
             <TabsTrigger value="overview" className="data-[state=active]:bg-gray-700">Overview</TabsTrigger>
-            {/* <TabsTrigger value="analytics" className="data-[state=active]:bg-gray-700">Analytics</TabsTrigger> */}
             <TabsTrigger value="brawlers" className="data-[state=active]:bg-gray-700">Brawlers</TabsTrigger>
           </TabsList>
           
           <TabsContent value="overview" className="space-y-8">
-            {/* <TrophyProgressionGraph currentTrophies={player.trophies} /> */}
             <div className="grid md:grid-cols-1 gap-8">
               <TrophyHistoryChart data={trophyHistory || []} />
             </div>
@@ -162,7 +165,6 @@ const PlayerStats = () => {
           </TabsContent>
           
           <TabsContent value="brawlers">
-            
             <div className="grid md:grid-cols-1 gap-8 space-y-8">
               {winRates && (
                 <WinRateAnalysis 

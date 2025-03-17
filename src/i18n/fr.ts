@@ -1,3 +1,4 @@
+
 import { en } from "./en";
 type Translation = typeof en;
 
@@ -23,9 +24,10 @@ export const fr: Translation = {
   },
   search: {
     placeholder: "Rechercher un joueur par tag",
+    clubPlaceholder: "Rechercher un club par tag",
     error: {
-      invalidTag: "Le tag de joueur est invalide",
-      fetchError: "Impossible de récupérer les données du joueur",
+      invalidTag: "Le tag est invalide",
+      fetchError: "Impossible de récupérer les données",
     },
     previousSearches: "Recherches précédentes",
     clearSearches: "Effacer les recherches",
@@ -52,4 +54,17 @@ export const fr: Translation = {
     topTeams: "Meilleures équipes",
     noMaps: "Aucune carte disponible pour le moment"
   },
+  club: {
+    title: "Détails du Club",
+    members: "Membres",
+    trophies: "Trophées",
+    requiredTrophies: "Trophées Requis",
+    description: "Description",
+    roles: {
+      president: "Président",
+      vicePresident: "Vice-Président",
+      senior: "Sénior",
+      member: "Membre"
+    }
+  }
 };

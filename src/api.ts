@@ -1,4 +1,3 @@
-
 import { supabase } from "@/integrations/supabase/client";
 
 const BASE_URL = "http://localhost:5000";
@@ -116,6 +115,29 @@ export const fetchPlayerBattleLog = async (tag: string) => {
         return data.items;
     } catch (error) {
         console.error("Error fetching player battle log:", error);
+        throw error;
+    }
+};
+
+export const fetchClubData = async (tag: string) => {
+    try {
+        if (!tag || typeof tag !== "string") {
+            throw new Error("Invalid club tag provided");
+        }
+
+        const formattedTag = tag.replace("#", "");
+        const response = await fetch(`${BASE_URL}/clubs/${formattedTag}`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to fetch club data");
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error("Error fetching club data:", error);
         throw error;
     }
 };

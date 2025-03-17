@@ -1,3 +1,4 @@
+
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster";
@@ -11,6 +12,7 @@ import BrawlerDetails from "./pages/BrawlerDetails";
 import Maps from "./pages/Maps";
 import MapDetails from "./pages/MapDetails";
 import PlayerStats from "./pages/PlayerStats";
+import ClubStats from "./pages/ClubStats";
 import Events from "./pages/Events";
 import NotFound from "./pages/NotFound";
 
@@ -31,6 +33,7 @@ const App = () => (
               <Route path="/maps" element={<Maps />} />
               <Route path="/maps/:id" element={<MapDetails />} />
               <Route path="/player/:tag" element={<PlayerStats />} />
+              <Route path="/club/:tag" element={<ClubStats />} />
               <Route path="/events" element={<Events />} />
               <Route path="*" element={<NotFound />} />
             </Routes>

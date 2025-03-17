@@ -53,6 +53,21 @@ app.get("/players/:tag/battlelog", async (req, res) => {
     }
 });
 
+// ✅ Fetch club data
+app.get("/clubs/:tag", async (req, res) => {
+    try {
+        const { tag } = req.params;
+        const formattedTag = `%23${tag}`;
+        const response = await axios.get(`${BASE_URL}/clubs/${formattedTag}`, {
+            headers: getHeaders(),
+        });
+
+        res.json(response.data);
+    } catch (error) {
+        res.status(error.response?.status || 500).json({ error: error.message });
+    }
+});
+
 // ✅ Fetch list of brawlers
 app.get("/brawlers", async (req, res) => {
     try {

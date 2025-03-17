@@ -1,3 +1,4 @@
+
 export const en = {
   common: {
     loading: "Loading...",
@@ -20,9 +21,10 @@ export const en = {
   },
   search: {
     placeholder: "Enter player tag (e.g., #PL2GVQQ)",
+    clubPlaceholder: "Enter club tag (e.g., #2GQYR9YQ0)",
     error: {
-      invalidTag: "Invalid player tag format",
-      fetchError: "Failed to fetch player data. Please check the tag and try again.",
+      invalidTag: "Invalid tag format",
+      fetchError: "Failed to fetch data. Please check the tag and try again.",
     },
     previousSearches: "Previous Searches:",
     clearSearches: "Clear Searches",
@@ -49,4 +51,17 @@ export const en = {
     topTeams: "Best Teams",
     noMaps: "No maps available at the moment"
   },
+  club: {
+    title: "Club Details",
+    members: "Members",
+    trophies: "Trophies",
+    requiredTrophies: "Required Trophies",
+    description: "Description",
+    roles: {
+      president: "President",
+      vicePresident: "Vice President",
+      senior: "Senior",
+      member: "Member"
+    }
+  }
 };

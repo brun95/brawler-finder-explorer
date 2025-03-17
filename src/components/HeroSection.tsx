@@ -1,21 +1,25 @@
 
 import { fetchPlayerData } from "@/api";
 import { motion } from "framer-motion";
-import { Search } from "lucide-react";
+import { Search, Users } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { usePreviousSearches } from "@/hooks/usePreviousSearches";
 import { PreviousSearches } from "./PreviousSearches";
 import { useLanguage } from "@/hooks/useLanguage";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export const HeroSection = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [clubQuery, setClubQuery] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
   const { addSearch } = usePreviousSearches();
   const { t } = useLanguage();
 
-  const handleSearch = async () => {
+  const handlePlayerSearch = async () => {
     if (!searchQuery.startsWith("#")) {
       setErrorMessage(t.search.error.invalidTag);
       setTimeout(() => setErrorMessage(""), 3000);
@@ -33,9 +37,24 @@ export const HeroSection = () => {
     }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
+  const handleClubSearch = () => {
+    if (!clubQuery.startsWith("#")) {
+      setErrorMessage(t.search.error.invalidTag);
+      setTimeout(() => setErrorMessage(""), 3000);
+      return;
+    }
+    
+    const clubTag = clubQuery.substring(1);
+    navigate(`/club/${clubTag}`);
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent, type: 'player' | 'club') => {
     if (e.key === "Enter") {
-      handleSearch();
+      if (type === 'player') {
+        handlePlayerSearch();
+      } else {
+        handleClubSearch();
+      }
     }
   };
 
@@ -57,24 +76,55 @@ export const HeroSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="max-w-md mx-auto"
+          className="max-w-lg mx-auto"
         >
-          <div className="relative">
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              onKeyPress={handleKeyPress}
-              placeholder={t.search.placeholder}
-              className="w-full px-6 py-4 rounded-full border border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
-            />
-            <button 
-              onClick={handleSearch}
-              className="absolute right-3 top-1/2 -translate-y-1/2 p-2 bg-primary hover:bg-primary-hover text-white rounded-full transition-colors"
-            >
-              <Search className="w-5 h-5" />
-            </button>
-          </div>
+          <Tabs defaultValue="player" className="w-full">
+            <TabsList className="grid w-full grid-cols-2 mb-6">
+              <TabsTrigger value="player">Player</TabsTrigger>
+              <TabsTrigger value="club">Club</TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="player">
+              <div className="relative">
+                <Input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyPress={(e) => handleKeyPress(e, 'player')}
+                  placeholder={t.search.placeholder}
+                  className="w-full px-6 py-6 rounded-lg border border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                />
+                <Button 
+                  onClick={handlePlayerSearch}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 p-2"
+                  size="icon"
+                >
+                  <Search className="w-5 h-5" />
+                </Button>
+              </div>
+            </TabsContent>
+            
+            <TabsContent value="club">
+              <div className="relative">
+                <Input
+                  type="text"
+                  value={clubQuery}
+                  onChange={(e) => setClubQuery(e.target.value)}
+                  onKeyPress={(e) => handleKeyPress(e, 'club')}
+                  placeholder="Enter club tag (e.g., #2GQYR9YQ0)"
+                  className="w-full px-6 py-6 rounded-lg border border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                />
+                <Button 
+                  onClick={handleClubSearch}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 p-2"
+                  size="icon"
+                >
+                  <Users className="w-5 h-5" />
+                </Button>
+              </div>
+            </TabsContent>
+          </Tabs>
+          
           {errorMessage && (
             <p className="text-red-500 mt-2 text-sm">{errorMessage}</p>
           )}

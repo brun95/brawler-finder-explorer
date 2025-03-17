@@ -24,9 +24,10 @@ export const pt: Translation = {
   },
   search: {
     placeholder: "Pesquisar jogador por tag",
+    clubPlaceholder: "Pesquisar clube por tag",
     error: {
-      invalidTag: "Tag de jogador inválida",
-      fetchError: "Erro ao buscar dados do jogador",
+      invalidTag: "Tag inválida",
+      fetchError: "Erro ao buscar dados",
     },
     previousSearches: "Pesquisas anteriores",
     clearSearches: "Limpar pesquisas",
@@ -53,4 +54,17 @@ export const pt: Translation = {
     topTeams: "Melhores Equipes",
     noMaps: "Nenhum mapa disponível no momento"
   },
+  club: {
+    title: "Detalhes do Clube",
+    members: "Membros",
+    trophies: "Troféus",
+    requiredTrophies: "Troféus Necessários",
+    description: "Descrição",
+    roles: {
+      president: "Presidente",
+      vicePresident: "Vice-Presidente",
+      senior: "Veterano",
+      member: "Membro"
+    }
+  }
 };

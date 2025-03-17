@@ -76,3 +76,25 @@ export interface BattleLog {
         }[];
     };
 }
+
+export interface ClubMember {
+    tag: string;
+    name: string;
+    nameColor: string;
+    role: 'member' | 'senior' | 'vicePresident' | 'president';
+    trophies: number;
+    icon: {
+        id: number;
+    };
+}
+
+export interface Club {
+    tag: string;
+    name: string;
+    description: string;
+    type: 'open' | 'closed' | 'inviteOnly';
+    badgeId: number;
+    requiredTrophies: number;
+    trophies: number;
+    members: ClubMember[];
+}
