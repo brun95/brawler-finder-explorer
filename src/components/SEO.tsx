@@ -14,7 +14,7 @@ export const SEO = ({
   canonical = "",
   ogImage = "/og-image.png",
 }: SEOProps) => {
-  const siteUrl = "https://starbrawl.com";
+  const siteUrl = "https://starbrawl.gg";
   const fullUrl = canonical ? `${siteUrl}${canonical}` : siteUrl;
 
   return (

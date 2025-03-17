@@ -71,8 +71,8 @@ export const HeroSection = () => {
           transition={{ duration: 0.5 }}
           className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6"
         >
-          Discover the World of
-          <span className="text-primary"> Brawl Stars</span>
+          Your all-in-one <span className="text-primary"> Brawl Stars</span> stats platform
+          
         </motion.h1>
         
         <motion.div

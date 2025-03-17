@@ -12,7 +12,7 @@ export const NavBar = () => {
         <div className="flex items-center justify-between h-16">
           <div className="flex-shrink-0">
             <Link to="/" className="flex items-center">
-              <span className="text-2xl font-bold text-primary">Brawl Stars</span>
+              <span className="text-2xl font-bold text-primary">StarBrawl</span>
             </Link>
           </div>
           
