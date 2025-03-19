@@ -1,12 +1,16 @@
 import { supabase } from "@/integrations/supabase/client";
 
-const BASE_URL = "http://localhost:5000";
+const BASE_URL = "/api";
+
+const BASE_CDN_URL = "/cdnapi";
+const API_KEY      = import.meta.env.VITE_SECRET_API_KEY;
+
 
 export const fetchBrawlers = async () => {
     try {
         const response = await fetch(`${BASE_URL}/brawlers`, {
             method: "GET",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json", Authorization: `Bearer ${API_KEY}` },
         });
 
         if (!response.ok) {
@@ -25,7 +29,7 @@ export const fetchBrawlerById = async (id: number) => {
     try {
         const response = await fetch(`${BASE_URL}/brawlers/${id}`, {
             method: "GET",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json", Authorization: `Bearer ${API_KEY}` },
         });
 
         if (!response.ok) {
@@ -47,9 +51,9 @@ export const fetchPlayerData = async (tag: string) => {
 
         const formattedTag = tag.replace("#", "");
 
-        const response = await fetch(`${BASE_URL}/players/${formattedTag}`, {
+        const response = await fetch(`${BASE_URL}/players/%23${formattedTag}`, {
             method: "GET",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json", Authorization: `Bearer ${API_KEY}` },
         });
 
         if (!response.ok) {
@@ -57,9 +61,9 @@ export const fetchPlayerData = async (tag: string) => {
         }
         const playerData = await response.json();
 
-        const responseBattleLog = await fetch(`${BASE_URL}/players/${formattedTag}/battlelog`, {
+        const responseBattleLog = await fetch(`${BASE_URL}/players/%23${formattedTag}/battlelog`, {
             method: "GET",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json", Authorization: `Bearer ${API_KEY}` },
         });
 
         if (!responseBattleLog.ok) {
@@ -102,9 +106,9 @@ export const fetchPlayerBattleLog = async (tag: string) => {
         }
 
         const formattedTag = tag.replace("#", "");
-        const response = await fetch(`${BASE_URL}/players/${formattedTag}/battlelog`, {
+        const response = await fetch(`${BASE_URL}/players/%23${formattedTag}/battlelog`, {
             method: "GET",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json", Authorization: `Bearer ${API_KEY}` },
         });
 
         if (!response.ok) {
@@ -126,9 +130,9 @@ export const fetchClubData = async (tag: string) => {
         }
 
         const formattedTag = tag.replace("#", "");
-        const response = await fetch(`${BASE_URL}/clubs/${formattedTag}`, {
+        const response = await fetch(`${BASE_URL}/clubs/%23${formattedTag}`, {
             method: "GET",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json", Authorization: `Bearer ${API_KEY}` },
         });
 
         if (!response.ok) {
@@ -144,7 +148,7 @@ export const fetchClubData = async (tag: string) => {
 
 export const fetchEvents = async () => {
     try {
-        const response = await fetch(`${BASE_URL}/events`, {
+        const response = await fetch(`${BASE_CDN_URL}/events`, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
         });
@@ -162,7 +166,7 @@ export const fetchEvents = async () => {
 
 export const fetchMaps = async () => {
     try {
-        const response = await fetch(`${BASE_URL}/maps`, {
+        const response = await fetch(`${BASE_CDN_URL}/maps`, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
         });
@@ -181,7 +185,7 @@ export const fetchMaps = async () => {
 
 export const fetchGameModes = async () => {
     try {
-        const response = await fetch(`${BASE_URL}/gamemodes`, {
+        const response = await fetch(`${BASE_CDN_URL}/gamemodes`, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
         });
