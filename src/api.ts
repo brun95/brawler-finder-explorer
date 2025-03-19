@@ -1,8 +1,8 @@
 import { supabase } from "@/integrations/supabase/client";
 
-const BASE_URL = "/api";
+const BASE_URL = import.meta.env.VITE_PUBLIC_BASE_URL;
 
-const BASE_CDN_URL = "/cdnapi";
+const BASE_CDN_URL = import.meta.env.VITE_PUBLIC_BASE_CDN_URL;
 const API_KEY      = import.meta.env.VITE_SECRET_API_KEY;
 
 
