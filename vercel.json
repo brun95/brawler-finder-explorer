@@ -1,0 +1,6 @@
+{
+    "rewrites": [
+        { "source": "/api/:path*", "destination": "https://api.brawlstars.com/v1/:path" },
+        { "source": "/cdnapi/:path*", "destination": "https://api.brawlify.com/v1/:path" }
+    ]
+}
