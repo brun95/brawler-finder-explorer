@@ -11,9 +11,9 @@ const PORT = 5000;
 app.use(cors());
 app.use(express.json());
 
-const BASE_URL     = process.env.VITE_PUBLIC_BASE_URL;
-const BASE_CDN_URL = process.env.VITE_PUBLIC_BASE_CDN_URL;
-const API_KEY      = process.env.VITE_SECRET_API_KEY;
+const BASE_URL     = process.env.NEXT_PUBLIC_PUBLIC_BASE_URL;
+const BASE_CDN_URL = process.env.NEXT_PUBLIC_PUBLIC_BASE_CDN_URL;
+const API_KEY      = process.env.NEXT_PUBLIC_SECRET_API_KEY;
 
 const getHeaders = () => ({
     Authorization: `Bearer ${API_KEY}`,

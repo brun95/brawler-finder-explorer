@@ -1,12 +1,13 @@
 import { Line, LineChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis, Legend } from "recharts";
 import { format } from "date-fns";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Trophy, TrendingUp, TrendingDown } from "lucide-react";
 
 interface TrophyHistoryChartProps {
   data: {
     trophies: number;
     highest_trophies: number;
-    recorded_at: string;
+    recorded_at: string | null;
   }[];
 }
 
@@ -28,11 +29,56 @@ export const TrophyHistoryChart = ({ data }: TrophyHistoryChartProps) => {
   }
 
   // Convert data for the chart
-  const chartData = data.map(entry => ({
-    date: format(new Date(entry.recorded_at), 'MM/dd'),
-    trophies: entry.trophies,
-    highestTrophies: entry.highest_trophies
-  }));
+  const chartData = data.map((entry, index) => {
+    const prevEntry = index > 0 ? data[index - 1] : null;
+    const trophyChange = prevEntry ? entry.trophies - prevEntry.trophies : 0;
+
+    return {
+      date: format(new Date(entry.recorded_at || new Date()), 'MM/dd'),
+      fullDate: format(new Date(entry.recorded_at || new Date()), 'MMM dd, yyyy'),
+      trophies: entry.trophies,
+      highestTrophies: entry.highest_trophies,
+      change: trophyChange,
+    };
+  });
+
+  // Custom tooltip component
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      const data = payload[0].payload;
+
+      return (
+        <div className="bg-gray-800 border border-gray-700 rounded-lg p-3 shadow-lg">
+          <p className="text-gray-200 font-semibold mb-2">{data.fullDate}</p>
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <Trophy className="h-4 w-4 text-indigo-400" />
+              <span className="text-gray-300 text-sm">Current:</span>
+              <span className="text-gray-100 font-semibold">{data.trophies.toLocaleString()}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Trophy className="h-4 w-4 text-green-400" />
+              <span className="text-gray-300 text-sm">Highest:</span>
+              <span className="text-gray-100 font-semibold">{data.highestTrophies.toLocaleString()}</span>
+            </div>
+            {data.change !== 0 && (
+              <div className="flex items-center gap-2 pt-1 border-t border-gray-700">
+                {data.change > 0 ? (
+                  <TrendingUp className="h-4 w-4 text-green-400" />
+                ) : (
+                  <TrendingDown className="h-4 w-4 text-red-400" />
+                )}
+                <span className={`text-sm font-semibold ${data.change > 0 ? 'text-green-400' : 'text-red-400'}`}>
+                  {data.change > 0 ? '+' : ''}{data.change.toLocaleString()}
+                </span>
+              </div>
+            )}
+          </div>
+        </div>
+      );
+    }
+    return null;
+  };
 
   // Get min and max trophies
   const minTrophies = Math.min(...data.map(d => d.trophies));
@@ -66,25 +112,23 @@ export const TrophyHistoryChart = ({ data }: TrophyHistoryChartProps) => {
             <XAxis dataKey="date" stroke="#888888" />
             <YAxis stroke="#888888" domain={[yMin, yMax]} allowDecimals={false} />
             <CartesianGrid strokeDasharray="3 3" vertical={false} />
-            <Tooltip 
-              contentStyle={{ backgroundColor: "#1f2937", border: "none", borderRadius: "8px" }}
-              labelStyle={{ color: "#f9fafb" }}
-              itemStyle={{ color: "#f9fafb" }}
-            />
-            <Line 
-              type="monotone" 
-              dataKey="trophies" 
-              stroke="#8884d8" 
-              strokeWidth={2} 
-              dot={{ r: 3 }} 
+            <Tooltip content={<CustomTooltip />} cursor={{ stroke: '#6366f1', strokeWidth: 1 }} />
+            <Line
+              type="monotone"
+              dataKey="trophies"
+              stroke="#6366f1"
+              strokeWidth={3}
+              dot={{ r: 4, fill: '#6366f1', strokeWidth: 2, stroke: '#1f2937' }}
+              activeDot={{ r: 6, fill: '#6366f1', strokeWidth: 2, stroke: '#fff' }}
               name="Current Trophies"
             />
-            <Line 
-              type="monotone" 
-              dataKey="highestTrophies" 
-              stroke="#82ca9d" 
-              strokeWidth={2} 
-              dot={{ r: 3 }} 
+            <Line
+              type="monotone"
+              dataKey="highestTrophies"
+              stroke="#10b981"
+              strokeWidth={3}
+              dot={{ r: 4, fill: '#10b981', strokeWidth: 2, stroke: '#1f2937' }}
+              activeDot={{ r: 6, fill: '#10b981', strokeWidth: 2, stroke: '#fff' }}
               name="Highest Trophies"
             />
           </LineChart>

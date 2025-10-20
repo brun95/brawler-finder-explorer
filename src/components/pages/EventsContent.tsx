@@ -43,7 +43,7 @@ const Events = () => {
                             {t.events.activeTitle}
                         </h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {events?.active?.map((event) => (
+                            {events?.active?.map((event: any) => (
                                 <EventCard 
                                     key={`${event.map.gameMode.scId}-${event.startTime}`} 
                                     event={event}
@@ -58,7 +58,7 @@ const Events = () => {
                             {t.events.upcomingTitle}
                         </h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {events?.upcoming?.map((event) => (
+                            {events?.upcoming?.map((event: any) => (
                                 <EventCard 
                                     key={`${event.map.gameMode.scId}-${event.startTime}`} 
                                     event={event}

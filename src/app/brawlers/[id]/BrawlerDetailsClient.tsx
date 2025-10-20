@@ -1,48 +1,25 @@
+'use client'
 
-import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, Star, Trophy } from "lucide-react";
 import { NavBar } from "@/components/NavBar";
-import { Footer } from "@/components/Footer";
-import { useBrawler } from "@/hooks/useBrawler";
 import { AdBanner } from "@/components/ads/AdBanner";
+import { PageBreadcrumb } from "@/components/PageBreadcrumb";
 
-const BrawlerDetails = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const { data: brawler, isLoading } = useBrawler(Number(id));
+interface BrawlerDetailsClientProps {
+  brawler: any;
+}
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-gray-900">
-        <NavBar />
-        <div className="pt-24 text-center text-foreground">Loading...</div>
-      </div>
-    );
-  }
-
-  if (!brawler) {
-    return (
-      <div className="min-h-screen bg-gray-900">
-        <NavBar />
-        <div className="pt-24 text-center text-foreground">Brawler not found</div>
-      </div>
-    );
-  }
-
+export default function BrawlerDetailsClient({ brawler }: BrawlerDetailsClientProps) {
   return (
     <div className="min-h-screen bg-gray-900">
       <NavBar />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
+        <PageBreadcrumb
+          customSegments={[{ label: 'Brawlers', href: '/brawlers' }]}
+          currentPageLabel={brawler?.name || ''}
+        />
+
         <AdBanner slot="brawler-top" />
-        
-        <button
-          onClick={() => navigate("/brawlers")}
-          className="flex items-center text-foreground hover:text-primary mb-8 transition-colors"
-        >
-          <ArrowLeft className="w-5 h-5 mr-2" />
-          Back to Brawlers
-        </button>
 
         <div className="grid md:grid-cols-2 gap-8">
           <motion.div
@@ -56,7 +33,6 @@ const BrawlerDetails = () => {
               alt={brawler.name}
               className="w-full h-64 object-contain mb-6"
               onError={(e) => {
-                // Fallback to local image if CDN fails
                 e.currentTarget.src = `https://cdn.brawlify.com/brawlers/borderless/${brawler.id}.png`;
               }}
             />
@@ -72,7 +48,7 @@ const BrawlerDetails = () => {
             <div className="bg-card rounded-lg shadow-sm p-6">
               <h2 className="text-2xl font-semibold text-foreground mb-4">Star Powers</h2>
               <div className="space-y-4">
-                {brawler.starPowers.map((starPower) => (
+                {brawler.starPowers.map((starPower: any) => (
                   <div
                     key={starPower.id}
                     className="flex items-center bg-white/50 dark:bg-gray-700/50 p-3 rounded-lg"
@@ -82,7 +58,6 @@ const BrawlerDetails = () => {
                       alt={starPower.name}
                       className="w-8 h-8 mr-3"
                       onError={(e) => {
-                        // Fallback to local image if CDN fails
                         e.currentTarget.src = `https://cdn.brawlify.com/star-powers/borderless/${starPower.id}.png`;
                       }}
                     />
@@ -95,7 +70,7 @@ const BrawlerDetails = () => {
             <div className="bg-card rounded-lg shadow-sm p-6">
               <h2 className="text-2xl font-semibold text-foreground mb-4">Gadgets</h2>
               <div className="space-y-4">
-                {brawler.gadgets.map((gadget) => (
+                {brawler.gadgets.map((gadget: any) => (
                   <div
                     key={gadget.id}
                     className="flex items-center bg-white/50 dark:bg-gray-700/50 p-3 rounded-lg"
@@ -105,7 +80,6 @@ const BrawlerDetails = () => {
                       alt={gadget.name}
                       className="w-8 h-8 mr-3"
                       onError={(e) => {
-                        // Fallback to local image if CDN fails
                         e.currentTarget.src = `https://cdn.brawlify.com/gadgets/borderless/${gadget.id}.png`;
                       }}
                     />
@@ -116,11 +90,9 @@ const BrawlerDetails = () => {
             </div>
           </motion.div>
         </div>
-        
+
         <AdBanner slot="brawler-bottom" />
       </main>
     </div>
   );
-};
-
-export default BrawlerDetails;
+}

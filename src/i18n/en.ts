@@ -24,7 +24,12 @@ export const en = {
     clubPlaceholder: "Enter club tag (e.g., #2GQYR9YQ0)",
     error: {
       invalidTag: "Invalid tag format",
-      fetchError: "Failed to fetch data. Please check the tag and try again.",
+      fetchError: "Oops! We couldn't find that player. Double-check the tag and try again.",
+      playerNotFound: "Player not found. Make sure you entered the correct tag.",
+      clubNotFound: "Club not found. Please verify the club tag is correct.",
+      networkError: "Connection issue. Please check your internet and try again.",
+      rateLimitError: "Too many searches! Please wait a moment and try again.",
+      serverError: "Something went wrong on our end. Please try again in a moment.",
     },
     previousSearches: "Previous Searches:",
     clearSearches: "Clear Searches",
@@ -62,6 +67,41 @@ export const en = {
       vicePresident: "Vice President",
       senior: "Senior",
       member: "Member"
+    }
+  },
+  dashboard: {
+    title: "My Dashboard",
+    subtitle: "Overview of your favorites and quick access",
+    statistics: "Statistics",
+    recentActivity: "Recent Activity",
+    quickActions: "Quick Actions",
+    favorites: "Favorites",
+    totalFavorites: "Total Favorites",
+    searchPlayer: "Search Player",
+    searchClub: "Search Club",
+    browseBrawlers: "Browse Brawlers",
+    viewMaps: "View Maps",
+    viewEvents: "View Events",
+    clearAll: "Clear All",
+    emptyState: {
+      noFavorites: "No favorites yet",
+      noPlayers: "No players favorited yet",
+      noClubs: "No clubs favorited yet",
+      noBrawlers: "No brawlers favorited yet",
+      startExploring: "Start exploring and add your favorites to see them here!"
+    },
+    tabs: {
+      all: "All",
+      players: "Players",
+      clubs: "Clubs",
+      brawlers: "Brawlers"
+    },
+    actions: {
+      viewProfile: "View Profile",
+      viewClub: "View Club",
+      viewBrawler: "View Brawler",
+      viewDetails: "View Details",
+      remove: "Remove"
     }
   }
 };

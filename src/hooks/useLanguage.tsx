@@ -1,4 +1,6 @@
 
+'use client'
+
 import { createContext, useContext, useEffect, useState } from 'react';
 import {en} from '../i18n/en';
 import {fr} from '../i18n/fr';

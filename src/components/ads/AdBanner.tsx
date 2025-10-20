@@ -1,4 +1,6 @@
 
+'use client'
+
 import { useEffect } from 'react';
 
 declare global {
@@ -13,7 +15,7 @@ interface AdBannerProps {
 }
 
 export const AdBanner = ({ slot, format = 'auto' }: AdBannerProps) => {
-    const isAdsEnabled = import.meta.env.VITE_ENABLE_ADS === 'true';
+    const isAdsEnabled = process.env.NEXT_PUBLIC_ENABLE_ADS === 'true';
 
     useEffect(() => {
         if (isAdsEnabled && window.adsbygoogle) {
@@ -23,7 +25,7 @@ export const AdBanner = ({ slot, format = 'auto' }: AdBannerProps) => {
                 console.error('Error loading ad:', e);
             }
         }
-    }, []);
+    }, [isAdsEnabled]);
 
     if (!isAdsEnabled) return null;
 
@@ -32,7 +34,7 @@ export const AdBanner = ({ slot, format = 'auto' }: AdBannerProps) => {
             <ins
                 className="adsbygoogle"
                 style={{ display: 'block' }}
-                data-ad-client={import.meta.env.VITE_ADSENSE_CLIENT_ID}
+                data-ad-client={process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID}
                 data-ad-slot={slot}
                 data-ad-format={format}
             />

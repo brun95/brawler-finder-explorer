@@ -21,7 +21,7 @@ serve(async (req) => {
     const supabase = createClient(supabaseUrl, supabaseKey)
 
     // Get the API key from environment variables
-    const apiKey = Deno.env.get('VITE_SECRET_API_KEY') || ''
+    const apiKey = Deno.env.get('NEXT_PUBLIC_SECRET_API_KEY') || ''
     
     if (!apiKey) {
       return new Response(

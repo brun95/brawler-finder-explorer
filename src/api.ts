@@ -1,17 +1,30 @@
-import { supabase } from "@/integrations/supabase/client";
+import { supabase, isSupabaseConfigured } from "@/integrations/supabase/client";
+
+// Helper to get the base URL - works for both client and server
+const getBaseUrl = () => {
+    // Server-side
+    if (typeof window === 'undefined') {
+        // Try to get from environment variable first
+        if (process.env.NEXT_PUBLIC_SITE_URL) {
+            return process.env.NEXT_PUBLIC_SITE_URL;
+        }
+        // Fallback for local development
+        return 'http://localhost:3055';
+    }
+    // Client-side
+    return '';
+};
 
 const BASE_URL = "/api";
-
-const BASE_CDN_URL = "/cdnapi";
-const API_KEY      = import.meta.env.VITE_SECRET_API_KEY;
+// const BASE_CDN_URL = "/cdnapi";
+const BASE_CDN_URL = "/api";
+const API_KEY = process.env.NEXT_PUBLIC_SECRET_API_KEY;
 
 
 export const fetchBrawlers = async () => {
     try {
-        const response = await fetch(`${BASE_URL}/brawlers`, {
-            method: "GET",
-            headers: { "Content-Type": "application/json", Authorization: `Bearer ${API_KEY}` },
-        });
+        const baseUrl = getBaseUrl();
+        const response = await fetch(`${baseUrl}${BASE_URL}/brawlers`);
 
         if (!response.ok) {
             throw new Error("Failed to fetch brawlers");
@@ -27,10 +40,8 @@ export const fetchBrawlers = async () => {
 
 export const fetchBrawlerById = async (id: number) => {
     try {
-        const response = await fetch(`${BASE_URL}/brawlers/${id}`, {
-            method: "GET",
-            headers: { "Content-Type": "application/json", Authorization: `Bearer ${API_KEY}` },
-        });
+        const baseUrl = getBaseUrl();
+        const response = await fetch(`${baseUrl}${BASE_URL}/brawlers/${id}`);
 
         if (!response.ok) {
             throw new Error("Failed to fetch brawler");
@@ -51,45 +62,47 @@ export const fetchPlayerData = async (tag: string) => {
 
         const formattedTag = tag.replace("#", "");
 
-        const response = await fetch(`${BASE_URL}/players/%23${formattedTag}`, {
-            method: "GET",
-            headers: { "Content-Type": "application/json", Authorization: `Bearer ${API_KEY}` },
-        });
+        const response = await fetch(`${BASE_URL}/players/${formattedTag}`);
 
         if (!response.ok) {
-            throw new Error("Failed to fetch player data");
+            const error: any = new Error("Failed to fetch player data");
+            error.response = {
+                status: response.status,
+                statusText: response.statusText,
+                data: await response.json().catch(() => ({}))
+            };
+            throw error;
         }
         const playerData = await response.json();
 
-        const responseBattleLog = await fetch(`${BASE_URL}/players/%23${formattedTag}/battlelog`, {
-            method: "GET",
-            headers: { "Content-Type": "application/json", Authorization: `Bearer ${API_KEY}` },
-        });
+        const responseBattleLog = await fetch(`${BASE_URL}/players/${formattedTag}/battlelog`);
 
         if (!responseBattleLog.ok) {
             throw new Error("Failed to fetch player battle log");
         }
         const battleData = await responseBattleLog.json();
 
-        // Store player data in Supabase
+        // Store player data in Supabase (only if configured)
         // Now this only updates the player info and visited_at timestamp
         // Trophy data is collected via a daily cron job
-        try {
-            const { data, error } = await supabase.rpc('store_player_data', {
-                p_tag             : formattedTag,
-                p_name            : playerData.name,
-                p_trophies        : playerData.trophies,
-                p_highest_trophies: playerData.highestTrophies,
-                p_battles         : battleData.items
-            })
-            
-            if (error) {
-                console.error("Failed to store player data:", error);
+        if (isSupabaseConfigured) {
+            try {
+                const { error } = await supabase.rpc('store_player_data', {
+                    p_tag             : formattedTag,
+                    p_name            : playerData.name,
+                    p_trophies        : playerData.trophies,
+                    p_highest_trophies: playerData.highestTrophies,
+                    p_battles         : battleData.items
+                })
+
+                if (error) {
+                    console.warn("Failed to store player data in Supabase:", error);
+                }
+
+            } catch (storeError) {
+                console.warn("Failed to store player data in Supabase:", storeError);
+                // Continue even if storing failed
             }
-            
-        } catch (storeError) {
-            console.error("Failed to store player data:", storeError);
-            // Continue even if storing failed
         }
 
         return playerData;
@@ -106,7 +119,8 @@ export const fetchPlayerBattleLog = async (tag: string) => {
         }
 
         const formattedTag = tag.replace("#", "");
-        const response = await fetch(`${BASE_URL}/players/%23${formattedTag}/battlelog`, {
+        // Remove the %23 prefix since formattedTag already has # removed
+        const response = await fetch(`${BASE_URL}/players/${formattedTag}/battlelog`, {
             method: "GET",
             headers: { "Content-Type": "application/json", Authorization: `Bearer ${API_KEY}` },
         });
@@ -130,7 +144,7 @@ export const fetchClubData = async (tag: string) => {
         }
 
         const formattedTag = tag.replace("#", "");
-        const response = await fetch(`${BASE_URL}/clubs/%23${formattedTag}`, {
+        const response = await fetch(`${BASE_URL}/clubs/${formattedTag}`, {
             method: "GET",
             headers: { "Content-Type": "application/json", Authorization: `Bearer ${API_KEY}` },
         });
@@ -166,7 +180,8 @@ export const fetchEvents = async () => {
 
 export const fetchMaps = async () => {
     try {
-        const response = await fetch(`${BASE_CDN_URL}/maps`, {
+        const baseUrl = getBaseUrl();
+        const response = await fetch(`${baseUrl}${BASE_CDN_URL}/maps`, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
         });
@@ -185,7 +200,8 @@ export const fetchMaps = async () => {
 
 export const fetchGameModes = async () => {
     try {
-        const response = await fetch(`${BASE_CDN_URL}/gamemodes`, {
+        const baseUrl = getBaseUrl();
+        const response = await fetch(`${baseUrl}${BASE_CDN_URL}/gamemodes`, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
         });
@@ -204,6 +220,11 @@ export const fetchGameModes = async () => {
 
 // New functions to fetch historical data from Supabase
 export const fetchPlayerTrophyHistory = async (tag: string) => {
+    if (!isSupabaseConfigured) {
+        console.warn("Supabase is not configured. Skipping trophy history fetch.");
+        return [];
+    }
+
     try {
         const formattedTag = tag.replace("#", "");
         const { data, error } = await supabase
@@ -211,28 +232,33 @@ export const fetchPlayerTrophyHistory = async (tag: string) => {
             .select('trophies, highest_trophies, recorded_at')
             .eq('player_tag', formattedTag)
             .order('recorded_at', { ascending: true });
-            
+
         if (error) throw error;
         return data || [];
     } catch (error) {
-        console.error("Error fetching trophy history:", error);
-        throw error;
+        console.warn("Error fetching trophy history:", error);
+        return [];
     }
 };
 
 export const fetchPlayerWinRates = async (tag: string) => {
+    if (!isSupabaseConfigured) {
+        console.warn("Supabase is not configured. Skipping win rates fetch.");
+        return { byMode: [], byBrawler: [] };
+    }
+
     try {
         const formattedTag = tag.replace("#", "");
         const { data, error } = await supabase
             .from('brawler_stats')
             .select('brawler_id, brawler_name, game_mode, map_name, result')
             .eq('player_tag', formattedTag);
-            
+
         if (error) throw error;
-        
+
         // Calculate win rates by game mode and brawler
         const stats = data || [];
-        
+
         // By game mode
         const modeWinRates = stats.reduce((acc: Record<string, {wins: number, total: number}>, stat) => {
             const mode = stat.game_mode;
@@ -245,7 +271,7 @@ export const fetchPlayerWinRates = async (tag: string) => {
             }
             return acc;
         }, {});
-        
+
         // By brawler
         const brawlerWinRates = stats.reduce((acc: Record<string, {wins: number, total: number}>, stat) => {
             const brawler = stat.brawler_name;
@@ -258,7 +284,7 @@ export const fetchPlayerWinRates = async (tag: string) => {
             }
             return acc;
         }, {});
-        
+
         return {
             byMode: Object.entries(modeWinRates).map(([mode, stats]) => ({
                 mode,
@@ -272,12 +298,17 @@ export const fetchPlayerWinRates = async (tag: string) => {
             }))
         };
     } catch (error) {
-        console.error("Error calculating win rates:", error);
-        throw error;
+        console.warn("Error calculating win rates:", error);
+        return { byMode: [], byBrawler: [] };
     }
 };
 
 export const fetchDetailedBattleHistory = async (tag: string) => {
+    if (!isSupabaseConfigured) {
+        console.warn("Supabase is not configured. Skipping detailed battle history fetch.");
+        return [];
+    }
+
     try {
         const formattedTag = tag.replace("#", "");
         const { data, error } = await supabase
@@ -285,11 +316,11 @@ export const fetchDetailedBattleHistory = async (tag: string) => {
             .select('battle_data, player_battles.battle_time')
             .eq('player_tag', formattedTag)
             .order('player_battles.battle_time', { ascending: false });
-            
+
         if (error) throw error;
         return data || [];
     } catch (error) {
-        console.error("Error fetching detailed battle history:", error);
-        throw error;
+        console.warn("Error fetching detailed battle history:", error);
+        return [];
     }
 };

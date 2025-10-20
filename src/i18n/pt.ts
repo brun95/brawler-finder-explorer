@@ -27,7 +27,12 @@ export const pt: Translation = {
     clubPlaceholder: "Pesquisar clube por tag",
     error: {
       invalidTag: "Tag inválida",
-      fetchError: "Erro ao buscar dados",
+      fetchError: "Ops! Não encontramos esse jogador. Verifique a tag e tente novamente.",
+      playerNotFound: "Jogador não encontrado. Certifique-se de que a tag está correta.",
+      clubNotFound: "Clube não encontrado. Verifique se a tag do clube está correta.",
+      networkError: "Problema de conexão. Verifique sua internet e tente novamente.",
+      rateLimitError: "Muitas buscas! Aguarde um momento e tente novamente.",
+      serverError: "Algo deu errado. Por favor, tente novamente em instantes.",
     },
     previousSearches: "Pesquisas anteriores",
     clearSearches: "Limpar pesquisas",
@@ -65,6 +70,41 @@ export const pt: Translation = {
       vicePresident: "Vice-Presidente",
       senior: "Veterano",
       member: "Membro"
+    }
+  },
+  dashboard: {
+    title: "Meu Painel",
+    subtitle: "Visão geral dos seus favoritos e acesso rápido",
+    statistics: "Estatísticas",
+    recentActivity: "Atividade Recente",
+    quickActions: "Ações Rápidas",
+    favorites: "Favoritos",
+    totalFavorites: "Total de Favoritos",
+    searchPlayer: "Pesquisar Jogador",
+    searchClub: "Pesquisar Clube",
+    browseBrawlers: "Navegar Brawlers",
+    viewMaps: "Ver Mapas",
+    viewEvents: "Ver Eventos",
+    clearAll: "Limpar Tudo",
+    emptyState: {
+      noFavorites: "Nenhum favorito ainda",
+      noPlayers: "Nenhum jogador favoritado ainda",
+      noClubs: "Nenhum clube favoritado ainda",
+      noBrawlers: "Nenhum brawler favoritado ainda",
+      startExploring: "Comece a explorar e adicione seus favoritos para vê-los aqui!"
+    },
+    tabs: {
+      all: "Todos",
+      players: "Jogadores",
+      clubs: "Clubes",
+      brawlers: "Brawlers"
+    },
+    actions: {
+      viewProfile: "Ver Perfil",
+      viewClub: "Ver Clube",
+      viewBrawler: "Ver Brawler",
+      viewDetails: "Ver Detalhes",
+      remove: "Remover"
     }
   }
 };

@@ -1,4 +1,6 @@
 
+'use client'
+
 import { motion } from "framer-motion";
 import { BattleLog } from "@/types/api";
 import { Circle, Flame, Swords, Star, Trophy, Award } from "lucide-react";
@@ -43,7 +45,6 @@ export const BattleLogSection = ({ battles, stats, playerTag }: BattleLogSection
 
     // Function to get the correct game mode ID
     const getGameModeId = (mode: string) => {
-        console.log(gameModeMap[mode], mode)
         return gameModeMap[mode] || "default";
     };
 

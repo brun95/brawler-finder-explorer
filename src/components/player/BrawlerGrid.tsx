@@ -1,12 +1,20 @@
 
+'use client'
+
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
+import { Trophy, Star, Crown } from "lucide-react";
+import Link from "next/link";
+import Image from "next/image";
 
 interface Brawler {
     id: number;
     name: string;
     power: number;
     rank: number;
+    trophies?: number;
+    highestTrophies?: number;
 }
 
 interface BrawlerGridProps {
@@ -51,27 +59,88 @@ export const BrawlerGrid = ({ brawlers }: BrawlerGridProps) => {
             
             <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4">
                 {sortedBrawlers.map((brawler) => (
-                    <div
-                        key={brawler.id}
-                        className="flex flex-col items-center p-3 rounded-lg bg-gray-700"
-                    >
-                        <img
-                            src={`/brawlers/${brawler.id}.webp`}
-                            alt={brawler.name}
-                            className="w-12 h-12 rounded-full mb-2"
-                            onError={(e) => {
-                                // Fallback to local image if CDN fails
-                                e.currentTarget.src = `https://cdn.brawlify.com/brawlers/borderless/${brawler.id}.png`;
-                            }}
-                        />
-                        <span className="text-sm font-medium text-gray-100">{brawler.name}</span>
-                        <span className="text-xs text-gray-300">
-                            Power {brawler.power}
-                        </span>
-                        <span className="text-xs text-gray-300">
-                            Rank {brawler.rank}
-                        </span>
-                    </div>
+                    <HoverCard key={brawler.id} openDelay={200}>
+                        <HoverCardTrigger asChild>
+                            <Link
+                                href={`/brawlers/${brawler.id}`}
+                                className="flex flex-col items-center p-3 rounded-lg bg-gray-700 hover:bg-gray-600 transition-all cursor-pointer group"
+                            >
+                                <div className="relative w-12 h-12 mb-2">
+                                    <Image
+                                        src={`https://cdn.brawlify.com/brawlers/borderless/${brawler.id}.png`}
+                                        alt={brawler.name}
+                                        fill
+                                        className="rounded-full object-cover group-hover:scale-110 transition-transform"
+                                        sizes="48px"
+                                    />
+                                </div>
+                                <span className="text-sm font-medium text-gray-100">{brawler.name}</span>
+                                <span className="text-xs text-gray-300">
+                                    Power {brawler.power}
+                                </span>
+                                <span className="text-xs text-gray-300">
+                                    Rank {brawler.rank}
+                                </span>
+                            </Link>
+                        </HoverCardTrigger>
+                        <HoverCardContent className="w-80 bg-gray-800 border-gray-700" side="top">
+                            <div className="space-y-3">
+                                <div className="flex items-center gap-3">
+                                    <div className="relative w-16 h-16">
+                                        <Image
+                                            src={`https://cdn.brawlify.com/brawlers/borderless/${brawler.id}.png`}
+                                            alt={brawler.name}
+                                            fill
+                                            className="rounded-lg object-cover"
+                                            sizes="64px"
+                                        />
+                                    </div>
+                                    <div className="flex-1">
+                                        <h3 className="text-lg font-bold text-gray-100">{brawler.name}</h3>
+                                        <p className="text-sm text-gray-400">Click to view full details</p>
+                                    </div>
+                                </div>
+
+                                <div className="grid grid-cols-2 gap-3">
+                                    <div className="flex items-center gap-2 p-2 bg-gray-700 rounded-lg">
+                                        <Star className="h-4 w-4 text-yellow-400" />
+                                        <div>
+                                            <p className="text-xs text-gray-400">Power</p>
+                                            <p className="text-sm font-semibold text-gray-100">{brawler.power}</p>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex items-center gap-2 p-2 bg-gray-700 rounded-lg">
+                                        <Crown className="h-4 w-4 text-purple-400" />
+                                        <div>
+                                            <p className="text-xs text-gray-400">Rank</p>
+                                            <p className="text-sm font-semibold text-gray-100">{brawler.rank}</p>
+                                        </div>
+                                    </div>
+
+                                    {brawler.trophies !== undefined && (
+                                        <div className="flex items-center gap-2 p-2 bg-gray-700 rounded-lg">
+                                            <Trophy className="h-4 w-4 text-blue-400" />
+                                            <div>
+                                                <p className="text-xs text-gray-400">Trophies</p>
+                                                <p className="text-sm font-semibold text-gray-100">{brawler.trophies}</p>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {brawler.highestTrophies !== undefined && (
+                                        <div className="flex items-center gap-2 p-2 bg-gray-700 rounded-lg">
+                                            <Trophy className="h-4 w-4 text-green-400" />
+                                            <div>
+                                                <p className="text-xs text-gray-400">Best</p>
+                                                <p className="text-sm font-semibold text-gray-100">{brawler.highestTrophies}</p>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        </HoverCardContent>
+                    </HoverCard>
                 ))}
             </div>
         </motion.div>

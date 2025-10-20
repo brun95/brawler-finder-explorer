@@ -10,6 +10,8 @@ export const useMaps = () => {
       const data: MapsResponse = await response.json();
       return data.list;
     },
+    staleTime: 1000 * 60 * 60, // 1 hour - maps data rarely changes
+    gcTime: 1000 * 60 * 60 * 2, // 2 hours - keep in cache
   });
 };
 
@@ -21,6 +23,8 @@ export const useMap = (id: number) => {
       const data: MapsResponse = await response.json();
       return data.list.find((map) => map.id === id);
     },
+    staleTime: 1000 * 60 * 60, // 1 hour - map data rarely changes
+    gcTime: 1000 * 60 * 60 * 2, // 2 hours - keep in cache
   });
 };
 
@@ -32,6 +36,8 @@ export const useGameModes = () => {
       const data: GameModesResponse = await response.json();
       return data.list;
     },
+    staleTime: 1000 * 60 * 60, // 1 hour - game modes rarely change
+    gcTime: 1000 * 60 * 60 * 2, // 2 hours - keep in cache
   });
 };
 

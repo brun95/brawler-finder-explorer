@@ -27,7 +27,12 @@ export const fr: Translation = {
     clubPlaceholder: "Rechercher un club par tag",
     error: {
       invalidTag: "Le tag est invalide",
-      fetchError: "Impossible de récupérer les données",
+      fetchError: "Oups ! Joueur introuvable. Vérifiez le tag et réessayez.",
+      playerNotFound: "Joueur introuvable. Vérifiez que le tag est correct.",
+      clubNotFound: "Club introuvable. Veuillez vérifier le tag du club.",
+      networkError: "Problème de connexion. Vérifiez votre internet et réessayez.",
+      rateLimitError: "Trop de recherches ! Veuillez patienter un instant.",
+      serverError: "Un problème est survenu. Veuillez réessayer dans un instant.",
     },
     previousSearches: "Recherches précédentes",
     clearSearches: "Effacer les recherches",
@@ -65,6 +70,41 @@ export const fr: Translation = {
       vicePresident: "Vice-Président",
       senior: "Sénior",
       member: "Membre"
+    }
+  },
+  dashboard: {
+    title: "Mon Tableau de Bord",
+    subtitle: "Vue d'ensemble de vos favoris et accès rapide",
+    statistics: "Statistiques",
+    recentActivity: "Activité Récente",
+    quickActions: "Actions Rapides",
+    favorites: "Favoris",
+    totalFavorites: "Total de Favoris",
+    searchPlayer: "Rechercher un Joueur",
+    searchClub: "Rechercher un Club",
+    browseBrawlers: "Parcourir les Brawlers",
+    viewMaps: "Voir les Cartes",
+    viewEvents: "Voir les Événements",
+    clearAll: "Tout Effacer",
+    emptyState: {
+      noFavorites: "Aucun favori pour le moment",
+      noPlayers: "Aucun joueur favori pour le moment",
+      noClubs: "Aucun club favori pour le moment",
+      noBrawlers: "Aucun brawler favori pour le moment",
+      startExploring: "Commencez à explorer et ajoutez vos favoris pour les voir ici !"
+    },
+    tabs: {
+      all: "Tous",
+      players: "Joueurs",
+      clubs: "Clubs",
+      brawlers: "Brawlers"
+    },
+    actions: {
+      viewProfile: "Voir le Profil",
+      viewClub: "Voir le Club",
+      viewBrawler: "Voir le Brawler",
+      viewDetails: "Voir les Détails",
+      remove: "Supprimer"
     }
   }
 };

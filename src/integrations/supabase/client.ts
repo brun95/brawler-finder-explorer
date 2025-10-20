@@ -2,10 +2,21 @@
 import { createClient } from '@supabase/supabase-js';
 import type { Database } from './types';
 
-const SUPABASE_URL = "https://djhcsmvyykevekkmjrqa.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRqaGNzbXZ5eWtldmVra21qcnFhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE4MDUyMTcsImV4cCI6MjA1NzM4MTIxN30.yQBZ214Kv-x_HI2Z00DhQOi-fjQJQHjB0Sagk7k_uYw";
+// Use environment variables if available, fallback to empty strings if not configured
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || "";
+const SUPABASE_PUBLISHABLE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_PUBLISHABLE_KEY || "";
+
+// Check if Supabase is configured
+export const isSupabaseConfigured = Boolean(SUPABASE_URL && SUPABASE_PUBLISHABLE_KEY);
 
 // Import the supabase client like this:
-// import { supabase } from "@/integrations/supabase/client";
+// import { supabase, isSupabaseConfigured } from "@/integrations/supabase/client";
 
-export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+// Create a dummy client if not configured to prevent errors
+const dummyUrl = 'https://placeholder.supabase.co';
+const dummyKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBsYWNlaG9sZGVyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NDUxOTIwMDAsImV4cCI6MTk2MDU1MjAwMH0.placeholder';
+
+export const supabase = createClient<Database>(
+  isSupabaseConfigured ? SUPABASE_URL : dummyUrl,
+  isSupabaseConfigured ? SUPABASE_PUBLISHABLE_KEY : dummyKey
+);

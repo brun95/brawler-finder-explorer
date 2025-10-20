@@ -1,38 +1,32 @@
+'use client'
 
 import { NavBar } from "@/components/NavBar";
 import { MapCard } from "@/components/MapCard";
-import { useMaps, useGameModes } from "@/hooks/useMaps";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/hooks/useLanguage";
-import { Loader2 } from "lucide-react";
+import { useMaps } from "@/hooks/useMaps";
 
-const Maps = () => {
-  const navigate = useNavigate();
+export default function MapsClient() {
+  const router = useRouter();
   const { t } = useLanguage();
-  const { data: maps, isLoading: mapsLoading } = useMaps();
-  const { data: gameModes, isLoading: modesLoading } = useGameModes();
-
-  const isLoading = mapsLoading || modesLoading;
+  const { data: initialMaps, isLoading } = useMaps();
 
   // Group maps by game mode
-  const mapsByGameMode = maps?.filter(map => !map.disabled).reduce((acc, map) => {
+  const mapsByGameMode = initialMaps?.filter(map => !map.disabled).reduce((acc, map) => {
     const gameModeName = map.gameMode.name;
     if (!acc[gameModeName]) {
       acc[gameModeName] = [];
     }
     acc[gameModeName].push(map);
     return acc;
-  }, {} as Record<string, typeof maps>);
+  }, {} as Record<string, any[]>);
 
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
         <NavBar />
-        <div className="h-screen flex items-center justify-center">
-          <Loader2 className="w-8 h-8 text-primary animate-spin" />
-          <span className="ml-2 text-gray-600 dark:text-gray-300">{t.common.loading}</span>
-        </div>
+        <div className="pt-24 text-center text-gray-300">Loading...</div>
       </div>
     );
   }
@@ -51,19 +45,19 @@ const Maps = () => {
           <p className="text-gray-600 dark:text-gray-400">{t.maps.subtitle}</p>
         </motion.div>
 
-        {gameModes && mapsByGameMode && Object.entries(mapsByGameMode).map(([gameMode, gameMaps]) => (
+        {mapsByGameMode && (Object.entries(mapsByGameMode) as [string, any[]][]).map(([gameMode, gameMaps]) => (
           <section key={gameMode} className="mb-12">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">{gameMode}</h2>
               <span className="text-gray-500 dark:text-gray-400">{gameMaps.length} maps</span>
             </div>
-            
+
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
               {gameMaps.map((map) => (
                 <MapCard
                   key={map.id}
                   map={map}
-                  onClick={() => navigate(`/maps/${map.id}`)}
+                  onClick={() => router.push(`/maps/${map.id}`)}
                 />
               ))}
             </div>
@@ -78,6 +72,4 @@ const Maps = () => {
       </main>
     </div>
   );
-};
-
-export default Maps;
+}

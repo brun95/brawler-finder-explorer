@@ -1,9 +1,11 @@
 
+'use client'
+
 import { fetchPlayerData } from "@/api";
 import { motion } from "framer-motion";
 import { Search, Users } from "lucide-react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 import { usePreviousSearches } from "@/hooks/usePreviousSearches";
 import { usePreviousClubSearches } from "@/hooks/usePreviousClubSearches";
 import { PreviousSearches } from "./PreviousSearches";
@@ -17,38 +19,76 @@ export const HeroSection = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [clubQuery, setClubQuery] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const navigate = useNavigate();
+  const router = useRouter();
   const { addSearch } = usePreviousSearches();
-  const { addSearch: addClubSearch } = usePreviousClubSearches();
+  const { addSearch: _addClubSearch } = usePreviousClubSearches();
   const { t } = useLanguage();
 
+  // Smart tag validation and cleanup
+  const cleanTag = (tag: string): string => {
+    // Remove spaces and special characters except alphanumeric
+    let cleaned = tag.trim().replace(/\s+/g, '').toUpperCase();
+
+    // Auto-add # if missing
+    if (!cleaned.startsWith('#')) {
+      cleaned = '#' + cleaned;
+    }
+
+    // Validate tag format (# followed by alphanumeric characters)
+    const tagRegex = /^#[0-9A-Z]+$/;
+    if (!tagRegex.test(cleaned)) {
+      return '';
+    }
+
+    return cleaned;
+  };
+
   const handlePlayerSearch = async () => {
-    if (!searchQuery.startsWith("#")) {
+    const cleanedTag = cleanTag(searchQuery);
+
+    if (!cleanedTag) {
       setErrorMessage(t.search.error.invalidTag);
-      setTimeout(() => setErrorMessage(""), 3000);
+      setTimeout(() => setErrorMessage(""), 5000);
       return;
     }
-    
-    const playerTag = searchQuery.substring(1);
+
+    const playerTag = cleanedTag.substring(1);
     try {
       const playerData = await fetchPlayerData(playerTag);
       addSearch(playerTag, playerData.name);
-      navigate(`/player/${playerTag}`);
-    } catch (error) {
-      setErrorMessage(t.search.error.fetchError);
-      setTimeout(() => setErrorMessage(""), 3000);
+      router.push(`/player/${playerTag}`);
+    } catch (error: any) {
+      // Determine the specific error message based on error type
+      let errorMsg = t.search.error.fetchError;
+
+      // Check for specific HTTP status codes first
+      if (error?.response?.status === 404) {
+        errorMsg = t.search.error.playerNotFound;
+      } else if (error?.response?.status === 429) {
+        errorMsg = t.search.error.rateLimitError;
+      } else if (error?.response?.status >= 500) {
+        errorMsg = t.search.error.serverError;
+      } else if (error?.message?.includes('Failed to fetch') && !error?.response) {
+        // Only show network error if there's no response (actual network issue)
+        errorMsg = t.search.error.networkError;
+      }
+
+      setErrorMessage(errorMsg);
+      setTimeout(() => setErrorMessage(""), 5000);
     }
   };
 
   const handleClubSearch = () => {
-    if (!clubQuery.startsWith("#")) {
-      setErrorMessage(t.search.error.invalidTag);
+    const cleanedTag = cleanTag(clubQuery);
+
+    if (!cleanedTag) {
+      setErrorMessage('Invalid tag format. Please enter a valid club tag (e.g., #ABC123)');
       setTimeout(() => setErrorMessage(""), 3000);
       return;
     }
-    
-    const clubTag = clubQuery.substring(1);
-    navigate(`/club/${clubTag}`);
+
+    const clubTag = cleanedTag.substring(1);
+    router.push(`/club/${clubTag}`);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent, type: 'player' | 'club') => {
