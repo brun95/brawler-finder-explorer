@@ -43,6 +43,14 @@ const getRarityColor = (rarityName: string | undefined): string => {
     return RARITY_COLORS[rarityName] || '#94D7F4';
 };
 
+// Convert hex color to rgba with opacity
+const hexToRgba = (hex: string, opacity: number): string => {
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+};
+
 const calculateBarHeight = (trophies: number, maxTrophies: number): number => {
     const MIN_HEIGHT = 20; // Minimum visible height in pixels
     const MAX_HEIGHT = 200; // Container height
@@ -148,6 +156,7 @@ export const BrawlerTrophyBars = ({ brawlers }: BrawlerTrophyBarsProps) => {
                     {sortedBrawlers.map((brawler) => {
                         const barHeight = calculateBarHeight(brawler.trophies || 0, maxTrophies);
                         const rarityColor = getRarityColor(brawler.rarity);
+                        const barColor = hexToRgba(rarityColor, 0.6); // 60% opacity for bars
 
                         console.log('Rendering bar for:', brawler.name, 'Rarity:', brawler, 'Color:', rarityColor);
 
@@ -183,7 +192,7 @@ export const BrawlerTrophyBars = ({ brawlers }: BrawlerTrophyBarsProps) => {
                                             className="w-full transition-all"
                                             style={{
                                                 height: `${barHeight}px`,
-                                                backgroundColor: rarityColor,
+                                                backgroundColor: barColor,
                                             }}
                                         />
                                     </motion.div>

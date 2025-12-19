@@ -9,7 +9,10 @@
       "Bash(curl:*)",
       "Bash(dir:*)",
       "Bash(rm:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(bun dev:*)",
+      "Bash(lsof:*)",
+      "Bash(npx tsc:*)"
     ],
     "deny": [],
     "ask": []

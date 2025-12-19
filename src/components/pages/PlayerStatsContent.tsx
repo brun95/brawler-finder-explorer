@@ -256,17 +256,7 @@ const PlayerStats = () => {
                   onDragEnd={handleSwipe}
                   className="space-y-8 md:pointer-events-auto pointer-events-auto touch-pan-y"
                 >
-                  <div className="grid md:grid-cols-1 gap-8">
-              {isLoadingTrophyHistory ? (
-                <div className="bg-gray-800 rounded-lg p-6 border border-gray-700 h-64 flex items-center justify-center">
-                  <div className="text-gray-400">Loading trophy history...</div>
-                </div>
-              ) : (
-                <TrophyHistoryChart data={trophyHistory || []} />
-              )}
-
-              <BrawlerTrophyBars brawlers={player.brawlers} />
-            </div>
+                  <BrawlerTrophyBars brawlers={player.brawlers} />
 
             {isLoadingBattles ? (
               <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
@@ -306,15 +296,6 @@ const PlayerStats = () => {
                   onDragEnd={handleSwipe}
                   className="md:pointer-events-auto pointer-events-auto touch-pan-y"
                 >
-            <div className="grid md:grid-cols-1 gap-8 space-y-8">
-              {winRates && (
-                <WinRateAnalysis 
-                  byModeData={winRates.byMode || []} 
-                  byBrawlerData={winRates.byBrawler || []} 
-                />
-              )}
-            </div>
-
             <BrawlerGrid brawlers={player.brawlers} />
                 </motion.div>
               </TabsContent>

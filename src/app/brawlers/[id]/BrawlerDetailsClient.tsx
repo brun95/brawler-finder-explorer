@@ -9,7 +9,33 @@ interface BrawlerDetailsClientProps {
   brawler: any;
 }
 
+// Official Brawl Stars rarity colors
+const RARITY_COLORS: Record<string, string> = {
+  'Common': '#94D7F4',
+  'Rare': '#2DDD1D',
+  'Super Rare': '#0087FA',
+  'Epic': '#B115ED',
+  'Mythic': '#D6001A',
+  'Legendary': '#FFF11F',
+  'Ultra Legendary': '#ffffff',
+  'Chromatic': '#F88F58',
+  'Trophy Road': '#94D7F4',
+  'Starting': '#94D7F4',
+};
+
+const getRarityColor = (rarityName: string | undefined): string => {
+  if (!rarityName) return '#94D7F4';
+  return RARITY_COLORS[rarityName] || '#94D7F4';
+};
+
 export default function BrawlerDetailsClient({ brawler }: BrawlerDetailsClientProps) {
+  console.log('Brawler detail:', brawler);
+  console.log('Rarity:', brawler?.rarity);
+  console.log('Rarity name:', brawler?.rarity?.name);
+
+  const rarityColor = getRarityColor(brawler?.rarity?.name);
+  console.log('Rarity color:', rarityColor);
+
   return (
     <div className="min-h-screen bg-gray-900">
       <NavBar />
@@ -28,15 +54,22 @@ export default function BrawlerDetailsClient({ brawler }: BrawlerDetailsClientPr
             transition={{ duration: 0.5 }}
             className="bg-card rounded-lg overflow-hidden shadow-sm p-6"
           >
-            <img
-              src={`/brawlers/${brawler.id}.webp`}
-              alt={brawler.name}
-              className="w-full h-64 object-contain mb-6"
-              onError={(e) => {
-                e.currentTarget.src = `https://cdn.brawlify.com/brawlers/borderless/${brawler.id}.png`;
-              }}
-            />
-            <h1 className="text-4xl font-bold text-foreground mb-4">{brawler.name}</h1>
+            <div className="flex justify-center mb-6">
+              <div
+                className="rounded-lg overflow-hidden inline-block"
+                style={{ backgroundColor: rarityColor }}
+              >
+                <img
+                  src={`/brawlers/${brawler.id}.webp`}
+                  alt={brawler.name}
+                  className="h-64 object-contain"
+                  onError={(e) => {
+                    e.currentTarget.src = `https://cdn.brawlify.com/brawlers/borderless/${brawler.id}.png`;
+                  }}
+                />
+              </div>
+            </div>
+            <h1 className="text-4xl font-bold text-foreground text-center">{brawler.name}</h1>
           </motion.div>
 
           <motion.div
@@ -58,7 +91,11 @@ export default function BrawlerDetailsClient({ brawler }: BrawlerDetailsClientPr
                       alt={starPower.name}
                       className="w-8 h-8 mr-3"
                       onError={(e) => {
-                        e.currentTarget.src = `https://cdn.brawlify.com/star-powers/borderless/${starPower.id}.png`;
+                        if (starPower.imageUrl) {
+                          e.currentTarget.src = starPower.imageUrl;
+                        } else {
+                          e.currentTarget.src = `https://cdn.brawlify.com/star-powers/borderless/${starPower.id}.png`;
+                        }
                       }}
                     />
                     <span className="text-foreground">{starPower.name}</span>
@@ -80,7 +117,11 @@ export default function BrawlerDetailsClient({ brawler }: BrawlerDetailsClientPr
                       alt={gadget.name}
                       className="w-8 h-8 mr-3"
                       onError={(e) => {
-                        e.currentTarget.src = `https://cdn.brawlify.com/gadgets/borderless/${gadget.id}.png`;
+                        if (gadget.imageUrl) {
+                          e.currentTarget.src = gadget.imageUrl;
+                        } else {
+                          e.currentTarget.src = `https://cdn.brawlify.com/gadgets/borderless/${gadget.id}.png`;
+                        }
                       }}
                     />
                     <span className="text-foreground">{gadget.name}</span>

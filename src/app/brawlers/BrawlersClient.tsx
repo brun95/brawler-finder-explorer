@@ -4,22 +4,62 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { NavBar } from "@/components/NavBar";
-import { Search, Grid3x3, List } from "lucide-react";
+import { Search } from "lucide-react";
 import { BrawlerCard } from "@/components/BrawlerCard";
-import { BrawlerClass } from "@/types/brawler";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useBrawlers } from "@/hooks/useBrawlers";
+
+// Official Brawl Stars rarity colors
+const RARITY_COLORS: Record<string, string> = {
+  'Common': '#94D7F4',
+  'Rare': '#2DDD1D',
+  'Super Rare': '#0087FA',
+  'Epic': '#B115ED',
+  'Mythic': '#D6001A',
+  'Legendary': '#FFF11F',
+  'Ultra Legendary': '#ffffff',
+  'Chromatic': '#F88F58',
+  'Trophy Road': '#94D7F4',
+  'Starting': '#94D7F4',
+};
+
+const getRarityColor = (rarityName: string | undefined): string => {
+  if (!rarityName) return '#94D7F4';
+  return RARITY_COLORS[rarityName] || '#94D7F4';
+};
+
+// Convert hex color to rgba with opacity
+const hexToRgba = (hex: string, opacity: number): string => {
+  try {
+    const cleanHex = hex.replace('#', '');
+    const r = parseInt(cleanHex.slice(0, 2), 16);
+    const g = parseInt(cleanHex.slice(2, 4), 16);
+    const b = parseInt(cleanHex.slice(4, 6), 16);
+
+    if (isNaN(r) || isNaN(g) || isNaN(b)) {
+      return 'rgba(55, 65, 81, 0.5)'; // fallback gray
+    }
+
+    return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+  } catch (error) {
+    return 'rgba(55, 65, 81, 0.5)'; // fallback gray
+  }
+};
 
 export default function BrawlersClient() {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedClass, setSelectedClass] = useState<BrawlerClass | "All">("All");
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [selectedClass, setSelectedClass] = useState<string>("All");
   const { data: initialBrawlers, isLoading } = useBrawlers();
+
+  // Get unique classes from brawlers data
+  const classes = ["All", ...(initialBrawlers ? Array.from(new Set(
+    initialBrawlers.map((b: any) => typeof b.class === 'object' ? b.class?.name : b.class).filter(Boolean)
+  )) : [])];
 
   const filteredBrawlers = initialBrawlers?.filter((brawler: any) => {
     const matchesSearch = brawler.name.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesClass = selectedClass === "All" || brawler.class === selectedClass;
+    const brawlerClassName = typeof brawler.class === 'object' ? brawler.class?.name : brawler.class;
+    const matchesClass = selectedClass === "All" || brawlerClassName === selectedClass;
     return matchesSearch && matchesClass;
   });
 
@@ -31,15 +71,6 @@ export default function BrawlersClient() {
       </div>
     );
   }
-
-  const classes: (BrawlerClass | "All")[] = [
-    "All",
-    "Damage Dealer",
-    "Hybrid",
-    "Support",
-    "Tank",
-    "Assassin",
-  ];
 
   return (
     <div className="min-h-screen bg-gray-900">
@@ -69,7 +100,7 @@ export default function BrawlersClient() {
 
           <select
             value={selectedClass}
-            onChange={(e) => setSelectedClass(e.target.value as BrawlerClass | "All")}
+            onChange={(e) => setSelectedClass(e.target.value)}
             className="px-4 py-2 rounded-lg border border-gray-700 bg-gray-800 text-gray-200 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
           >
             {classes.map((c) => (
@@ -78,54 +109,20 @@ export default function BrawlersClient() {
               </option>
             ))}
           </select>
-
-          <ToggleGroup type="single" value={viewMode} onValueChange={(value) => value && setViewMode(value as 'grid' | 'list')}>
-            <ToggleGroupItem value="grid" aria-label="Grid view">
-              <Grid3x3 className="h-4 w-4" />
-            </ToggleGroupItem>
-            <ToggleGroupItem value="list" aria-label="List view">
-              <List className="h-4 w-4" />
-            </ToggleGroupItem>
-          </ToggleGroup>
         </div>
 
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className={viewMode === 'grid' ? "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4" : "space-y-3"}
+          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4"
         >
           {filteredBrawlers?.map((brawler: any) => (
-            viewMode === 'grid' ? (
-              <BrawlerCard
-                key={brawler.id}
-                brawler={brawler}
-                onClick={() => router.push(`/brawlers/${brawler.id}`)}
-              />
-            ) : (
-              <div
-                key={brawler.id}
-                onClick={() => router.push(`/brawlers/${brawler.id}`)}
-                className="flex items-center gap-4 p-4 bg-gray-800 rounded-lg border border-gray-700 hover:border-primary cursor-pointer transition-all"
-              >
-                <img
-                  src={`/brawlers/${brawler.id}.webp`}
-                  alt={brawler.name}
-                  className="w-16 h-16 rounded-lg"
-                  onError={(e) => {
-                    e.currentTarget.src = `https://cdn.brawlify.com/brawlers/borderless/${brawler.id}.png`;
-                  }}
-                />
-                <div className="flex-1">
-                  <h3 className="text-lg font-semibold text-gray-100">{brawler.name}</h3>
-                  <p className="text-sm text-gray-400">{brawler.class}</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-xs text-gray-500 uppercase">Rarity</p>
-                  <p className="text-sm font-medium text-gray-300">{brawler.rarity?.name || 'Unknown'}</p>
-                </div>
-              </div>
-            )
+            <BrawlerCard
+              key={brawler.id}
+              brawler={brawler}
+              onClick={() => router.push(`/brawlers/${brawler.id}`)}
+            />
           ))}
         </motion.div>
       </main>
