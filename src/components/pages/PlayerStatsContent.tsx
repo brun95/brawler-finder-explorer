@@ -24,6 +24,15 @@ const TrophyHistoryChart = dynamic(() => import("@/components/player/TrophyHisto
   ssr: false
 });
 
+const BrawlerTrophyBars = dynamic(() => import("@/components/player/BrawlerTrophyBars").then(mod => mod.BrawlerTrophyBars), {
+  loading: () => (
+    <div className="bg-gray-800 rounded-lg p-6 border border-gray-700 h-72 flex items-center justify-center">
+      <div className="text-gray-400">Loading brawler stats...</div>
+    </div>
+  ),
+  ssr: false
+});
+
 const BattleLogSection = dynamic(() => import("@/components/player/BattleLogSection").then(mod => mod.BattleLogSection), {
   loading: () => (
     <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
@@ -255,6 +264,8 @@ const PlayerStats = () => {
               ) : (
                 <TrophyHistoryChart data={trophyHistory || []} />
               )}
+
+              <BrawlerTrophyBars brawlers={player.brawlers} />
             </div>
 
             {isLoadingBattles ? (

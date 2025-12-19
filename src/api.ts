@@ -31,6 +31,7 @@ export const fetchBrawlers = async () => {
         }
 
         const data = await response.json();
+        console.log('BRUNOOOOOO', data)
         return data.items;
     } catch (error) {
         console.error("Error fetching brawlers:", error);
