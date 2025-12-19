@@ -102,13 +102,14 @@ export default function BrawlersClient() {
           <select
             value={selectedClass}
             onChange={(e) => setSelectedClass(e.target.value)}
+            aria-label="Filter brawlers by class"
             className="px-4 py-2 rounded-lg border border-gray-700 bg-gray-800 text-gray-200 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
           >
-            {classes.map((c) => (
-              <option key={c} value={c}>
-                {c}
-              </option>
-            ))}
+            {(classes as string[]).map((c: string) => (
+                <option key={c} value={c}>
+                  {c}
+                </option>
+              ))}
           </select>
         </div>
 
