@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import axios from "axios";
 import { withRateLimit, ratelimit } from "@/lib/ratelimit";
 
-const { NEXT_PUBLIC_PUBLIC_BASE_URL, NEXT_PUBLIC_SECRET_API_KEY } = process.env;
+const { NEXT_PUBLIC_PUBLIC_BASE_CDN_URL } = process.env;
 
 export async function GET(request) {
     // Apply rate limiting
@@ -12,10 +12,9 @@ export async function GET(request) {
     }
 
     try {
-        const response = await axios.get(`${NEXT_PUBLIC_PUBLIC_BASE_URL}/brawlers`, {
+        const response = await axios.get(`${NEXT_PUBLIC_PUBLIC_BASE_CDN_URL}/brawlers`, {
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${NEXT_PUBLIC_SECRET_API_KEY}`,
             },
         });
 

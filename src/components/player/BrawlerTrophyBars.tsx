@@ -58,14 +58,15 @@ export const BrawlerTrophyBars = ({ brawlers }: BrawlerTrophyBarsProps) => {
     const { data: allBrawlers, isLoading: isLoadingBrawlers } = useBrawlers();
 
     console.log('All Brawlers data structure:', allBrawlers);
+    console.log('Sample brawler from API:', allBrawlers?.[0]);
 
     // Join player brawlers with full brawler data to get rarity
     const brawlersWithRarity: BrawlerWithRarity[] = brawlers.map(pb => {
-        const matchedBrawler = allBrawlers?.list?.find((b: any) => b.id === pb.id) ||
-                               allBrawlers?.items?.find((b: any) => b.id === pb.id);
+        // allBrawlers is now directly an array (not wrapped in .list or .items)
+        const matchedBrawler = allBrawlers?.find((b: any) => b.id === pb.id);
         const rarity = matchedBrawler?.rarity?.name || matchedBrawler?.rarity;
 
-        console.log('Brawler:', pb.name, 'ID:', pb.id, 'Rarity:', rarity, 'Full brawler data:', matchedBrawler);
+        console.log('Brawler:', pb.name, 'ID:', pb.id, 'Matched:', !!matchedBrawler, 'Rarity:', rarity, 'Rarity object:', matchedBrawler?.rarity);
 
         return {
             ...pb,
@@ -139,7 +140,7 @@ export const BrawlerTrophyBars = ({ brawlers }: BrawlerTrophyBarsProps) => {
             </CardHeader>
             <CardContent className="h-72">
                 <motion.div
-                    className="flex items-end gap-0.5 md:gap-1 h-full overflow-x-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-800 pb-2"
+                    className="flex items-end h-full overflow-x-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-800 pb-2"
                     variants={containerVariants}
                     initial="hidden"
                     animate="visible"
@@ -160,10 +161,9 @@ export const BrawlerTrophyBars = ({ brawlers }: BrawlerTrophyBarsProps) => {
                                     >
                                         {/* Square image on top */}
                                         <div
-                                            className="w-full aspect-square bg-gray-700 rounded-sm overflow-hidden mb-0.5 relative"
+                                            className="w-full aspect-square bg-gray-700 overflow-hidden mb-0.5 relative"
                                             style={{
                                                 backgroundColor: rarityColor,
-                                                opacity: 0.3,
                                             }}
                                         >
                                             <Image
@@ -184,7 +184,6 @@ export const BrawlerTrophyBars = ({ brawlers }: BrawlerTrophyBarsProps) => {
                                             style={{
                                                 height: `${barHeight}px`,
                                                 backgroundColor: rarityColor,
-                                                borderRadius: '0 0 2px 2px',
                                             }}
                                         />
                                     </motion.div>
