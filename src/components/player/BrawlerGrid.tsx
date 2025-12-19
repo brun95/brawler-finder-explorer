@@ -7,6 +7,7 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/h
 import { Trophy, Star, Crown } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { createBrawlerSlug } from "@/lib/utils";
 
 interface Brawler {
     id: number;
@@ -62,7 +63,7 @@ export const BrawlerGrid = ({ brawlers }: BrawlerGridProps) => {
                     <HoverCard key={brawler.id} openDelay={200}>
                         <HoverCardTrigger asChild>
                             <Link
-                                href={`/brawlers/${brawler.id}`}
+                                href={`/brawlers/${createBrawlerSlug(brawler.name)}`}
                                 className="flex flex-col items-center p-3 rounded-lg bg-gray-700 hover:bg-gray-600 transition-all cursor-pointer group"
                             >
                                 <div className="relative w-12 h-12 mb-2">

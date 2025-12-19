@@ -7,6 +7,7 @@ import { NavBar } from "@/components/NavBar";
 import { Search } from "lucide-react";
 import { BrawlerCard } from "@/components/BrawlerCard";
 import { useBrawlers } from "@/hooks/useBrawlers";
+import { createBrawlerSlug } from "@/lib/utils";
 
 // Official Brawl Stars rarity colors
 const RARITY_COLORS: Record<string, string> = {
@@ -121,7 +122,7 @@ export default function BrawlersClient() {
             <BrawlerCard
               key={brawler.id}
               brawler={brawler}
-              onClick={() => router.push(`/brawlers/${brawler.id}`)}
+              onClick={() => router.push(`/brawlers/${createBrawlerSlug(brawler.name)}`)}
             />
           ))}
         </motion.div>

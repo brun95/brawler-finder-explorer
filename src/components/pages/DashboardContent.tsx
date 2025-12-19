@@ -13,6 +13,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PageBreadcrumb } from "@/components/PageBreadcrumb";
 import { motion } from "framer-motion";
 import { useMemo } from "react";
+import { createBrawlerSlug } from "@/lib/utils";
 
 const Dashboard = () => {
   const { favorites, removeFavorite, clearAllFavorites, getFavoritesByType } = useFavorites();
@@ -315,7 +316,7 @@ const Dashboard = () => {
                             ? `/player/${fav.tag?.replace('#', '')}`
                             : fav.type === 'club'
                             ? `/club/${fav.tag?.replace('#', '')}`
-                            : `/brawlers/${fav.id}`
+                            : `/brawlers/${createBrawlerSlug(fav.name)}`
                         }
                       >
                         <Button variant="ghost" size="sm">
@@ -421,7 +422,7 @@ const Dashboard = () => {
                               ? `/player/${favorite.tag?.replace('#', '')}`
                               : favorite.type === 'club'
                               ? `/club/${favorite.tag?.replace('#', '')}`
-                              : `/brawlers/${favorite.id}`
+                              : `/brawlers/${createBrawlerSlug(favorite.name)}`
                           }
                         >
                           <Button variant="outline" size="sm" className="w-full">
@@ -579,7 +580,7 @@ const Dashboard = () => {
                         </div>
                       </CardHeader>
                       <CardContent>
-                        <Link href={`/brawlers/${favorite.id}`}>
+                        <Link href={`/brawlers/${createBrawlerSlug(favorite.name)}`}>
                           <Button variant="outline" size="sm" className="w-full">
                             {t.dashboard.actions.viewBrawler}
                           </Button>

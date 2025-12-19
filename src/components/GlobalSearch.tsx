@@ -10,6 +10,7 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
 import { useBrawlers } from "@/hooks/useBrawlers";
 import { usePreviousSearches } from "@/hooks/usePreviousSearches";
 import { usePreviousClubSearches } from "@/hooks/usePreviousClubSearches";
+import { createBrawlerSlug } from "@/lib/utils";
 
 export const GlobalSearch = () => {
   const [open, setOpen] = useState(false);
@@ -47,8 +48,8 @@ export const GlobalSearch = () => {
     setSearchQuery("");
   };
 
-  const handleBrawlerSelect = (brawlerId: number) => {
-    router.push(`/brawlers/${brawlerId}`);
+  const handleBrawlerSelect = (brawlerName: string) => {
+    router.push(`/brawlers/${createBrawlerSlug(brawlerName)}`);
     setOpen(false);
     setSearchQuery("");
   };
@@ -192,7 +193,7 @@ export const GlobalSearch = () => {
                       {filteredBrawlers.map((brawler: any) => (
                         <CommandItem
                           key={brawler.id}
-                          onSelect={() => handleBrawlerSelect(brawler.id)}
+                          onSelect={() => handleBrawlerSelect(brawler.name)}
                           className="cursor-pointer"
                         >
                           <Sword className="mr-2 h-4 w-4" />

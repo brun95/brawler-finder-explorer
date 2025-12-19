@@ -58,6 +58,22 @@ export const fetchBrawlerById = async (id: number) => {
     }
 };
 
+export const fetchBrawlerBySlug = async (slug: string) => {
+    try {
+        const baseUrl = getBaseUrl();
+        const response = await fetch(`${baseUrl}${BASE_URL}/brawlers/${slug}`);
+
+        if (!response.ok) {
+            throw new Error("Failed to fetch brawler");
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error("Error fetching brawler:", error);
+        throw error;
+    }
+};
+
 export const fetchPlayerData = async (tag: string) => {
     try {
         if (!tag || typeof tag !== "string") {

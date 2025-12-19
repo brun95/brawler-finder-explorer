@@ -2,21 +2,21 @@
 
 import { use } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { fetchBrawlerById } from '@/api';
+import { fetchBrawlerBySlug } from '@/api';
 import BrawlerDetailsClient from './BrawlerDetailsClient';
 import { NavBar } from '@/components/NavBar';
 import { Footer } from '@/components/Footer';
 
 interface Props {
-    params: Promise<{ id: string }>
+    params: Promise<{ slug: string }>
 }
 
 export default function BrawlerDetailPage({ params }: Props) {
-    const { id } = use(params);
+    const { slug } = use(params);
 
     const { data: brawler, isLoading, error } = useQuery({
-        queryKey: ['brawler', id],
-        queryFn: () => fetchBrawlerById(Number(id)),
+        queryKey: ['brawler', slug],
+        queryFn: () => fetchBrawlerBySlug(slug),
         retry: 1,
     });
 

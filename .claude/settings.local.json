@@ -12,7 +12,8 @@
       "Bash(find:*)",
       "Bash(bun dev:*)",
       "Bash(lsof:*)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "Bash(ls:*)"
     ],
     "deny": [],
     "ask": []

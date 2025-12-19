@@ -3,7 +3,7 @@
 import { Menu, Star } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
-import { ThemeSwitch } from "./ThemeSwitch";
+// import { ThemeSwitch } from "./ThemeSwitch";
 import { GlobalSearch } from "./GlobalSearch";
 import { useFavorites } from "@/hooks/useFavorites";
 
@@ -41,10 +41,10 @@ export const NavBar = () => {
             <Link href="/events" className="text-gray-700 dark:text-gray-300 hover:text-primary transition-colors">
               Events
             </Link>
-            <ThemeSwitch />
+            {/* <ThemeSwitch /> */}
           </div>
 
-          <div className="md:hidden flex items-center space-x-4">
+          {/* <div className="md:hidden flex items-center space-x-4">
             <ThemeSwitch />
             <button
               onClick={() => setIsOpen(!isOpen)}
@@ -52,7 +52,7 @@ export const NavBar = () => {
             >
               <Menu className="w-6 h-6 text-gray-600 dark:text-gray-400" />
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
 
