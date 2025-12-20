@@ -9,7 +9,7 @@ const corsHeaders = {
 }
 
 const BRAWLSTARS_BASE_URL = "https://api.brawlstars.com/v1"
-const API_KEY = Deno.env.get('NEXT_PUBLIC_SECRET_API_KEY') || ''
+const API_KEY = Deno.env.get('SECRET_API_KEY') || ''
 
 serve(async (req) => {
   // Handle CORS preflight requests

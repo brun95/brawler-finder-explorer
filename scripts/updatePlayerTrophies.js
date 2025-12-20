@@ -5,7 +5,7 @@ import axios from 'axios';
 // Load environment variables
 const SUPABASE_URL              = process.env.SUPABASE_URL;
 const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
-const BRAWLSTARS_API_KEY        = process.env.NEXT_PUBLIC_SECRET_API_KEY;
+const BRAWLSTARS_API_KEY        = process.env.SECRET_API_KEY;
 const BRAWLSTARS_BASE_URL       = process.env.NEXT_PUBLIC_PUBLIC_BASE_URL || 'https://api.brawlstars.com/v1';
 
 // Initialize Supabase client with service role key for admin access

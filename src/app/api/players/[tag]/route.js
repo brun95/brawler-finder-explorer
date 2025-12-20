@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import axios from "axios";
 import { withRateLimit, strictRatelimit } from "@/lib/ratelimit";
 
-const { NEXT_PUBLIC_PUBLIC_BASE_URL, NEXT_PUBLIC_SECRET_API_KEY } = process.env;
+const { NEXT_PUBLIC_PUBLIC_BASE_URL, SECRET_API_KEY } = process.env;
 
 export async function GET(request, context) {
     let tag;
@@ -36,7 +36,7 @@ export async function GET(request, context) {
         const response = await axios.get(`${NEXT_PUBLIC_PUBLIC_BASE_URL}/players/${formattedTag}`, {
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${NEXT_PUBLIC_SECRET_API_KEY}`,
+                Authorization: `Bearer ${SECRET_API_KEY}`,
             },
             timeout: 10000, // 10 second timeout
         });

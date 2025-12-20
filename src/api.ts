@@ -18,7 +18,7 @@ const getBaseUrl = () => {
 const BASE_URL = "/api";
 // const BASE_CDN_URL = "/cdnapi";
 const BASE_CDN_URL = "/api";
-const API_KEY = process.env.NEXT_PUBLIC_SECRET_API_KEY;
+const API_KEY = process.env.SECRET_API_KEY;
 
 
 export const fetchBrawlers = async () => {
