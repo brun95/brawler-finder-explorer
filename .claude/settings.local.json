@@ -13,7 +13,9 @@
       "Bash(bun dev:*)",
       "Bash(lsof:*)",
       "Bash(npx tsc:*)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "WebFetch(domain:vercel.com)",
+      "WebSearch"
     ],
     "deny": [],
     "ask": []
