@@ -3,23 +3,23 @@
 
 import { createContext, useContext, useEffect } from "react";
 
-type Theme = "dark";
+type Theme = "light";
 
 const ThemeContext = createContext<{
   theme: Theme;
 }>({
-  theme: "dark",
+  theme: "light",
 });
 
 export const useTheme = () => useContext(ThemeContext);
 
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
-  // Always use dark theme
-  const theme: Theme = "dark";
+  // Always use light theme
+  const theme: Theme = "light";
 
   useEffect(() => {
-    // Always set dark mode
-    document.documentElement.classList.add("dark");
+    // Remove dark mode class if it exists
+    document.documentElement.classList.remove("dark");
   }, []);
 
   return (

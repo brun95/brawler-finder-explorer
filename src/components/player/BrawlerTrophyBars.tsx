@@ -118,7 +118,7 @@ export const BrawlerTrophyBars = ({ brawlers }: BrawlerTrophyBarsProps) => {
                     <CardDescription>Loading brawler data...</CardDescription>
                 </CardHeader>
                 <CardContent className="h-72 flex items-center justify-center">
-                    <div className="text-gray-400">Loading...</div>
+                    <div className="text-gray-600">Loading...</div>
                 </CardContent>
             </Card>
         );
@@ -132,7 +132,7 @@ export const BrawlerTrophyBars = ({ brawlers }: BrawlerTrophyBarsProps) => {
                     <CardDescription>No brawler trophy data available</CardDescription>
                 </CardHeader>
                 <CardContent className="h-72 flex items-center justify-center">
-                    <div className="text-gray-400">No trophy data found</div>
+                    <div className="text-gray-600">No trophy data found</div>
                 </CardContent>
             </Card>
         );
@@ -197,7 +197,7 @@ export const BrawlerTrophyBars = ({ brawlers }: BrawlerTrophyBarsProps) => {
                                         />
                                     </motion.div>
                                 </HoverCardTrigger>
-                                <HoverCardContent className="w-80 bg-gray-800 border-gray-700" side="top">
+                                <HoverCardContent className="w-80 bg-gray-200 border-gray-300" side="top">
                                     <div className="space-y-3">
                                         <div className="flex items-center gap-3">
                                             <div className="relative w-12 h-12">
@@ -213,24 +213,24 @@ export const BrawlerTrophyBars = ({ brawlers }: BrawlerTrophyBarsProps) => {
                                                 />
                                             </div>
                                             <div>
-                                                <h3 className="text-lg font-bold text-gray-100">{brawler.name}</h3>
-                                                <p className="text-sm text-gray-400">{brawler.rarity || 'Unknown'}</p>
+                                                <h3 className="text-lg font-bold text-gray-900">{brawler.name}</h3>
+                                                <p className="text-sm text-gray-600">{brawler.rarity || 'Unknown'}</p>
                                             </div>
                                         </div>
                                         <div className="grid grid-cols-2 gap-2">
                                             <div className="flex items-center gap-2 p-2 bg-gray-700 rounded-lg">
                                                 <Trophy className="h-4 w-4 text-blue-400 flex-shrink-0" />
                                                 <div className="min-w-0">
-                                                    <p className="text-xs text-gray-400">Current</p>
-                                                    <p className="text-sm font-semibold text-gray-100">{brawler.trophies}</p>
+                                                    <p className="text-xs text-gray-600">Current</p>
+                                                    <p className="text-sm font-semibold text-gray-900">{brawler.trophies}</p>
                                                 </div>
                                             </div>
                                             {brawler.highestTrophies !== undefined && (
                                                 <div className="flex items-center gap-2 p-2 bg-gray-700 rounded-lg">
                                                     <Trophy className="h-4 w-4 text-green-400 flex-shrink-0" />
                                                     <div className="min-w-0">
-                                                        <p className="text-xs text-gray-400">Highest</p>
-                                                        <p className="text-sm font-semibold text-gray-100">{brawler.highestTrophies}</p>
+                                                        <p className="text-xs text-gray-600">Highest</p>
+                                                        <p className="text-sm font-semibold text-gray-900">{brawler.highestTrophies}</p>
                                                     </div>
                                                 </div>
                                             )}

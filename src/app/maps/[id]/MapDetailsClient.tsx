@@ -17,7 +17,7 @@ export default function MapDetailsClient({ map }: MapDetailsClientProps) {
   const { t } = useLanguage();
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-gray-50">
       <NavBar />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
         <PageBreadcrumb
@@ -30,7 +30,7 @@ export default function MapDetailsClient({ map }: MapDetailsClientProps) {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
-            className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-sm"
+            className="bg-white rounded-lg overflow-hidden shadow-sm"
           >
             <div
               className="h-2"
@@ -55,16 +55,16 @@ export default function MapDetailsClient({ map }: MapDetailsClientProps) {
             className="space-y-6"
           >
             <div>
-              <h1 className="text-4xl font-bold text-gray-900 dark:text-gray-100">{map.name}</h1>
+              <h1 className="text-4xl font-bold text-gray-900">{map.name}</h1>
               <div className="flex items-center mt-2">
                 <div
                   className="w-4 h-4 rounded-full mr-2"
                   style={{ backgroundColor: map.gameMode.bgColor }}
                 />
-                <p className="text-gray-600 dark:text-gray-400">{map.gameMode.name}</p>
+                <p className="text-gray-600">{map.gameMode.name}</p>
               </div>
               {map.credit && (
-                <p className="text-gray-500 dark:text-gray-500 text-sm mt-2">
+                <p className="text-gray-500 text-sm mt-2">
                   {t.maps.createdBy}: {map.credit}
                 </p>
               )}
@@ -72,7 +72,7 @@ export default function MapDetailsClient({ map }: MapDetailsClientProps) {
 
             {map.stats && map.stats.length > 0 && (
               <div className="space-y-4">
-                <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">
+                <h2 className="text-2xl font-semibold text-gray-900">
                   {t.maps.topBrawlers}
                 </h2>
                 <div className="space-y-2">
@@ -82,7 +82,7 @@ export default function MapDetailsClient({ map }: MapDetailsClientProps) {
                     .map((stat: any) => (
                       <div
                         key={stat.brawler}
-                        className="flex items-center justify-between bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 hover:border-primary dark:hover:border-primary transition-colors"
+                        className="flex items-center justify-between bg-white p-4 rounded-lg shadow-sm border border-gray-200 hover:border-primary transition-colors"
                       >
                         <div className="flex items-center gap-3">
                           <div className="relative w-10 h-10">
@@ -94,22 +94,22 @@ export default function MapDetailsClient({ map }: MapDetailsClientProps) {
                               sizes="40px"
                             />
                           </div>
-                          <span className="font-medium dark:text-gray-100">Brawler #{stat.brawler}</span>
+                          <span className="font-medium">Brawler #{stat.brawler}</span>
                         </div>
                         <div className="flex items-center gap-4">
                           <div className="flex flex-col items-end">
-                            <div className="flex items-center text-green-600 dark:text-green-400">
+                            <div className="flex items-center text-green-600">
                               <Trophy className="w-4 h-4 mr-1" />
                               <span className="font-semibold">{stat.winRate.toFixed(1)}%</span>
                             </div>
-                            <span className="text-xs text-gray-500 dark:text-gray-400">Win Rate</span>
+                            <span className="text-xs text-gray-500">Win Rate</span>
                           </div>
                           <div className="flex flex-col items-end">
-                            <div className="flex items-center text-blue-600 dark:text-blue-400">
+                            <div className="flex items-center text-blue-600">
                               <Star className="w-4 h-4 mr-1" />
                               <span className="font-semibold">{stat.useRate.toFixed(1)}%</span>
                             </div>
-                            <span className="text-xs text-gray-500 dark:text-gray-400">Use Rate</span>
+                            <span className="text-xs text-gray-500">Use Rate</span>
                           </div>
                         </div>
                       </div>
@@ -120,7 +120,7 @@ export default function MapDetailsClient({ map }: MapDetailsClientProps) {
 
             {map.teamStats && map.teamStats.length > 0 && (
               <div className="space-y-4">
-                <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">
+                <h2 className="text-2xl font-semibold text-gray-900">
                   {t.maps.topTeams}
                 </h2>
                 <div className="space-y-2">
@@ -130,11 +130,11 @@ export default function MapDetailsClient({ map }: MapDetailsClientProps) {
                     .map((team: any) => (
                       <div
                         key={team.hash}
-                        className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm"
+                        className="bg-white p-4 rounded-lg shadow-sm"
                       >
                         <div className="flex items-center justify-between mb-2">
-                          <span className="font-medium dark:text-gray-100">{team.name}</span>
-                          <div className="flex items-center text-green-600 dark:text-green-400">
+                          <span className="font-medium">{team.name}</span>
+                          <div className="flex items-center text-green-600">
                             <Award className="w-4 h-4 mr-1" />
                             {team.data.winRate.toFixed(1)}%
                           </div>

@@ -136,16 +136,16 @@ export const BattleLogSection = ({ battles, stats, playerTag }: BattleLogSection
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
         >
-            <Card className="bg-white dark:bg-gray-800">
+            <Card className="bg-white">
                 <CardHeader className="pb-2">
-                    <CardTitle className="text-xl font-semibold dark:text-gray-100 flex items-center gap-2">
+                    <CardTitle className="text-xl font-semibold flex items-center gap-2">
                         Recent Battles
                         {/* <span className="flex gap-1 text-sm font-normal ml-2">
-                            <span className="px-2 py-0.5 bg-green-100 dark:bg-green-900/30 rounded text-green-700 dark:text-green-400">{wins}W</span>
-                            <span className="px-2 py-0.5 bg-red-100 dark:bg-red-900/30 rounded text-red-700 dark:text-red-400">{losses}L</span>
-                            <span className="px-2 py-0.5 bg-gray-100 dark:bg-gray-700 rounded text-gray-700 dark:text-gray-400">{draws}D</span>
+                            <span className="px-2 py-0.5 bg-green-100 rounded text-green-700">{wins}W</span>
+                            <span className="px-2 py-0.5 bg-red-100 rounded text-red-700">{losses}L</span>
+                            <span className="px-2 py-0.5 bg-gray-100 rounded text-gray-700">{draws}D</span>
                             {starPlayerCount > 0 && (
-                                <span className="flex items-center gap-1 px-2 py-0.5 bg-yellow-100 dark:bg-yellow-900/30 rounded text-yellow-700 dark:text-yellow-400 text-sm font-normal">
+                                <span className="flex items-center gap-1 px-2 py-0.5 bg-yellow-100 rounded text-yellow-700 text-sm font-normal">
                                     <Star className="h-3 w-3" /> {starPlayerCount}
                                 </span>
                             )}
@@ -166,9 +166,9 @@ export const BattleLogSection = ({ battles, stats, playerTag }: BattleLogSection
                             <div key={index} className="relative flex flex-col items-center">
                                 <div
                                 className={`relative w-full aspect-square flex items-center justify-center rounded-lg 
-                                    ${result === "victory" ? "bg-green-500/20 dark:bg-[#28A745]" : 
-                                    result === "defeat" ? "bg-red-500/20 dark:bg-[#DC3545]" : 
-                                    "bg-gray-500/20 dark:bg-gray-600/30"}
+                                    ${result === "victory" ? "bg-green-500/20[#28A745]" : 
+                                    result === "defeat" ? "bg-red-500/20[#DC3545]" : 
+                                    "bg-gray-500/20"}
                                     ${wasStarPlayer ? "border-b-4 border-yellow-400" : ""}`}
                                 >
                                 {/* Game Mode Image (Bigger, Centered) */}

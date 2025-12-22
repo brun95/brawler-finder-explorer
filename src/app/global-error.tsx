@@ -10,14 +10,14 @@ export default function GlobalError({
     return (
         <html>
             <body>
-                <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
+                <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
                     <div className="max-w-md w-full text-center">
-                        <div className="bg-gray-800 rounded-lg p-6 border border-red-600/20">
+                        <div className="bg-gray-200 rounded-lg p-6 border border-red-600/20">
                             <div className="text-red-500 text-6xl mb-4">🔥</div>
-                            <h2 className="text-xl font-bold text-gray-100 mb-2">
+                            <h2 className="text-xl font-bold text-gray-900 mb-2">
                                 Critical Error
                             </h2>
-                            <p className="text-gray-400 mb-4">
+                            <p className="text-gray-600 mb-4">
                                 A critical error has occurred. Please refresh the page.
                             </p>
                             <div className="space-y-2">

@@ -18,8 +18,8 @@ export default {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
-        background: "#121212", // Dark background
-        foreground: "#F1EACD", // Light text color
+        background: "#ffffff", // Light background
+        foreground: "#1c1310", // Dark text color
         primary: {
           DEFAULT: "#FEB821",
           hover: "#fde159",
@@ -43,8 +43,8 @@ export default {
           foreground: "hsl(var(--accent-foreground))",
         },
         card: {
-          DEFAULT: "#1e1e1e", // Dark card background
-          foreground: "#F1EACD", // Light text for cards
+          DEFAULT: "#f8f8f8", // Light card background
+          foreground: "#1c1310", // Dark text for cards
         },
       },
       keyframes: {

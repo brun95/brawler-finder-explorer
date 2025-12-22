@@ -43,14 +43,14 @@ export const BrawlerGrid = ({ brawlers }: BrawlerGridProps) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="bg-gray-800 rounded-lg shadow-sm p-6 my-8"
+            className="bg-gray-200 rounded-lg shadow-sm p-6 my-8"
         >
             <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-semibold text-gray-100">Brawlers</h2>
+                <h2 className="text-xl font-semibold text-gray-900">Brawlers</h2>
                 <select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value as 'name' | 'power' | 'rank')}
-                    className="px-3 py-2 rounded-lg border border-gray-700 bg-gray-700 text-gray-100"
+                    className="px-3 py-2 rounded-lg border border-gray-300 bg-gray-700 text-gray-900"
                 >
                     <option value="name">Sort by Name</option>
                     <option value="power">Sort by Power</option>
@@ -75,16 +75,16 @@ export const BrawlerGrid = ({ brawlers }: BrawlerGridProps) => {
                                         sizes="48px"
                                     />
                                 </div>
-                                <span className="text-sm font-medium text-gray-100">{brawler.name}</span>
-                                <span className="text-xs text-gray-300">
+                                <span className="text-sm font-medium text-gray-900">{brawler.name}</span>
+                                <span className="text-xs text-gray-700">
                                     Power {brawler.power}
                                 </span>
-                                <span className="text-xs text-gray-300">
+                                <span className="text-xs text-gray-700">
                                     Rank {brawler.rank}
                                 </span>
                             </Link>
                         </HoverCardTrigger>
-                        <HoverCardContent className="w-80 bg-gray-800 border-gray-700" side="top">
+                        <HoverCardContent className="w-80 bg-gray-200 border-gray-300" side="top">
                             <div className="space-y-3">
                                 <div className="flex items-center gap-3">
                                     <div className="relative w-16 h-16">
@@ -97,8 +97,8 @@ export const BrawlerGrid = ({ brawlers }: BrawlerGridProps) => {
                                         />
                                     </div>
                                     <div className="flex-1">
-                                        <h3 className="text-lg font-bold text-gray-100">{brawler.name}</h3>
-                                        <p className="text-sm text-gray-400">Click to view full details</p>
+                                        <h3 className="text-lg font-bold text-gray-900">{brawler.name}</h3>
+                                        <p className="text-sm text-gray-600">Click to view full details</p>
                                     </div>
                                 </div>
 
@@ -106,16 +106,16 @@ export const BrawlerGrid = ({ brawlers }: BrawlerGridProps) => {
                                     <div className="flex items-center gap-2 p-2 bg-gray-700 rounded-lg">
                                         <Star className="h-4 w-4 text-yellow-400" />
                                         <div>
-                                            <p className="text-xs text-gray-400">Power</p>
-                                            <p className="text-sm font-semibold text-gray-100">{brawler.power}</p>
+                                            <p className="text-xs text-gray-600">Power</p>
+                                            <p className="text-sm font-semibold text-gray-900">{brawler.power}</p>
                                         </div>
                                     </div>
 
                                     <div className="flex items-center gap-2 p-2 bg-gray-700 rounded-lg">
                                         <Crown className="h-4 w-4 text-purple-400" />
                                         <div>
-                                            <p className="text-xs text-gray-400">Rank</p>
-                                            <p className="text-sm font-semibold text-gray-100">{brawler.rank}</p>
+                                            <p className="text-xs text-gray-600">Rank</p>
+                                            <p className="text-sm font-semibold text-gray-900">{brawler.rank}</p>
                                         </div>
                                     </div>
 
@@ -123,8 +123,8 @@ export const BrawlerGrid = ({ brawlers }: BrawlerGridProps) => {
                                         <div className="flex items-center gap-2 p-2 bg-gray-700 rounded-lg">
                                             <Trophy className="h-4 w-4 text-blue-400" />
                                             <div>
-                                                <p className="text-xs text-gray-400">Trophies</p>
-                                                <p className="text-sm font-semibold text-gray-100">{brawler.trophies}</p>
+                                                <p className="text-xs text-gray-600">Trophies</p>
+                                                <p className="text-sm font-semibold text-gray-900">{brawler.trophies}</p>
                                             </div>
                                         </div>
                                     )}
@@ -133,8 +133,8 @@ export const BrawlerGrid = ({ brawlers }: BrawlerGridProps) => {
                                         <div className="flex items-center gap-2 p-2 bg-gray-700 rounded-lg">
                                             <Trophy className="h-4 w-4 text-green-400" />
                                             <div>
-                                                <p className="text-xs text-gray-400">Best</p>
-                                                <p className="text-sm font-semibold text-gray-100">{brawler.highestTrophies}</p>
+                                                <p className="text-xs text-gray-600">Best</p>
+                                                <p className="text-sm font-semibold text-gray-900">{brawler.highestTrophies}</p>
                                             </div>
                                         </div>
                                     )}

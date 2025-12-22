@@ -37,7 +37,7 @@ export default function BrawlerDetailsClient({ brawler }: BrawlerDetailsClientPr
   console.log('Rarity color:', rarityColor);
 
   return (
-    <div className="min-h-screen bg-gray-900">
+    <div className="min-h-screen bg-gray-100">
       <NavBar />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
         <PageBreadcrumb
@@ -84,7 +84,7 @@ export default function BrawlerDetailsClient({ brawler }: BrawlerDetailsClientPr
                 {brawler.starPowers.map((starPower: any) => (
                   <div
                     key={starPower.id}
-                    className="flex items-center bg-white/50 dark:bg-gray-700/50 p-3 rounded-lg"
+                    className="flex items-center bg-white/50 p-3 rounded-lg"
                   >
                     <img
                       src={`/star-powers/${starPower.id}.webp`}
@@ -110,7 +110,7 @@ export default function BrawlerDetailsClient({ brawler }: BrawlerDetailsClientPr
                 {brawler.gadgets.map((gadget: any) => (
                   <div
                     key={gadget.id}
-                    className="flex items-center bg-white/50 dark:bg-gray-700/50 p-3 rounded-lg"
+                    className="flex items-center bg-white/50 p-3 rounded-lg"
                   >
                     <img
                       src={`/gadgets/${gadget.id}.webp`}

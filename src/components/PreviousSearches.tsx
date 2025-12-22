@@ -26,7 +26,7 @@ export const PreviousSearches = () => {
 
   return (
     <div className="mt-4 max-w-sm mx-auto">
-      <div className="flex items-center justify-between text-gray-600 dark:text-gray-400 mb-2">
+      <div className="flex items-center justify-between text-gray-600 mb-2">
         <div className="flex items-center gap-2">
           <Clock className="w-4 h-4" />
           <span className="text-sm">{t.search.previousSearches}</span>
@@ -46,10 +46,10 @@ export const PreviousSearches = () => {
           <div key={search.tag} className="relative group">
             <Link
               href={`/player/${search.tag}`}
-              className="block p-2 pr-10 text-left rounded-lg hover:bg-primary/10 dark:hover:bg-gray-800 transition-colors bg-white/50 dark:bg-gray-900/50"
+              className="block p-2 pr-10 text-left rounded-lg hover:bg-primary/10 transition-colors bg-white/50"
             >
-              <div className="font-medium dark:text-gray-200">{search.name}</div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">#{search.tag}</div>
+              <div className="font-medium">{search.name}</div>
+              <div className="text-sm text-gray-600">#{search.tag}</div>
             </Link>
             <Button
               variant="ghost"

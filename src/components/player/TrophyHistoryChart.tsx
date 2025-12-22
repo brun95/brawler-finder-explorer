@@ -20,7 +20,7 @@ export const TrophyHistoryChart = ({ data }: TrophyHistoryChartProps) => {
           <CardDescription>No historical data available yet</CardDescription>
         </CardHeader>
         <CardContent className="h-80 flex items-center justify-center">
-          <p className="text-gray-500 dark:text-gray-400">
+          <p className="text-gray-500">
             Trophy history will appear here once we have collected more data for this player.
           </p>
         </CardContent>
@@ -48,21 +48,21 @@ export const TrophyHistoryChart = ({ data }: TrophyHistoryChartProps) => {
       const data = payload[0].payload;
 
       return (
-        <div className="bg-gray-800 border border-gray-700 rounded-lg p-3 shadow-lg">
-          <p className="text-gray-200 font-semibold mb-2">{data.fullDate}</p>
+        <div className="bg-gray-200 border border-gray-300 rounded-lg p-3 shadow-lg">
+          <p className="text-gray-800 font-semibold mb-2">{data.fullDate}</p>
           <div className="space-y-1">
             <div className="flex items-center gap-2">
               <Trophy className="h-4 w-4 text-indigo-400" />
-              <span className="text-gray-300 text-sm">Current:</span>
-              <span className="text-gray-100 font-semibold">{data.trophies.toLocaleString()}</span>
+              <span className="text-gray-700 text-sm">Current:</span>
+              <span className="text-gray-900 font-semibold">{data.trophies.toLocaleString()}</span>
             </div>
             <div className="flex items-center gap-2">
               <Trophy className="h-4 w-4 text-green-400" />
-              <span className="text-gray-300 text-sm">Highest:</span>
-              <span className="text-gray-100 font-semibold">{data.highestTrophies.toLocaleString()}</span>
+              <span className="text-gray-700 text-sm">Highest:</span>
+              <span className="text-gray-900 font-semibold">{data.highestTrophies.toLocaleString()}</span>
             </div>
             {data.change !== 0 && (
-              <div className="flex items-center gap-2 pt-1 border-t border-gray-700">
+              <div className="flex items-center gap-2 pt-1 border-t border-gray-300">
                 {data.change > 0 ? (
                   <TrendingUp className="h-4 w-4 text-green-400" />
                 ) : (
@@ -97,11 +97,11 @@ export const TrophyHistoryChart = ({ data }: TrophyHistoryChartProps) => {
           <div className="flex items-center gap-4 text-sm">
             <div className="flex items-center gap-1">
               <span className="w-4 h-1 bg-indigo-500 rounded"></span>
-              <span className="text-gray-600 dark:text-gray-300">Current Trophies</span>
+              <span className="text-gray-600">Current Trophies</span>
             </div>
             <div className="flex items-center gap-1">
               <span className="w-4 h-1 bg-green-500 rounded"></span>
-              <span className="text-gray-600 dark:text-gray-300">Highest Trophies</span>
+              <span className="text-gray-600">Highest Trophies</span>
             </div>
           </div>
         </div>

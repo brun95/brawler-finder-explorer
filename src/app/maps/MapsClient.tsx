@@ -24,15 +24,15 @@ export default function MapsClient() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <div className="min-h-screen bg-gray-50">
         <NavBar />
-        <div className="pt-24 text-center text-gray-300">Loading...</div>
+        <div className="pt-24 text-center text-gray-700">Loading...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-gray-50">
       <NavBar />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
         <motion.div
@@ -41,15 +41,15 @@ export default function MapsClient() {
           transition={{ duration: 0.5 }}
           className="text-center mb-12"
         >
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">{t.maps.title}</h1>
-          <p className="text-gray-600 dark:text-gray-400">{t.maps.subtitle}</p>
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">{t.maps.title}</h1>
+          <p className="text-gray-600">{t.maps.subtitle}</p>
         </motion.div>
 
         {mapsByGameMode && (Object.entries(mapsByGameMode) as [string, any[]][]).map(([gameMode, gameMaps]) => (
           <section key={gameMode} className="mb-12">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">{gameMode}</h2>
-              <span className="text-gray-500 dark:text-gray-400">{gameMaps.length} maps</span>
+              <h2 className="text-2xl font-semibold text-gray-900">{gameMode}</h2>
+              <span className="text-gray-500">{gameMaps.length} maps</span>
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
@@ -66,7 +66,7 @@ export default function MapsClient() {
 
         {(!mapsByGameMode || Object.keys(mapsByGameMode).length === 0) && (
           <div className="text-center py-12">
-            <p className="text-gray-600 dark:text-gray-400">{t.maps.noMaps}</p>
+            <p className="text-gray-600">{t.maps.noMaps}</p>
           </div>
         )}
       </main>

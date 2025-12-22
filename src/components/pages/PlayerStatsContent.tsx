@@ -17,8 +17,8 @@ import { AdBanner } from "@/components/ads/AdBanner";
 // Lazy load heavy chart components
 const TrophyHistoryChart = dynamic(() => import("@/components/player/TrophyHistoryChart").then(mod => mod.TrophyHistoryChart), {
   loading: () => (
-    <div className="bg-gray-800 rounded-lg p-6 border border-gray-700 h-64 flex items-center justify-center">
-      <div className="text-gray-400">Loading trophy history...</div>
+    <div className="bg-gray-200 rounded-lg p-6 border border-gray-300 h-64 flex items-center justify-center">
+      <div className="text-gray-600">Loading trophy history...</div>
     </div>
   ),
   ssr: false
@@ -26,8 +26,8 @@ const TrophyHistoryChart = dynamic(() => import("@/components/player/TrophyHisto
 
 const BrawlerTrophyBars = dynamic(() => import("@/components/player/BrawlerTrophyBars").then(mod => mod.BrawlerTrophyBars), {
   loading: () => (
-    <div className="bg-gray-800 rounded-lg p-6 border border-gray-700 h-72 flex items-center justify-center">
-      <div className="text-gray-400">Loading brawler stats...</div>
+    <div className="bg-gray-200 rounded-lg p-6 border border-gray-300 h-72 flex items-center justify-center">
+      <div className="text-gray-600">Loading brawler stats...</div>
     </div>
   ),
   ssr: false
@@ -35,8 +35,8 @@ const BrawlerTrophyBars = dynamic(() => import("@/components/player/BrawlerTroph
 
 const BattleLogSection = dynamic(() => import("@/components/player/BattleLogSection").then(mod => mod.BattleLogSection), {
   loading: () => (
-    <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
-      <div className="text-gray-400">Loading battle log...</div>
+    <div className="bg-gray-200 rounded-lg p-6 border border-gray-300">
+      <div className="text-gray-600">Loading battle log...</div>
     </div>
   ),
   ssr: false
@@ -44,8 +44,8 @@ const BattleLogSection = dynamic(() => import("@/components/player/BattleLogSect
 
 const WinRateAnalysis = dynamic(() => import("@/components/player/WinRateAnalysis").then(mod => mod.WinRateAnalysis), {
   loading: () => (
-    <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
-      <div className="text-gray-400">Loading win rate analysis...</div>
+    <div className="bg-gray-200 rounded-lg p-6 border border-gray-300">
+      <div className="text-gray-600">Loading win rate analysis...</div>
     </div>
   ),
   ssr: false
@@ -101,7 +101,7 @@ const PlayerStats = () => {
 
   if (isInitialLoading) {
     return (
-      <div className="min-h-screen bg-gray-900">
+      <div className="min-h-screen bg-gray-100">
         <NavBar />
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
           <PlayerStatsSkeleton />
@@ -113,9 +113,9 @@ const PlayerStats = () => {
 
   if (!player) {
     return (
-      <div className="min-h-screen bg-gray-900">
+      <div className="min-h-screen bg-gray-100">
         <NavBar />
-        <div className="pt-24 text-center text-gray-300">Player not found</div>
+        <div className="pt-24 text-center text-gray-700">Player not found</div>
         <Footer />
       </div>
     );
@@ -172,7 +172,7 @@ const PlayerStats = () => {
   const draws = battles?.filter(b => b.battle.result === "draw").length || 0;
 
   return (
-    <div className="min-h-screen bg-gray-900">
+    <div className="min-h-screen bg-gray-100">
       <NavBar />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
         <PageBreadcrumb
@@ -183,28 +183,28 @@ const PlayerStats = () => {
         <AdBanner slot="player-top" />
 
         <div className="flex items-center gap-4 mb-6">
-          <Avatar shape="square" className="h-12 w-12 border border-gray-700">
+          <Avatar shape="square" className="h-12 w-12 border border-gray-300">
             <AvatarImage
               src={`https://cdn.brawlify.com/profile-icons/regular/${player.icon?.id || 28000000}.png`}
               alt={player.name}
             />
-            <AvatarFallback className="bg-gray-700 text-gray-200 uppercase">
+            <AvatarFallback className="bg-gray-700 text-gray-800 uppercase">
               {player.name.substring(0, 2)}
             </AvatarFallback>
           </Avatar>
           <div className="flex-1">
             <div className="flex items-center gap-2 flex-wrap">
-              <h1 className="text-3xl font-bold text-gray-200">{player.name}</h1>
+              <h1 className="text-3xl font-bold text-gray-800">{player.name}</h1>
               <TrophyMilestoneBadge trophies={player.trophies} size="md" />
             </div>
-            <p className="text-gray-400">{player.tag}</p>
+            <p className="text-gray-600">{player.tag}</p>
           </div>
           <div className="flex items-center gap-3">
             {player.club && (
               <div className="text-right">
-                <p className="text-sm text-gray-400">Club</p>
+                <p className="text-sm text-gray-600">Club</p>
                 <Link href={`/club/${player.club.tag.replace('#', '')}`}>
-                  <Button variant="link" className="font-medium text-gray-300 p-0 h-auto">
+                  <Button variant="link" className="font-medium text-gray-700 p-0 h-auto">
                     {player.club.name}
                   </Button>
                 </Link>
@@ -237,7 +237,7 @@ const PlayerStats = () => {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-8">
-          <TabsList className="mb-4 bg-gray-800 border-gray-700">
+          <TabsList className="mb-4 bg-gray-200 border-gray-300">
             <TabsTrigger value="overview" className="data-[state=active]:bg-gray-700">Overview</TabsTrigger>
             <TabsTrigger value="brawlers" className="data-[state=active]:bg-gray-700">Brawlers</TabsTrigger>
           </TabsList>
@@ -259,8 +259,8 @@ const PlayerStats = () => {
                   <BrawlerTrophyBars brawlers={player.brawlers} />
 
             {isLoadingBattles ? (
-              <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
-                <div className="text-gray-400">Loading battle log...</div>
+              <div className="bg-gray-200 rounded-lg p-6 border border-gray-300">
+                <div className="text-gray-600">Loading battle log...</div>
               </div>
             ) : (
               <BattleLogSection

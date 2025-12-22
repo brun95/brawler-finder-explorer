@@ -37,11 +37,11 @@ export const CookiesConsent = () => {
   if (!showConsent) return null;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-card z-50 p-4 shadow-lg border-t border-gray-700 animate-fade-up">
+    <div className="fixed bottom-0 left-0 right-0 bg-card z-50 p-4 shadow-lg border-t border-gray-300 animate-fade-up">
       <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex-1">
           <h3 className="text-lg font-medium mb-1">Cookie Consent</h3>
-          <p className="text-sm text-gray-400">
+          <p className="text-sm text-gray-600">
             We use cookies to enhance your browsing experience, analyze site traffic, and personalize content.
           </p>
         </div>
@@ -50,7 +50,7 @@ export const CookiesConsent = () => {
             variant="outline"
             size="sm"
             onClick={declineCookies}
-            className="border-gray-600 text-gray-300 hover:text-white"
+            className="border-gray-600 text-gray-700 hover:text-white"
           >
             Decline
           </Button>

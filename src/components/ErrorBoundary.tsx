@@ -43,22 +43,22 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
 
 function DefaultErrorFallback({ error, reset }: { error?: Error; reset: () => void }) {
     return (
-        <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
+        <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
             <div className="max-w-md w-full text-center">
-                <div className="bg-gray-800 rounded-lg p-6 border border-red-600/20">
+                <div className="bg-gray-200 rounded-lg p-6 border border-red-600/20">
                     <div className="text-red-500 text-6xl mb-4">⚠️</div>
-                    <h2 className="text-xl font-bold text-gray-100 mb-2">
+                    <h2 className="text-xl font-bold text-gray-900 mb-2">
                         Something went wrong
                     </h2>
-                    <p className="text-gray-400 mb-4">
+                    <p className="text-gray-600 mb-4">
                         We're sorry, but an unexpected error occurred.
                     </p>
                     {error && (
                         <details className="text-left mb-4">
-                            <summary className="text-gray-300 cursor-pointer hover:text-gray-100">
+                            <summary className="text-gray-700 cursor-pointer hover:text-gray-900">
                                 Error details
                             </summary>
-                            <pre className="text-sm text-red-400 mt-2 p-2 bg-gray-900 rounded overflow-auto">
+                            <pre className="text-sm text-red-400 mt-2 p-2 bg-gray-100 rounded overflow-auto">
                                 {error.message}
                             </pre>
                         </details>

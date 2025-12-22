@@ -79,9 +79,9 @@ export default function ClubStatsPage({ params }: Props) {
 
     if (isLoading) {
         return (
-            <div className="min-h-screen bg-gray-900">
+            <div className="min-h-screen bg-gray-100">
                 <NavBar />
-                <div className="pt-24 text-center text-gray-300">Loading...</div>
+                <div className="pt-24 text-center text-gray-700">Loading...</div>
                 <Footer />
             </div>
         );
@@ -89,16 +89,16 @@ export default function ClubStatsPage({ params }: Props) {
 
     if (!club) {
         return (
-            <div className="min-h-screen bg-gray-900">
+            <div className="min-h-screen bg-gray-100">
                 <NavBar />
-                <div className="pt-24 text-center text-gray-300">Club not found</div>
+                <div className="pt-24 text-center text-gray-700">Club not found</div>
                 <Footer />
             </div>
         );
     }
 
     return (
-        <div className="min-h-screen bg-gray-900">
+        <div className="min-h-screen bg-gray-100">
             <NavBar />
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
                 <PageBreadcrumb
@@ -111,64 +111,64 @@ export default function ClubStatsPage({ params }: Props) {
                 <div className="flex flex-col md:flex-row items-start gap-6 mb-8">
                     <div className="flex-1">
                         <div className="flex items-center gap-4 mb-4">
-                            <Avatar shape="square" className="h-16 w-16 border border-gray-700">
+                            <Avatar shape="square" className="h-16 w-16 border border-gray-300">
                                 <AvatarImage src={`https://cdn.brawlify.com/club-badges/regular/${club.badgeId}.png`} alt={club.name} />
-                                <AvatarFallback className="bg-gray-700 text-gray-200">
+                                <AvatarFallback className="bg-gray-700 text-gray-800">
                                     {club.name.substring(0, 2)}
                                 </AvatarFallback>
                             </Avatar>
                             <div>
-                                <h1 className="text-3xl font-bold text-gray-200">{club.name}</h1>
-                                <p className="text-gray-400">{club.tag}</p>
+                                <h1 className="text-3xl font-bold text-gray-800">{club.name}</h1>
+                                <p className="text-gray-600">{club.tag}</p>
                             </div>
                         </div>
                     </div>
 
                     <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
-                        <Card className="bg-gray-800 border-gray-700">
+                        <Card className="bg-gray-200 border-gray-300">
                             <CardContent className="p-4 flex flex-col items-center">
                                 <Trophy className="h-5 w-5 text-yellow-500 mb-1" />
-                                <p className="text-gray-300 text-sm">Trophies</p>
-                                <p className="text-gray-100 font-semibold">{club.trophies.toLocaleString()}</p>
+                                <p className="text-gray-700 text-sm">Trophies</p>
+                                <p className="text-gray-900 font-semibold">{club.trophies.toLocaleString()}</p>
                             </CardContent>
                         </Card>
 
-                        <Card className="bg-gray-800 border-gray-700">
+                        <Card className="bg-gray-200 border-gray-300">
                             <CardContent className="p-4 flex flex-col items-center">
                                 <Users className="h-5 w-5 text-blue-500 mb-1" />
-                                <p className="text-gray-300 text-sm">Members</p>
-                                <p className="text-gray-100 font-semibold">{club.members.length}/30</p>
+                                <p className="text-gray-700 text-sm">Members</p>
+                                <p className="text-gray-900 font-semibold">{club.members.length}/30</p>
                             </CardContent>
                         </Card>
 
-                        <Card className="bg-gray-800 border-gray-700">
+                        <Card className="bg-gray-200 border-gray-300">
                             <CardContent className="p-4 flex flex-col items-center">
                                 <Trophy className="h-5 w-5 text-red-500 mb-1" />
-                                <p className="text-gray-300 text-sm">Required</p>
-                                <p className="text-gray-100 font-semibold">{club.requiredTrophies}</p>
+                                <p className="text-gray-700 text-sm">Required</p>
+                                <p className="text-gray-900 font-semibold">{club.requiredTrophies}</p>
                             </CardContent>
                         </Card>
                     </div>
                 </div>
 
                 {club.description && (
-                    <Card className="bg-gray-800 border-gray-700 mb-8">
+                    <Card className="bg-gray-200 border-gray-300 mb-8">
                         <CardHeader className="pb-2">
                             <CardTitle className="text-lg">Description</CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <p className="text-gray-300 whitespace-pre-line">{club.description}</p>
+                            <p className="text-gray-700 whitespace-pre-line">{club.description}</p>
                         </CardContent>
                     </Card>
                 )}
 
                 <Tabs defaultValue="members" className="mb-8">
-                    <TabsList className="mb-4 bg-gray-800 border-gray-700">
+                    <TabsList className="mb-4 bg-gray-200 border-gray-300">
                         <TabsTrigger value="members" className="data-[state=active]:bg-gray-700">Members</TabsTrigger>
                     </TabsList>
 
                     <TabsContent value="members">
-                        <Card className="bg-gray-800 border-gray-700">
+                        <Card className="bg-gray-200 border-gray-300">
                             <CardHeader className="pb-2">
                                 <div className="flex items-center justify-between">
                                     <CardTitle className="text-lg">Members ({club.members.length}/30)</CardTitle>
@@ -179,22 +179,22 @@ export default function ClubStatsPage({ params }: Props) {
                                 <div className="hidden md:block overflow-x-auto">
                                     <Table>
                                         <TableHeader>
-                                            <TableRow className="border-gray-700">
-                                                <TableHead className="text-gray-300">Player</TableHead>
-                                                <TableHead className="text-gray-300">Role</TableHead>
-                                                <TableHead className="text-gray-300">Trophies</TableHead>
+                                            <TableRow className="border-gray-300">
+                                                <TableHead className="text-gray-700">Player</TableHead>
+                                                <TableHead className="text-gray-700">Role</TableHead>
+                                                <TableHead className="text-gray-700">Trophies</TableHead>
                                             </TableRow>
                                         </TableHeader>
                                         <TableBody>
                                             {club.members.map((member: any) => (
                                                 <TableRow
                                                     key={member.tag}
-                                                    className="border-gray-700 hover:bg-gray-700/50 cursor-pointer"
+                                                    className="border-gray-300 hover:bg-gray-700/50 cursor-pointer"
                                                     onClick={() => router.push(`/player/${member.tag.replace('#', '')}`)}
                                                 >
-                                                    <TableCell className="font-medium text-gray-200">
+                                                    <TableCell className="font-medium text-gray-800">
                                                         <div className="flex items-center gap-2">
-                                                            <Avatar shape="square" className="h-8 w-8 border border-gray-700">
+                                                            <Avatar shape="square" className="h-8 w-8 border border-gray-300">
                                                                 <AvatarImage
                                                                     src={`https://cdn.brawlify.com/profile-icons/regular/${member.icon.id}.png`}
                                                                     alt={member.name}
@@ -205,7 +205,7 @@ export default function ClubStatsPage({ params }: Props) {
                                                             </Avatar>
                                                             <div>
                                                                 <p className="text-sm">{member.name}</p>
-                                                                <p className="text-xs text-gray-400">{member.tag}</p>
+                                                                <p className="text-xs text-gray-600">{member.tag}</p>
                                                             </div>
                                                         </div>
                                                     </TableCell>
@@ -214,7 +214,7 @@ export default function ClubStatsPage({ params }: Props) {
                                                             {getRoleName(member.role)}
                                                         </Badge>
                                                     </TableCell>
-                                                    <TableCell className="text-gray-300">{member.trophies.toLocaleString()}</TableCell>
+                                                    <TableCell className="text-gray-700">{member.trophies.toLocaleString()}</TableCell>
                                                 </TableRow>
                                             ))}
                                         </TableBody>
@@ -226,11 +226,11 @@ export default function ClubStatsPage({ params }: Props) {
                                     {club.members.map((member: any) => (
                                         <div
                                             key={member.tag}
-                                            className="p-4 bg-gray-700/30 rounded-lg border border-gray-700 hover:bg-gray-700/50 cursor-pointer transition-colors"
+                                            className="p-4 bg-gray-700/30 rounded-lg border border-gray-300 hover:bg-gray-700/50 cursor-pointer transition-colors"
                                             onClick={() => router.push(`/player/${member.tag.replace('#', '')}`)}
                                         >
                                             <div className="flex items-center gap-3 mb-3">
-                                                <Avatar shape="square" className="h-12 w-12 border border-gray-700">
+                                                <Avatar shape="square" className="h-12 w-12 border border-gray-300">
                                                     <AvatarImage
                                                         src={`https://cdn.brawlify.com/profile-icons/regular/${member.icon.id}.png`}
                                                         alt={member.name}
@@ -240,16 +240,16 @@ export default function ClubStatsPage({ params }: Props) {
                                                     </AvatarFallback>
                                                 </Avatar>
                                                 <div className="flex-1">
-                                                    <p className="text-gray-200 font-medium">{member.name}</p>
-                                                    <p className="text-xs text-gray-400">{member.tag}</p>
+                                                    <p className="text-gray-800 font-medium">{member.name}</p>
+                                                    <p className="text-xs text-gray-600">{member.tag}</p>
                                                 </div>
                                                 <Badge className={`${getRoleColor(member.role)} hover:${getRoleColor(member.role)}`}>
                                                     {getRoleName(member.role)}
                                                 </Badge>
                                             </div>
                                             <div className="flex items-center justify-between text-sm">
-                                                <span className="text-gray-400">Trophies</span>
-                                                <span className="text-gray-200 font-semibold flex items-center gap-1">
+                                                <span className="text-gray-600">Trophies</span>
+                                                <span className="text-gray-800 font-semibold flex items-center gap-1">
                                                     <Trophy className="h-4 w-4 text-yellow-500" />
                                                     {member.trophies.toLocaleString()}
                                                 </span>

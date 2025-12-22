@@ -102,14 +102,14 @@ export const HeroSection = () => {
   };
 
   return (
-    <div className="relative min-h-[80vh] flex items-center justify-center bg-gradient-to-br from-primary/10 to-secondary/10 dark:from-gray-900 dark:to-gray-800">
+    <div className="relative min-h-[80vh] flex items-center justify-center bg-gradient-to-br from-primary/10 to-secondary/10">
       <div className="absolute inset-0 bg-grid-white/[0.05] bg-[size:20px_20px]" />
       <div className="relative max-w-5xl mx-auto px-4 py-16 sm:px-6 lg:px-8 text-center">
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6"
+          className="text-4xl md:text-6xl font-bold text-gray-900 mb-6"
         >
           Your all-in-one <span className="text-primary"> Brawl Stars</span> stats platform
           
@@ -135,7 +135,7 @@ export const HeroSection = () => {
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onKeyPress={(e) => handleKeyPress(e, 'player')}
                   placeholder={t.search.placeholder}
-                  className="w-full px-6 py-6 rounded-lg border border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                  className="w-full px-6 py-6 rounded-lg border border-gray-200"
                 />
                 <Button 
                   onClick={handlePlayerSearch}
@@ -156,7 +156,7 @@ export const HeroSection = () => {
                   onChange={(e) => setClubQuery(e.target.value)}
                   onKeyPress={(e) => handleKeyPress(e, 'club')}
                   placeholder={t.search.clubPlaceholder}
-                  className="w-full px-6 py-6 rounded-lg border border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                  className="w-full px-6 py-6 rounded-lg border border-gray-200"
                 />
                 <Button 
                   onClick={handleClubSearch}

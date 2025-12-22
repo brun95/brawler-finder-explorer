@@ -51,7 +51,7 @@ export const BrawlerCard = ({ brawler, onClick }: BrawlerCardProps) => {
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       onClick={onClick}
-      className="cursor-pointer rounded-lg overflow-hidden shadow-sm border-2 border-gray-700 hover:shadow-md transition-shadow"
+      className="cursor-pointer rounded-lg overflow-hidden shadow-sm border-2 border-gray-300 hover:shadow-md transition-shadow"
       style={{ backgroundColor: rarityColor }}
     >
       <div className="aspect-square relative">

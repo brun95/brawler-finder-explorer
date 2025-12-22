@@ -16,21 +16,21 @@ const Events = () => {
 
     if (isLoading) {
         return (
-            <div className="min-h-screen bg-gray-900 dark:bg-gray-900">
+            <div className="min-h-screen bg-gray-100">
                 <NavBar />
-                <div className="pt-24 text-center dark:text-gray-200">{t.common.loading}</div>
+                <div className="pt-24 text-center">{t.common.loading}</div>
             </div>
         );
     }
 
     return (
-        <div className="min-h-screen bg-gray-900 dark:bg-gray-900">
+        <div className="min-h-screen bg-gray-100">
             <NavBar />
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
                 <motion.h1
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="text-3xl font-bold text-gray-100 mb-8"
+                    className="text-3xl font-bold text-gray-900 mb-8"
                 >
                     {t.events.title}
                 </motion.h1>
@@ -39,7 +39,7 @@ const Events = () => {
                 
                 <div className="space-y-12">
                     <section>
-                        <h2 className="text-2xl font-semibold text-gray-100 mb-6">
+                        <h2 className="text-2xl font-semibold text-gray-900 mb-6">
                             {t.events.activeTitle}
                         </h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -54,7 +54,7 @@ const Events = () => {
                     </section>
 
                     <section>
-                        <h2 className="text-2xl font-semibold text-gray-100 mb-6">
+                        <h2 className="text-2xl font-semibold text-gray-900 mb-6">
                             {t.events.upcomingTitle}
                         </h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

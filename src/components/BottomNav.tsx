@@ -26,7 +26,7 @@ export const BottomNav = () => {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-t border-gray-200 dark:border-gray-800 md:hidden">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-gray-200 md:hidden">
       <div className="flex items-center justify-around h-16 px-2">
         {navItems.map((item) => {
           const Icon = item.icon;
@@ -40,7 +40,7 @@ export const BottomNav = () => {
                 "flex flex-col items-center justify-center flex-1 h-full gap-1 relative transition-colors",
                 active
                   ? "text-primary"
-                  : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
+                  : "text-gray-600 hover:text-gray-900"
               )}
             >
               <div className="relative">

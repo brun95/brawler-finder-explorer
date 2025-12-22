@@ -29,10 +29,10 @@ export const TrophyProgressionGraph = ({ currentTrophies }: TrophyProgressionGra
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 mb-8 "
+      className="bg-white rounded-lg shadow-sm p-6 mb-8 "
     >
       {/* Header with Title & Settings */}
-      <div className="flex justify-between items-center mb-4 text-gray-100">
+      <div className="flex justify-between items-center mb-4 text-gray-900">
         <h2 className="text-xl font-semibold">Trophy Progression ({days} Days)</h2>
         <div className="flex gap-2">
           <button

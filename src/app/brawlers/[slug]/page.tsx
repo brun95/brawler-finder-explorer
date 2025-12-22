@@ -22,9 +22,9 @@ export default function BrawlerDetailPage({ params }: Props) {
 
     if (isLoading) {
         return (
-            <div className="min-h-screen bg-gray-900">
+            <div className="min-h-screen bg-gray-100">
                 <NavBar />
-                <div className="pt-24 text-center text-gray-300">Loading...</div>
+                <div className="pt-24 text-center text-gray-700">Loading...</div>
                 <Footer />
             </div>
         );
@@ -32,9 +32,9 @@ export default function BrawlerDetailPage({ params }: Props) {
 
     if (error || !brawler) {
         return (
-            <div className="min-h-screen bg-gray-900">
+            <div className="min-h-screen bg-gray-100">
                 <NavBar />
-                <div className="pt-24 text-center text-gray-300">Brawler not found</div>
+                <div className="pt-24 text-center text-gray-700">Brawler not found</div>
                 <Footer />
             </div>
         );

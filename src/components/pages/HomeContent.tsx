@@ -17,7 +17,7 @@ const Home = () => {
     const { t } = useLanguage();
 
     return (
-        <div className="min-h-screen bg-gray-900 dark:bg-gray-900">
+        <div className="min-h-screen bg-gray-100">
             <SEO 
                 title="StarBrawl - Your all-in-one Brawl Stars stats platform"
                 description="Find comprehensive Brawl Stars statistics, track player progress, explore brawlers, maps, and upcoming events all in one place."
@@ -36,17 +36,17 @@ const Home = () => {
                         transition={{ duration: 0.5 }}
                         className="text-center mb-12"
                     >
-                        <h2 className="text-3xl font-bold text-gray-100 mb-4">
+                        <h2 className="text-3xl font-bold text-gray-900 mb-4">
                             {t.events.title}
                         </h2>
-                        <p className="text-gray-400">
+                        <p className="text-gray-600">
                             {t.events.subtitle}
                         </p>
                     </motion.div>
 
                     <div className="space-y-12">
                         <div>
-                            <h3 className="text-xl font-semibold text-gray-100 mb-6">
+                            <h3 className="text-xl font-semibold text-gray-900 mb-6">
                                 {t.events.activeTitle}
                             </h3>
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -61,7 +61,7 @@ const Home = () => {
                         </div>
 
                         <div>
-                            <h3 className="text-xl font-semibold text-gray-100 mb-6">
+                            <h3 className="text-xl font-semibold text-gray-900 mb-6">
                                 {t.events.upcomingTitle}
                             </h3>
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

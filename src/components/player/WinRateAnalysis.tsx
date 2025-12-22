@@ -35,12 +35,12 @@ export const WinRateAnalysis = ({ byModeData, byBrawlerData }: WinRateAnalysisPr
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-white dark:bg-gray-800 p-3 border border-gray-200 dark:border-gray-700 rounded shadow text-sm">
+        <div className="bg-white p-3 border border-gray-200 rounded shadow text-sm">
           <p className="label font-semibold mb-1">{label}</p>
           <p className="value">
             Win Rate: <span className="font-medium">{payload[0].value.toFixed(1)}%</span>
           </p>
-          <p className="matches text-gray-500 dark:text-gray-400 text-xs mt-1">
+          <p className="matches text-gray-500 text-xs mt-1">
             Matches: {payload[0].payload.matches}
           </p>
         </div>
@@ -57,9 +57,9 @@ export const WinRateAnalysis = ({ byModeData, byBrawlerData }: WinRateAnalysisPr
       className="space-y-8"
     >
       {/* Game Mode Win Rates */}
-      <Card className="bg-white dark:bg-gray-800">
+      <Card className="bg-white">
         <CardHeader>
-          <CardTitle className="text-xl font-semibold dark:text-gray-100">
+          <CardTitle className="text-xl font-semibold">
             Win Rate by Game Mode
           </CardTitle>
         </CardHeader>
@@ -98,9 +98,9 @@ export const WinRateAnalysis = ({ byModeData, byBrawlerData }: WinRateAnalysisPr
       </Card>
 
       {/* Brawler Win Rates */}
-      <Card className="bg-white dark:bg-gray-800">
+      <Card className="bg-white">
         <CardHeader>
-          <CardTitle className="text-xl font-semibold dark:text-gray-100">
+          <CardTitle className="text-xl font-semibold">
             Win Rate by Brawler
           </CardTitle>
         </CardHeader>

@@ -66,15 +66,15 @@ export default function BrawlersClient() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-900">
+      <div className="min-h-screen bg-gray-100">
         <NavBar />
-        <div className="pt-24 text-center text-gray-300">Loading...</div>
+        <div className="pt-24 text-center text-gray-700">Loading...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-900">
+    <div className="min-h-screen bg-gray-100">
       <NavBar />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
         <motion.div
@@ -84,7 +84,7 @@ export default function BrawlersClient() {
           className="text-center mb-12"
         >
           <h1 className="text-4xl font-bold text-foreground mb-4">Brawlers</h1>
-          <p className="text-gray-400">Discover and learn about all Brawl Stars characters</p>
+          <p className="text-gray-600">Discover and learn about all Brawl Stars characters</p>
         </motion.div>
 
         <div className="flex flex-col sm:flex-row gap-4 mb-8">
@@ -94,16 +94,16 @@ export default function BrawlersClient() {
               placeholder="Search brawlers..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full px-4 py-2 rounded-lg border border-gray-700 bg-gray-800 text-gray-200 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+              className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-gray-200 text-gray-800 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
             />
-            <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+            <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-600" />
           </div>
 
           <select
             value={selectedClass}
             onChange={(e) => setSelectedClass(e.target.value)}
             aria-label="Filter brawlers by class"
-            className="px-4 py-2 rounded-lg border border-gray-700 bg-gray-800 text-gray-200 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+            className="px-4 py-2 rounded-lg border border-gray-300 bg-gray-200 text-gray-800 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
           >
             {(classes as string[]).map((c: string) => (
                 <option key={c} value={c}>

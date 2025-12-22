@@ -37,7 +37,7 @@ export const EventCard = ({ event, type }: EventCardProps) => {
         <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="rounded-xl overflow-hidden bg-white dark:bg-gray-800 shadow-sm transition-colors relative"
+            className="rounded-xl overflow-hidden bg-white shadow-sm transition-colors relative"
         >
             <div 
                 className="h-2"
@@ -59,10 +59,10 @@ export const EventCard = ({ event, type }: EventCardProps) => {
                         />
                     </div>
                     <div className="flex-1">
-                        <h3 className="text-lg font-semibold capitalize text-gray-900 dark:text-gray-100">
+                        <h3 className="text-lg font-semibold capitalize text-gray-900">
                             {modeName}
                         </h3>
-                        <p className="text-gray-600 dark:text-gray-400">{event?.map?.name}</p>
+                        <p className="text-gray-600">{event?.map?.name}</p>
                     </div>
                 </div>
                 

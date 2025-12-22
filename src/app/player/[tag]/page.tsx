@@ -5,8 +5,8 @@ import dynamic from 'next/dynamic';
 // Lazy load the heavy PlayerStatsContent component
 const PlayerStatsContent = dynamic(() => import('@/components/pages/PlayerStatsContent'), {
     loading: () => (
-        <div className="min-h-screen bg-gray-900 flex items-center justify-center">
-            <div className="text-gray-300">Loading player stats...</div>
+        <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+            <div className="text-gray-700">Loading player stats...</div>
         </div>
     ),
     ssr: false
