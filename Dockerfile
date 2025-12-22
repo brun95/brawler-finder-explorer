@@ -1,44 +1,49 @@
-FROM node:20-alpine AS base
+# syntax = docker/dockerfile:1
 
-# Install dependencies only when needed
-FROM base AS deps
-RUN apk add --no-cache libc6-compat
+# Adjust BUN_VERSION as desired
+ARG BUN_VERSION=1.1.24
+FROM oven/bun:${BUN_VERSION}-slim AS base
+
+LABEL fly_launch_runtime="Next.js"
+
+# Next.js app lives here
 WORKDIR /app
 
-# Install dependencies
-COPY package.json package-lock.json* ./
-RUN npm ci
+# Set production environment
+ENV NODE_ENV="production"
 
-# Rebuild the source code only when needed
-FROM base AS builder
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
+
+# Throw-away build stage to reduce size of final image
+FROM base AS build
+
+# Install packages needed to build node modules
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y build-essential pkg-config python-is-python3
+
+# Install node modules
+COPY bun.lockb package-lock.json package.json ./
+RUN bun install
+
+# Copy application code
 COPY . .
 
-# Set environment variable for build
-ENV NEXT_TELEMETRY_DISABLED 1
+# Build application
+RUN bunx next build --experimental-build-mode compile
 
-# Build Next.js
-RUN npm run build
+# Remove development dependencies
+RUN rm -rf node_modules && \
+    bun install --ci
 
-# Production image, copy all the files and run next
-FROM base AS runner
-WORKDIR /app
 
-ENV NODE_ENV production
-ENV NEXT_TELEMETRY_DISABLED 1
+# Final stage for app image
+FROM base
 
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
+# Copy built application
+COPY --from=build /app /app
 
-COPY --from=builder /app/public ./public
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+# Entrypoint sets up the container.
+ENTRYPOINT [ "/app/docker-entrypoint.js" ]
 
-USER nextjs
-
+# Start the server by default, this can be overwritten at runtime
 EXPOSE 3000
-
-ENV PORT 3000
-
-CMD ["node", "server.js"]
+CMD [ "bun", "run", "start" ]
