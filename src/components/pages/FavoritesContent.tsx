@@ -116,7 +116,7 @@ const Favorites = () => {
                           {favorite.type === 'club' && (
                             <Avatar shape="square" className="h-10 w-10 border border-gray-300">
                               <AvatarImage
-                                src={`https://cdn.brawlify.com/club-badges/regular/${favorite.metadata?.badgeId || 8000000}.png`}
+                                src={`https://cdn.brawlify.com/club-badges/regular/8000000.png`}
                                 alt={favorite.name}
                               />
                               <AvatarFallback className="bg-gray-200">
@@ -250,7 +250,7 @@ const Favorites = () => {
                         <div className="flex items-center gap-3">
                           <Avatar shape="square" className="h-10 w-10 border border-gray-300">
                             <AvatarImage
-                              src={`https://cdn.brawlify.com/club-badges/regular/${favorite.metadata?.badgeId || 8000000}.png`}
+                              src={`https://cdn.brawlify.com/club-badges/regular/8000000.png`}
                               alt={favorite.name}
                             />
                             <AvatarFallback className="bg-gray-200">
@@ -324,7 +324,7 @@ const Favorites = () => {
                       {fav.type === 'club' && (
                         <Avatar shape="square" className="h-10 w-10 border border-gray-300">
                           <AvatarImage
-                            src={`https://cdn.brawlify.com/club-badges/regular/${fav.metadata?.badgeId || 8000000}.png`}
+                            src={`https://cdn.brawlify.com/club-badges/regular/8000000.png`}
                             alt={fav.name}
                           />
                           <AvatarFallback className="bg-gray-200">

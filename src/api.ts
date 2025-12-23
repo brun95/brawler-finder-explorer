@@ -31,8 +31,6 @@ export const fetchBrawlers = async () => {
         }
 
         const data = await response.json();
-        console.log('Brawlers API Response:', data);
-        console.log('First brawler sample:', data.list?.[0] || data.items?.[0]);
 
         // CDN returns data.list, official API returns data.items
         return data.list || data.items || data;

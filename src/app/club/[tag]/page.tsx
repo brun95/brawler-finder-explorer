@@ -131,7 +131,6 @@ export default function ClubStatsPage({ params }: Props) {
                                             metadata: {
                                                 members: club.members.length,
                                                 trophies: club.trophies,
-                                                badgeId: club.badgeId,
                                             },
                                         }}
                                     />
@@ -220,7 +219,9 @@ export default function ClubStatsPage({ params }: Props) {
                                                                     <p className="text-xs text-gray-600">{member.tag}</p>
                                                                 </div>
                                                                 {isFavorite(member.tag.replace('#', ''), 'player') && (
-                                                                    <Star className="h-4 w-4 fill-yellow-400 text-yellow-400 flex-shrink-0" title="Favorited player" />
+                                                                    <div title="Favorited player">
+                                                                        <Star className="h-4 w-4 fill-yellow-400 text-yellow-400 flex-shrink-0" />
+                                                                    </div>
                                                                 )}
                                                             </div>
                                                         </div>
@@ -259,7 +260,7 @@ export default function ClubStatsPage({ params }: Props) {
                                                     <div className="flex items-center gap-1.5">
                                                         <p className="text-gray-800 font-medium">{member.name}</p>
                                                         {isFavorite(member.tag.replace('#', ''), 'player') && (
-                                                            <Star className="h-4 w-4 fill-yellow-400 text-yellow-400 flex-shrink-0" title="Favorited player" />
+                                                            <Star className="h-4 w-4 fill-yellow-400 text-yellow-400 flex-shrink-0" />
                                                         )}
                                                     </div>
                                                     <p className="text-xs text-gray-600">{member.tag}</p>
