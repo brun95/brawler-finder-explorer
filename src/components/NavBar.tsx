@@ -35,6 +35,9 @@ export const NavBar = () => {
             <Link href="/brawlers" className="text-gray-700 hover:text-primary transition-colors">
               Brawlers
             </Link>
+            <Link href="/meta" className="text-gray-700 hover:text-primary transition-colors">
+              Meta
+            </Link>
             <Link href="/maps" className="text-gray-700 hover:text-primary transition-colors">
               Maps
             </Link>

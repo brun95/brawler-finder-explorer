@@ -1,0 +1,21 @@
+// This is your Prisma schema file
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model BrawlerTier {
+  id         Int      @id @default(autoincrement())
+  brawlerId  Int      @unique
+  tier       String   // S, A, B, C, D, F
+  position   Int      // Position within the tier (for ordering)
+  updatedAt  DateTime @updatedAt
+  createdAt  DateTime @default(now())
+
+  @@index([tier, position])
+}
