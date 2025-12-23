@@ -6,16 +6,17 @@ import { NavBar } from "@/components/NavBar";
 import { Footer } from "@/components/Footer";
 import { useQuery } from "@tanstack/react-query";
 import { fetchClubData } from "@/api";
-import { Trophy, Users } from "lucide-react";
+import { Trophy, Users, Star } from "lucide-react";
 import { AdBanner } from "@/components/ads/AdBanner";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { usePreviousClubSearches } from "@/hooks/usePreviousClubSearches";
 import { PageBreadcrumb } from "@/components/PageBreadcrumb";
+import { useFavorites } from "@/hooks/useFavorites";
+import { FavoriteButton } from "@/components/FavoriteButton";
 
 const getRoleColor = (role: string) => {
   switch (role) {
@@ -52,6 +53,7 @@ export default function ClubStatsPage({ params }: Props) {
     const router = useRouter();
     const { toast } = useToast();
     const { addSearch } = usePreviousClubSearches();
+    const { isFavorite } = useFavorites();
 
     const { data: club, isLoading, error } = useQuery({
         queryKey: ["club", tag],
@@ -117,8 +119,23 @@ export default function ClubStatsPage({ params }: Props) {
                                     {club.name.substring(0, 2)}
                                 </AvatarFallback>
                             </Avatar>
-                            <div>
-                                <h1 className="text-3xl font-bold text-gray-800">{club.name}</h1>
+                            <div className="flex-1">
+                                <div className="flex items-center gap-2 flex-wrap">
+                                    <h1 className="text-3xl font-bold text-gray-800">{club.name}</h1>
+                                    <FavoriteButton
+                                        item={{
+                                            id: tag,
+                                            type: 'club',
+                                            name: club.name,
+                                            tag: club.tag,
+                                            metadata: {
+                                                members: club.members.length,
+                                                trophies: club.trophies,
+                                                badgeId: club.badgeId,
+                                            },
+                                        }}
+                                    />
+                                </div>
                                 <p className="text-gray-600">{club.tag}</p>
                             </div>
                         </div>
@@ -162,19 +179,13 @@ export default function ClubStatsPage({ params }: Props) {
                     </Card>
                 )}
 
-                <Tabs defaultValue="members" className="mb-8">
-                    <TabsList className="mb-4 bg-gray-200 border-gray-300">
-                        <TabsTrigger value="members" className="data-[state=active]:bg-gray-700">Members</TabsTrigger>
-                    </TabsList>
-
-                    <TabsContent value="members">
-                        <Card className="bg-gray-200 border-gray-300">
-                            <CardHeader className="pb-2">
-                                <div className="flex items-center justify-between">
-                                    <CardTitle className="text-lg">Members ({club.members.length}/30)</CardTitle>
-                                </div>
-                            </CardHeader>
-                            <CardContent>
+                <Card className="bg-gray-200 border-gray-300 mb-8">
+                    <CardHeader className="pb-2">
+                        <div className="flex items-center justify-between">
+                            <CardTitle className="text-lg">Members ({club.members.length}/30)</CardTitle>
+                        </div>
+                    </CardHeader>
+                    <CardContent>
                                 {/* Desktop Table View */}
                                 <div className="hidden md:block overflow-x-auto">
                                     <Table>
@@ -203,9 +214,14 @@ export default function ClubStatsPage({ params }: Props) {
                                                                     {member.name.substring(0, 2)}
                                                                 </AvatarFallback>
                                                             </Avatar>
-                                                            <div>
-                                                                <p className="text-sm">{member.name}</p>
-                                                                <p className="text-xs text-gray-600">{member.tag}</p>
+                                                            <div className="flex items-center gap-1.5">
+                                                                <div>
+                                                                    <p className="text-sm">{member.name}</p>
+                                                                    <p className="text-xs text-gray-600">{member.tag}</p>
+                                                                </div>
+                                                                {isFavorite(member.tag.replace('#', ''), 'player') && (
+                                                                    <Star className="h-4 w-4 fill-yellow-400 text-yellow-400 flex-shrink-0" title="Favorited player" />
+                                                                )}
                                                             </div>
                                                         </div>
                                                     </TableCell>
@@ -240,7 +256,12 @@ export default function ClubStatsPage({ params }: Props) {
                                                     </AvatarFallback>
                                                 </Avatar>
                                                 <div className="flex-1">
-                                                    <p className="text-gray-800 font-medium">{member.name}</p>
+                                                    <div className="flex items-center gap-1.5">
+                                                        <p className="text-gray-800 font-medium">{member.name}</p>
+                                                        {isFavorite(member.tag.replace('#', ''), 'player') && (
+                                                            <Star className="h-4 w-4 fill-yellow-400 text-yellow-400 flex-shrink-0" title="Favorited player" />
+                                                        )}
+                                                    </div>
                                                     <p className="text-xs text-gray-600">{member.tag}</p>
                                                 </div>
                                                 <Badge className={`${getRoleColor(member.role)} hover:${getRoleColor(member.role)}`}>
@@ -258,9 +279,7 @@ export default function ClubStatsPage({ params }: Props) {
                                     ))}
                                 </div>
                             </CardContent>
-                        </Card>
-                    </TabsContent>
-                </Tabs>
+                </Card>
 
                 <AdBanner slot="club-bottom" />
             </main>

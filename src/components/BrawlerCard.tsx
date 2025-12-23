@@ -1,6 +1,7 @@
 
 import { motion } from "framer-motion";
 import { Brawler, getBrawlerClassColor } from "@/types/brawler";
+import Image from "next/image";
 
 interface BrawlerCardProps {
   brawler: any; // Using any to accept API brawler with rarity.name
@@ -55,16 +56,17 @@ export const BrawlerCard = ({ brawler, onClick }: BrawlerCardProps) => {
       style={{ backgroundColor: rarityColor }}
     >
       <div className="aspect-square relative">
-        <img
-          src={`/brawlers/${brawler.id}.webp`}
+        <Image
+          src={`https://cdn.brawlify.com/brawlers/borderless/${brawler.id}.png`}
           alt={brawler.name}
-          className="w-full h-full object-cover"
-          onError={(e) => {
-            // Fallback to local image if CDN fails
-            e.currentTarget.src = `https://cdn.brawlify.com/brawlers/borderless/${brawler.id}.png`;
-          }}
+          fill
+          sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 16vw"
+          className="object-cover"
+          loading="lazy"
+          quality={85}
+          priority={false}
         />
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/50 to-transparent p-2">
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/50 to-transparent p-2 z-10">
           <h3 className="text-white text-sm font-medium truncate">{brawler.name}</h3>
           <p className="text-white/80 text-xs truncate">
             {typeof brawler.class === 'object' ? brawler.class?.name : brawler.class}

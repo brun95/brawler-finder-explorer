@@ -148,7 +148,7 @@ export const BrawlerTrophyBars = ({ brawlers }: BrawlerTrophyBarsProps) => {
             </CardHeader>
             <CardContent className="h-72">
                 <motion.div
-                    className="flex items-end h-full overflow-x-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-800 pb-2"
+                    className="flex items-end h-full overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 pb-2"
                     variants={containerVariants}
                     initial="hidden"
                     animate="visible"
@@ -218,7 +218,7 @@ export const BrawlerTrophyBars = ({ brawlers }: BrawlerTrophyBarsProps) => {
                                             </div>
                                         </div>
                                         <div className="grid grid-cols-2 gap-2">
-                                            <div className="flex items-center gap-2 p-2 bg-gray-700 rounded-lg">
+                                            <div className="flex items-center gap-2 p-2 bg-white border border-gray-200 rounded-lg">
                                                 <Trophy className="h-4 w-4 text-blue-400 flex-shrink-0" />
                                                 <div className="min-w-0">
                                                     <p className="text-xs text-gray-600">Current</p>
@@ -226,7 +226,7 @@ export const BrawlerTrophyBars = ({ brawlers }: BrawlerTrophyBarsProps) => {
                                                 </div>
                                             </div>
                                             {brawler.highestTrophies !== undefined && (
-                                                <div className="flex items-center gap-2 p-2 bg-gray-700 rounded-lg">
+                                                <div className="flex items-center gap-2 p-2 bg-white border border-gray-200 rounded-lg">
                                                     <Trophy className="h-4 w-4 text-green-400 flex-shrink-0" />
                                                     <div className="min-w-0">
                                                         <p className="text-xs text-gray-600">Highest</p>

@@ -72,7 +72,7 @@ export const fr: Translation = {
       member: "Membre"
     }
   },
-  dashboard: {
+  favorites: {
     title: "Mon Tableau de Bord",
     subtitle: "Vue d'ensemble de vos favoris et accès rapide",
     statistics: "Statistiques",

@@ -44,13 +44,18 @@ export const HeroSection = () => {
   };
 
   const handlePlayerSearch = async () => {
-    const cleanedTag = cleanTag(searchQuery);
+    // Use example tag if input is empty
+    const tagToSearch = searchQuery.trim() === "" ? "#2G0VQ0YLC" : searchQuery;
+    const cleanedTag = cleanTag(tagToSearch);
 
     if (!cleanedTag) {
       setErrorMessage(t.search.error.invalidTag);
       setTimeout(() => setErrorMessage(""), 5000);
       return;
     }
+
+    // Update the input field with the tag being searched
+    setSearchQuery(tagToSearch);
 
     const playerTag = cleanedTag.substring(1);
     try {
@@ -79,13 +84,18 @@ export const HeroSection = () => {
   };
 
   const handleClubSearch = () => {
-    const cleanedTag = cleanTag(clubQuery);
+    // Use example tag if input is empty
+    const tagToSearch = clubQuery.trim() === "" ? "#2GQYR9YQ0" : clubQuery;
+    const cleanedTag = cleanTag(tagToSearch);
 
     if (!cleanedTag) {
       setErrorMessage('Invalid tag format. Please enter a valid club tag (e.g., #ABC123)');
       setTimeout(() => setErrorMessage(""), 3000);
       return;
     }
+
+    // Update the input field with the tag being searched
+    setClubQuery(tagToSearch);
 
     const clubTag = cleanedTag.substring(1);
     router.push(`/club/${clubTag}`);
@@ -102,7 +112,7 @@ export const HeroSection = () => {
   };
 
   return (
-    <div className="relative min-h-[80vh] flex items-center justify-center bg-gradient-to-br from-primary/10 to-secondary/10">
+    <div className="relative min-h-[80vh] flex items-center justify-center bg-gradient-to-br from-purple-50 to-cyan-50">
       <div className="absolute inset-0 bg-grid-white/[0.05] bg-[size:20px_20px]" />
       <div className="relative max-w-5xl mx-auto px-4 py-16 sm:px-6 lg:px-8 text-center">
         <motion.h1

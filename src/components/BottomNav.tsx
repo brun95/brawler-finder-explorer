@@ -19,7 +19,7 @@ export const BottomNav = () => {
 
   const navItems = [
     { href: '/', icon: Home, label: 'Home' },
-    { href: '/dashboard', icon: Star, label: 'Favorites', badge: favorites.length },
+    { href: '/favorites', icon: Star, label: 'Favorites', badge: favorites.length },
     { href: '/brawlers', icon: Sword, label: 'Brawlers' },
     { href: '/maps', icon: Map, label: 'Maps' },
     { href: '/events', icon: Calendar, label: 'Events' },

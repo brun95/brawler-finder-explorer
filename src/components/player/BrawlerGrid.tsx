@@ -50,7 +50,7 @@ export const BrawlerGrid = ({ brawlers }: BrawlerGridProps) => {
                 <select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value as 'name' | 'power' | 'rank')}
-                    className="px-3 py-2 rounded-lg border border-gray-300 bg-gray-700 text-gray-900"
+                    className="px-3 py-2 rounded-lg border border-gray-300 bg-white text-gray-900"
                 >
                     <option value="name">Sort by Name</option>
                     <option value="power">Sort by Power</option>
@@ -64,7 +64,7 @@ export const BrawlerGrid = ({ brawlers }: BrawlerGridProps) => {
                         <HoverCardTrigger asChild>
                             <Link
                                 href={`/brawlers/${createBrawlerSlug(brawler.name)}`}
-                                className="flex flex-col items-center p-3 rounded-lg bg-gray-700 hover:bg-gray-600 transition-all cursor-pointer group"
+                                className="flex flex-col items-center p-3 rounded-lg bg-white hover:bg-gray-50 border border-gray-200 transition-all cursor-pointer group"
                             >
                                 <div className="relative w-12 h-12 mb-2">
                                     <Image
@@ -103,7 +103,7 @@ export const BrawlerGrid = ({ brawlers }: BrawlerGridProps) => {
                                 </div>
 
                                 <div className="grid grid-cols-2 gap-3">
-                                    <div className="flex items-center gap-2 p-2 bg-gray-700 rounded-lg">
+                                    <div className="flex items-center gap-2 p-2 bg-white border border-gray-200 rounded-lg">
                                         <Star className="h-4 w-4 text-yellow-400" />
                                         <div>
                                             <p className="text-xs text-gray-600">Power</p>
@@ -111,7 +111,7 @@ export const BrawlerGrid = ({ brawlers }: BrawlerGridProps) => {
                                         </div>
                                     </div>
 
-                                    <div className="flex items-center gap-2 p-2 bg-gray-700 rounded-lg">
+                                    <div className="flex items-center gap-2 p-2 bg-white border border-gray-200 rounded-lg">
                                         <Crown className="h-4 w-4 text-purple-400" />
                                         <div>
                                             <p className="text-xs text-gray-600">Rank</p>
@@ -120,7 +120,7 @@ export const BrawlerGrid = ({ brawlers }: BrawlerGridProps) => {
                                     </div>
 
                                     {brawler.trophies !== undefined && (
-                                        <div className="flex items-center gap-2 p-2 bg-gray-700 rounded-lg">
+                                        <div className="flex items-center gap-2 p-2 bg-white border border-gray-200 rounded-lg">
                                             <Trophy className="h-4 w-4 text-blue-400" />
                                             <div>
                                                 <p className="text-xs text-gray-600">Trophies</p>
@@ -130,7 +130,7 @@ export const BrawlerGrid = ({ brawlers }: BrawlerGridProps) => {
                                     )}
 
                                     {brawler.highestTrophies !== undefined && (
-                                        <div className="flex items-center gap-2 p-2 bg-gray-700 rounded-lg">
+                                        <div className="flex items-center gap-2 p-2 bg-white border border-gray-200 rounded-lg">
                                             <Trophy className="h-4 w-4 text-green-400" />
                                             <div>
                                                 <p className="text-xs text-gray-600">Best</p>

@@ -20,7 +20,7 @@ export const en = {
     startsIn: "Starts in",
   },
   search: {
-    placeholder: "Enter player tag (e.g., #PL2GVQQ)",
+    placeholder: "Enter player tag (e.g., #2G0VQ0YLC)",
     clubPlaceholder: "Enter club tag (e.g., #2GQYR9YQ0)",
     error: {
       invalidTag: "Invalid tag format",
@@ -69,8 +69,8 @@ export const en = {
       member: "Member"
     }
   },
-  dashboard: {
-    title: "My Dashboard",
+  favorites: {
+    title: "My Favorites",
     subtitle: "Overview of your favorites and quick access",
     statistics: "Statistics",
     recentActivity: "Recent Activity",

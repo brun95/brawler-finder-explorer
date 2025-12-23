@@ -196,6 +196,18 @@ const PlayerStats = () => {
             <div className="flex items-center gap-2 flex-wrap">
               <h1 className="text-3xl font-bold text-gray-800">{player.name}</h1>
               <TrophyMilestoneBadge trophies={player.trophies} size="md" />
+              <FavoriteButton
+                item={{
+                  id: tag,
+                  type: 'player',
+                  name: player.name,
+                  tag: player.tag,
+                  metadata: {
+                    trophies: player.trophies,
+                    icon: player.icon?.id,
+                  },
+                }}
+              />
             </div>
             <p className="text-gray-600">{player.tag}</p>
           </div>
@@ -210,18 +222,6 @@ const PlayerStats = () => {
                 </Link>
               </div>
             )}
-            <FavoriteButton
-              item={{
-                id: tag,
-                type: 'player',
-                name: player.name,
-                tag: player.tag,
-                metadata: {
-                  trophies: player.trophies,
-                  icon: player.icon?.id,
-                },
-              }}
-            />
             <ShareButton
               title={`${player.name}'s Brawl Stars Stats`}
               text={`Check out ${player.name}'s stats: ${player.trophies} trophies!`}
@@ -238,8 +238,8 @@ const PlayerStats = () => {
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-8">
           <TabsList className="mb-4 bg-gray-200 border-gray-300">
-            <TabsTrigger value="overview" className="data-[state=active]:bg-gray-700">Overview</TabsTrigger>
-            <TabsTrigger value="brawlers" className="data-[state=active]:bg-gray-700">Brawlers</TabsTrigger>
+            <TabsTrigger value="overview" className="data-[state=active]:bg-white">Overview</TabsTrigger>
+            <TabsTrigger value="brawlers" className="data-[state=active]:bg-white">Brawlers</TabsTrigger>
           </TabsList>
 
           <AnimatePresence mode="wait">

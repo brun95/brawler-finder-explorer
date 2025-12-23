@@ -72,7 +72,7 @@ export const pt: Translation = {
       member: "Membro"
     }
   },
-  dashboard: {
+  favorites: {
     title: "Meu Painel",
     subtitle: "Visão geral dos seus favoritos e acesso rápido",
     statistics: "Estatísticas",

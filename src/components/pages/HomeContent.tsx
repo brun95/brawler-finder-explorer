@@ -9,8 +9,18 @@ import { AdBanner } from "@/components/ads/AdBanner";
 import { useLanguage } from "@/hooks/useLanguage";
 import { SEO } from "@/components/SEO";
 
+const EventCardSkeleton = () => (
+    <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden animate-pulse">
+        <div className="h-48 bg-gray-200" />
+        <div className="p-4 space-y-3">
+            <div className="h-4 bg-gray-200 rounded w-3/4" />
+            <div className="h-3 bg-gray-200 rounded w-1/2" />
+        </div>
+    </div>
+);
+
 const Home = () => {
-    const { data: events } = useQuery({
+    const { data: events, isLoading } = useQuery({
         queryKey: ["events"],
         queryFn: fetchEvents
     });
@@ -50,13 +60,21 @@ const Home = () => {
                                 {t.events.activeTitle}
                             </h3>
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                {events?.active?.map((event: any) => (
-                                    <EventCard 
-                                        key={`${event.map.gameMode.scId}-${event.startTime}`} 
-                                        event={event}
-                                        type="active"
-                                    />
-                                ))}
+                                {isLoading ? (
+                                    <>
+                                        {[...Array(3)].map((_, i) => (
+                                            <EventCardSkeleton key={`active-skeleton-${i}`} />
+                                        ))}
+                                    </>
+                                ) : (
+                                    events?.active?.map((event: any) => (
+                                        <EventCard
+                                            key={`${event.map.gameMode.scId}-${event.startTime}`}
+                                            event={event}
+                                            type="active"
+                                        />
+                                    ))
+                                )}
                             </div>
                         </div>
 
@@ -65,13 +83,21 @@ const Home = () => {
                                 {t.events.upcomingTitle}
                             </h3>
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                {events?.upcoming?.map((event: any) => (
-                                    <EventCard 
-                                        key={`${event.map.gameMode.scId}-${event.startTime}`} 
-                                        event={event}
-                                        type="upcoming"
-                                    />
-                                ))}
+                                {isLoading ? (
+                                    <>
+                                        {[...Array(3)].map((_, i) => (
+                                            <EventCardSkeleton key={`upcoming-skeleton-${i}`} />
+                                        ))}
+                                    </>
+                                ) : (
+                                    events?.upcoming?.map((event: any) => (
+                                        <EventCard
+                                            key={`${event.map.gameMode.scId}-${event.startTime}`}
+                                            event={event}
+                                            type="upcoming"
+                                        />
+                                    ))
+                                )}
                             </div>
                         </div>
                     </div>

@@ -23,9 +23,9 @@ export const NavBar = () => {
           
           <div className="hidden md:flex md:items-center md:space-x-4">
             <GlobalSearch />
-            <Link href="/dashboard" className="text-gray-700 hover:text-primary transition-colors flex items-center gap-1">
+            <Link href="/favorites" className="text-gray-700 hover:text-primary transition-colors flex items-center gap-1">
               <Star className="h-4 w-4" />
-              Dashboard
+              Favorites
               {favorites.length > 0 && (
                 <span className="ml-1 px-1.5 py-0.5 text-xs bg-primary text-white rounded-full">
                   {favorites.length}
@@ -60,11 +60,11 @@ export const NavBar = () => {
         <div className="md:hidden animate-fade-in">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white/95">
             <Link
-              href="/dashboard"
+              href="/favorites"
               className="flex items-center gap-2 px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100 transition-colors"
             >
               <Star className="h-4 w-4" />
-              Dashboard
+              Favorites
               {favorites.length > 0 && (
                 <span className="ml-1 px-1.5 py-0.5 text-xs bg-primary text-white rounded-full">
                   {favorites.length}
