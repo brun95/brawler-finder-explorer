@@ -81,6 +81,12 @@ export const NavBar = () => {
               Brawlers
             </Link>
             <Link
+              href="/meta"
+              className="block px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100 transition-colors"
+            >
+              Meta
+            </Link>
+            <Link
               href="/maps"
               className="block px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100 transition-colors"
             >

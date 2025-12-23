@@ -15,7 +15,7 @@ export default function RootLayout({
     children: React.ReactNode
 }) {
     return (
-        <html lang="en" className="dark">
+        <html lang="en">
         <head>
             <meta name="keywords" content="Brawl Stars, stats, statistics, brawlers, maps, events, player tracking, club stats" />
             <meta name="author" content="StarBrawl" />

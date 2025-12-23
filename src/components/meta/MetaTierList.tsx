@@ -18,13 +18,15 @@ interface MetaTierListProps {
 }
 
 const TIER_CONFIG = {
-  S: { label: 'S', color: 'bg-red-500', textColor: 'text-white' },
-  A: { label: 'A', color: 'bg-orange-400', textColor: 'text-white' },
-  B: { label: 'B', color: 'bg-yellow-400', textColor: 'text-gray-900' },
-  C: { label: 'C', color: 'bg-lime-400', textColor: 'text-gray-900' },
-  D: { label: 'D', color: 'bg-green-400', textColor: 'text-gray-900' },
-  F: { label: 'F', color: 'bg-green-500', textColor: 'text-white' },
+  S: { label: 'S', color: 'bg-[#f66]', textColor: 'text-white' },
+  A: { label: 'A', color: 'bg-[#f96]', textColor: 'text-white' },
+  B: { label: 'B', color: 'bg-[#fc6]', textColor: 'text-gray-900' },
+  C: { label: 'C', color: 'bg-[#cf6]', textColor: 'text-gray-900' },
+  D: { label: 'D', color: 'bg-[#6c6]', textColor: 'text-gray-900' },
+  F: { label: 'F', color: 'bg-[#6fc]', textColor: 'text-gray-900' },
 };
+
+const TIER_ORDER = ['S', 'A', 'B', 'C', 'D', 'F'] as const;
 
 export const MetaTierList = ({ tierData, brawlers }: MetaTierListProps) => {
   const router = useRouter();
@@ -47,8 +49,9 @@ export const MetaTierList = ({ tierData, brawlers }: MetaTierListProps) => {
   });
 
   return (
-    <div className="space-y-2">
-      {Object.entries(TIER_CONFIG).map(([tier, config]) => {
+    <div className="space-y-4">
+      {TIER_ORDER.map((tier) => {
+        const config = TIER_CONFIG[tier];
         const brawlersInTier = tierGroups[tier] || [];
 
         return (
@@ -56,40 +59,48 @@ export const MetaTierList = ({ tierData, brawlers }: MetaTierListProps) => {
             key={tier}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex gap-2"
+            className="flex gap-2 items-stretch"
           >
             {/* Tier Label */}
             <div
-              className={`${config.color} ${config.textColor} w-16 sm:w-20 flex items-center justify-center font-bold text-2xl sm:text-3xl rounded-l-lg`}
+              className={`${config.color} ${config.textColor} w-16 flex items-center justify-center font-bold text-2xl rounded-lg flex-shrink-0`}
             >
               {config.label}
             </div>
 
             {/* Brawlers Grid */}
-            <div className="flex-1 bg-gray-800 rounded-r-lg p-2 min-h-[80px] flex flex-wrap gap-1">
-              {brawlersInTier.map((item) => (
-                <motion.div
-                  key={item.brawlerId}
-                  whileHover={{ scale: 1.1, zIndex: 10 }}
-                  className="cursor-pointer relative group"
-                  onClick={() => router.push(`/brawlers/${createBrawlerSlug(item.brawler.name)}`)}
-                >
-                  <div className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-lg overflow-hidden border-2 border-gray-700 hover:border-primary transition-colors">
-                    <Image
-                      src={`https://cdn.brawlify.com/brawlers/borderless/${item.brawlerId}.png`}
-                      alt={item.brawler.name}
-                      fill
-                      sizes="64px"
-                      className="object-cover"
-                      loading="lazy"
-                    />
-                  </div>
-                  {/* Tooltip */}
-                  <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-20">
-                    {item.brawler.name}
-                  </div>
-                </motion.div>
-              ))}
+            <div className="flex-1 bg-white rounded-lg border border-gray-200 p-3 min-h-[100px]">
+              {brawlersInTier.length === 0 ? (
+                <div className="flex items-center justify-center h-full text-gray-400 text-sm">
+                  No brawlers in this tier
+                </div>
+              ) : (
+                <div className="flex flex-wrap gap-2">
+                  {brawlersInTier.map((item) => (
+                    <motion.div
+                      key={item.brawlerId}
+                      whileHover={{ scale: 1.05 }}
+                      className="cursor-pointer relative group"
+                      onClick={() => router.push(`/brawlers/${createBrawlerSlug(item.brawler.name)}`)}
+                    >
+                      <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden border-2 border-gray-300 hover:border-primary transition-all">
+                        <Image
+                          src={`https://cdn.brawlify.com/brawlers/borderless/${item.brawlerId}.png`}
+                          alt={item.brawler.name}
+                          fill
+                          sizes="80px"
+                          className="object-cover"
+                          loading="lazy"
+                        />
+                      </div>
+                      {/* Tooltip */}
+                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-10">
+                        {item.brawler.name}
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              )}
             </div>
           </motion.div>
         );

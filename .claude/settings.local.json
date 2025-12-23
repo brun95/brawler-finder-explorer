@@ -19,7 +19,9 @@
       "Bash(git add:*)",
       "Bash(git commit:*)",
       "Bash(git push)",
-      "WebFetch(domain:mmonster.co)"
+      "WebFetch(domain:mmonster.co)",
+      "Bash(npx prisma generate:*)",
+      "Bash(npx prisma db push)"
     ],
     "deny": [],
     "ask": []
