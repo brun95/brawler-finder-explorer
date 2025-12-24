@@ -32,6 +32,8 @@ export async function GET(request, context) {
         const formattedTag = `%23${tag}`;
 
         console.log(`[API] Fetching player data for tag: ${formattedTag}`);
+        console.log(`[API] API Key configured: ${SECRET_API_KEY ? 'YES (starts with: ' + SECRET_API_KEY.substring(0, 20) + '...)' : 'NO - MISSING!'}`);
+        console.log(`[API] Base URL: ${NEXT_PUBLIC_PUBLIC_BASE_URL}`);
 
         const response = await axios.get(`${NEXT_PUBLIC_PUBLIC_BASE_URL}/players/${formattedTag}`, {
             headers: {
