@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "next dev -p 3055",
     "build": "next build",
-    "start": "next start",
+    "start": "node .next/standalone/server.js",
     "proxy": "node proxyServer.js"
   },
   "dependencies": {
