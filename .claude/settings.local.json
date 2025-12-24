@@ -21,7 +21,9 @@
       "Bash(git push)",
       "WebFetch(domain:mmonster.co)",
       "Bash(npx prisma generate:*)",
-      "Bash(npx prisma db push)"
+      "Bash(npx prisma db push)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)"
     ],
     "deny": [],
     "ask": []
