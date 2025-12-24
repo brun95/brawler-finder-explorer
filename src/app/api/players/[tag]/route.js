@@ -2,7 +2,11 @@ import { NextResponse } from "next/server";
 import axios from "axios";
 import { withRateLimit, strictRatelimit } from "@/lib/ratelimit";
 
-const { NEXT_PUBLIC_PUBLIC_BASE_URL, SECRET_API_KEY } = process.env;
+// Use proxy server if available, otherwise direct API
+const PROXY_URL = process.env.PROXY_SERVER_URL;
+const USE_PROXY = !!PROXY_URL;
+const BASE_URL = USE_PROXY ? PROXY_URL : process.env.NEXT_PUBLIC_PUBLIC_BASE_URL;
+const SECRET_API_KEY = process.env.SECRET_API_KEY;
 
 export async function GET(request, context) {
     let tag;
@@ -32,14 +36,19 @@ export async function GET(request, context) {
         const formattedTag = `%23${tag}`;
 
         console.log(`[API] Fetching player data for tag: ${formattedTag}`);
-        console.log(`[API] API Key configured: ${SECRET_API_KEY ? 'YES (starts with: ' + SECRET_API_KEY.substring(0, 20) + '...)' : 'NO - MISSING!'}`);
-        console.log(`[API] Base URL: ${NEXT_PUBLIC_PUBLIC_BASE_URL}`);
+        console.log(`[API] Using proxy: ${USE_PROXY ? 'YES' : 'NO'}`);
+        console.log(`[API] Base URL: ${BASE_URL}`);
 
-        const response = await axios.get(`${NEXT_PUBLIC_PUBLIC_BASE_URL}/players/${formattedTag}`, {
-            headers: {
+        // Proxy handles auth, direct API needs auth header
+        const headers = USE_PROXY
+            ? { "Content-Type": "application/json" }
+            : {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${SECRET_API_KEY}`,
-            },
+              };
+
+        const response = await axios.get(`${BASE_URL}/players/${formattedTag}`, {
+            headers,
             timeout: 10000, // 10 second timeout
         });
 
